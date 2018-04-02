@@ -1,0 +1,16 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: h2
+  aop:
+    auto: true
+  jackson:
+    serialization:
+      indent-output: true
+debug: false
+
+vmConfig:
+  projectName: springboot-restful-api-project-seed(application.yml)
+  author: kyyee
+  email: kyyeeyoung@163.com
