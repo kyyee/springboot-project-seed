@@ -11,7 +11,7 @@ package com.company.springbootrestfulapiprojectseed.dto;
  */
 public class StandardResponseDTO<T> {
 
-    private int result;
+    private int code;
     private String message;
     private T data;
 
@@ -22,26 +22,26 @@ public class StandardResponseDTO<T> {
     /**
      * 成功时返回
      *
-     * @param result 响应码
+     * @param code 响应码
      * @param data   响应体
      */
-    public StandardResponseDTO(int result, T data) {
-        this(result, "", data);
+    public StandardResponseDTO(int code, T data) {
+        this(code, "", data);
     }
 
     // 失败时返回
-    public StandardResponseDTO(int result, String message, T data) {
-        this.result = result;
+    public StandardResponseDTO(int code, String message, T data) {
+        this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public int getResult() {
-        return result;
+    public int getCode() {
+        return code;
     }
 
-    public void setResult(int result) {
-        this.result = result;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getMessage() {
@@ -63,7 +63,7 @@ public class StandardResponseDTO<T> {
     @Override
     public String toString() {
         return "StandardResponseDTO{" +
-                "result=" + result +
+                "code=" + code +
                 ", message='" + message + '\'' +
                 ", data=" + data +
                 '}';
