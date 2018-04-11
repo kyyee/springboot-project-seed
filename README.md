@@ -270,7 +270,7 @@ public class Tasks {
 
 ## 基于 @Async 的异步任务处理
 
-在普通方法上添加@Async，该方法将变成异步方法，可于 websocket 结合，实现消息推送。
+在普通方法上添加@Async，该方法将变成异步方法，可与 websocket 结合，实现消息推送。
 
 ## 封装好的 RestApiVersion 处理 api 版本
 
@@ -333,6 +333,6 @@ public class EmployeeController {
 
 该项目抽取了几个基于 springboot 开发的项目的一些公共代码，只是一个项目框架。这个项目的特性多是 spring 及 hibernate 的特性。与 spring 耦合度很高，springboot 2.0.0 宣称在性能上相比 springboot 1.5.x 有很大提升，后续我会将该种子项目的 springboot 版本更新到 2.0.0。
 
-这个项目种子已经分享到Github，如果你有类似的需求，可以克隆下来试试，项目地址：https://github.com/kyyee/springboot-restful-api-project-seed。欢迎star或fork，如果在使用中发现问题或者有什么建议欢迎提 issue 或 pr 一起完善。
+如果你有类似的需求，可以克隆下来试试。欢迎star或fork，如果在使用中发现问题或者有什么建议欢迎提 issue 或 pr 一起完善。
 
 希望它对你有所帮助。
