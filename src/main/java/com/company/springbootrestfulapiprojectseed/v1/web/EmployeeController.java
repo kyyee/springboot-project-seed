@@ -4,6 +4,7 @@
 
 package com.company.springbootrestfulapiprojectseed.v1.web;
 
+import com.company.springbootrestfulapiprojectseed.v1.annotation.RestApiVersion;
 import com.company.springbootrestfulapiprojectseed.v1.common.HttpResponseUtil;
 import com.company.springbootrestfulapiprojectseed.v1.domain.EmployeeDO;
 import com.company.springbootrestfulapiprojectseed.v1.dto.StandardResponseDTO;
@@ -18,7 +19,8 @@ import javax.annotation.Resource;
  * @author kyyee
  */
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/{version}/employee")
+@RestApiVersion(1)
 @CrossOrigin
 public class EmployeeController {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);

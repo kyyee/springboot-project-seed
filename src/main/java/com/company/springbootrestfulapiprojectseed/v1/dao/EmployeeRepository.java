@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmployeeRepository extends JpaRepository<EmployeeDO, Long> {
     /**
+     * 根据雇员姓名获取某一雇员信息
+     *
      * @param name 姓名，不能重复
      * @return EmployeeDO
      */

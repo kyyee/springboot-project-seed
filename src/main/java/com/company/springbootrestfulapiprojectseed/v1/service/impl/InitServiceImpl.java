@@ -23,7 +23,9 @@ public class InitServiceImpl implements InitService {
     private
     ConfigInjection configInjection;
 
-    // 初始化成功标志
+    /**
+     * 初始化成功标志
+     */
     private static boolean init = false;
 
     /**
@@ -33,8 +35,8 @@ public class InitServiceImpl implements InitService {
     public void init() {
         LOGGER.info("项目名称：{}（来源于application.yml配置文件）。", configInjection.getProjectName());
         LOGGER.info("开发者：{}，联系方式：{}", configInjection.getAuthor(), configInjection.getEmail());
-        initNode();
-        initVm();
+        initBaseConfig();
+        initDatabase();
         setInit(true);
     }
 
@@ -49,17 +51,19 @@ public class InitServiceImpl implements InitService {
     }
 
     /**
-     * 初始化节点表
+     * 初始化基础配置
      */
-    private void initNode() {
-        LOGGER.info("init node success");
+    private void initBaseConfig() {
+        // TODO 具体操作
+        LOGGER.info("init base config success");
     }
 
     /**
-     * 删除无用虚拟机
+     * 初始化数据库
      */
-    private void initVm() {
-        LOGGER.info("init virtual machine success");
+    private void initDatabase() {
+        // TODO 具体操作
+        LOGGER.info("init initDatabase success");
     }
 
     public static void setInit(boolean init) {

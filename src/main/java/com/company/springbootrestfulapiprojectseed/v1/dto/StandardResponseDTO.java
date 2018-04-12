@@ -28,7 +28,13 @@ public class StandardResponseDTO<T> {
         this(code, "", data);
     }
 
-    // 失败时返回
+    /**
+     * 失败时返回
+     *
+     * @param code    响应码
+     * @param message 错误信息详细描述
+     * @param data    响应体
+     */
     public StandardResponseDTO(int code, String message, T data) {
         this.code = code;
         this.message = message;

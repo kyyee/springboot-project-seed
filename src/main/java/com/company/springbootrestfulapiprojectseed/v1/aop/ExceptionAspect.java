@@ -15,15 +15,18 @@ import org.springframework.stereotype.Component;
  * @author kyyee
  * 异常拦截切面
  */
-@Aspect // 声明切面
-@Component // 让此切面成为Spring容器管理的bean
+@Aspect
+@Component
 public class ExceptionAspect {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionAspect.class);
 
     private static final String REQUEST_MAPPING = "@annotation(org.springframework.web.bind.annotation.RequestMapping)";
 
-    @Pointcut(REQUEST_MAPPING) // 声明切点
+    /**
+     * 声明切点
+     */
+    @Pointcut(REQUEST_MAPPING)
     private void annotationPointCut() {
     }
 

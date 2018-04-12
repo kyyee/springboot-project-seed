@@ -4,6 +4,8 @@
 
 package com.company.springbootrestfulapiprojectseed.v1.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +16,8 @@ import javax.persistence.Id;
 @Entity
 public class EmployeeDO {
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "uuidGenerator")
+    @GenericGenerator(name = "uuidGenerator", strategy = "uuid")
     private Long id;
 
     /**

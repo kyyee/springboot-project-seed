@@ -21,7 +21,7 @@ public class StartupRunnerConfig implements ApplicationRunner {
     InitService service;
 
     @Override
-    public void run(ApplicationArguments applicationArguments) throws Exception {
+    public void run(ApplicationArguments args) throws Exception {
         service.init();
     }
 }
