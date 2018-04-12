@@ -50,13 +50,19 @@ public class StandardResponseDTO<T> {
      * 成功时返回
      *
      * @param code 响应码
-     * @param data   响应体
+     * @param data 响应体
      */
     public StandardResponseDTO(int code, T data) {
         this(code, "", data);
     }
 
-    // 失败时返回
+    /**
+     * 失败时返回
+     *
+     * @param code    响应码
+     * @param message 错误信息详细描述
+     * @param data    响应体
+     */
     public StandardResponseDTO(int code, String message, T data) {
         this.code = code;
         this.message = message;
@@ -141,11 +147,10 @@ public class StartupRunnerConfig implements ApplicationRunner {
     InitService service;
 
     @Override
-    public void run(ApplicationArguments applicationArguments) throws Exception {
+    public void run(ApplicationArguments args) throws Exception {
         service.init();
     }
 }
-
 
 ```
 
@@ -181,11 +186,13 @@ public class JwtInterceptor implements HandlerInterceptor {
 支持 H2、MySQL、Oracle、Sqlite 数据库，相应的模板连接文件已经配置好，修改连接地址，用户名密码即可使用，这些数据库都支持 Spring Data JPA 管理。
 
 使用不同数据库只需更改application.yml中的
+
 ```yaml
 spring:
   profiles:
     active: h2
 ```
+
 即可。
 
 ```yaml
@@ -269,7 +276,7 @@ public class Tasks {
     /**
      * 计划任务，每隔5分钟更新一次数据库VM的运行状态
      */
-    @Scheduled(fixedRate = ConfigConst.VM_STATUS_UPDATE_THRESHOLD)
+    @Scheduled(fixedRate = ConfigConst.FIXED_RATE_THRESHOLD)
     public void scheduled() {
         LOGGER.info("5 分钟一次轮询！");
     }
@@ -287,9 +294,9 @@ public class Tasks {
 
 @RestController
 @RequestMapping("/{version}/employee")
+@RestApiVersion(1)
 @CrossOrigin
 public class EmployeeController {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
 
     @Resource
@@ -297,39 +304,33 @@ public class EmployeeController {
     EmployeeService service;
 
     @GetMapping("/detail/{name}")
-    @RestApiVersion(1)
     public StandardResponseDTO getEmployeeByName(@PathVariable String name) {
         return HttpResponseUtil.success(service.getEmployeeByName(name));
     }
 
     @GetMapping
-    @RestApiVersion(1)
     public StandardResponseDTO listEmployee() {
         return HttpResponseUtil.success(service.listEmployee());
     }
 
     @GetMapping("/count")
-    @RestApiVersion(1)
     public StandardResponseDTO countEmployee() {
         return HttpResponseUtil.success(service.countEmployee());
     }
 
     @PostMapping
-    @RestApiVersion(1)
     public StandardResponseDTO saveEmployee(@RequestBody EmployeeDO employee) {
         LOGGER.info("{}", employee);
         return HttpResponseUtil.success(service.saveEmployee(employee));
     }
 
     @DeleteMapping("/{name}")
-    @RestApiVersion(1)
     public StandardResponseDTO removeEmployee(@PathVariable String name) {
         service.removeEmployee(name);
         return HttpResponseUtil.success();
     }
 
     @PutMapping("/{name}")
-    @RestApiVersion(1)
     public StandardResponseDTO updateEmployee(@PathVariable String name, @RequestBody EmployeeDO employee) {
         LOGGER.info("{}", employee);
         return HttpResponseUtil.success(service.updateEmployee(name, employee));
