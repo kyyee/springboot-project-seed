@@ -4,7 +4,6 @@
 
 package com.company.springbootrestfulapiprojectseed;
 
-import com.company.springbootrestfulapiprojectseed.service.InitService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -15,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args)
-                .getBean(InitService.class).init();
+        SpringApplication.run(Application.class, args);
+//                .getBean(InitService.class).init();
     }
 }

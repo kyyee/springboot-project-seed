@@ -22,7 +22,7 @@ public class StandardResponseDTO<T> {
      * 成功时返回
      *
      * @param code 响应码
-     * @param data   响应体
+     * @param data 响应体
      */
     public StandardResponseDTO(int code, T data) {
         this(code, "", data);
