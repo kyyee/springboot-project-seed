@@ -1,16 +1,104 @@
+DATABASE: sps
+DATASOURCE_URL: localhost:5432
+DATASOURCE_USERNAME: pgsql
+DATASOURCE_PASSWORD: pgsql
+KAFKA_BOOTSTRAP_SERVERS: kafka-hs:9093
+SQLSSLROOT: /opt/app/sqlssl
+#/api/${group-name}/v2/${project-name}
+api-prefix: /api/kyyee/v2/${spring.application.name}
+debug: false
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    web:
+      base-path: ${api-prefix}/actuator
+      exposure:
+        include: '*'
 server:
   port: 8080
 spring:
   profiles:
-    active: h2
+    active: pro,h2
   aop:
     auto: true
   jackson:
     serialization:
       indent-output: true
-debug: false
+  application:
+    name: sps
+  cache:
+    caffeine:
+      spec: initialCapacity=50,maximumSize=500,expireAfterAccess=60s
+    type: caffeine
+  datasource:
+    secondary:
+      continue-on-error: true
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://${DATASOURCE_URL}/sps2?currentSchema=public&sslmode=prefer&sslrootcert=${PGSQLSSLROOT}/root.crt&sslkey=${PGSQLSSLROOT}/pgsql.pk8&sslcert=${PGSQLSSLROOT}/pgsql.crt
+      password: ${DATASOURCE_PASSWORD}
+      username: ${DATASOURCE_USERNAME}
+    primary:
+      continue-on-error: true
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://${DATASOURCE_URL}/${DATABASE}?currentSchema=public&sslmode=prefer&sslrootcert=${PGSQLSSLROOT}/root.crt&sslkey=${PGSQLSSLROOT}/pgsql.pk8&sslcert=${PGSQLSSLROOT}/pgsql.crt
+      password: ${DATASOURCE_PASSWORD}
+      username: ${DATASOURCE_USERNAME}
+  flyway:
+    enabled: true
+    clean-disabled: true
+    out-of-order: false
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    encoding: UTF-8
+    locations: classpath:db/migration
+    schemas: public
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      group-id: sps
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: manual
+      concurrency: 10
+      missing-topics-fatal: false
+    producer:
+      retries: 3
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  mvc:
+    throw-exception-if-no-handler-found: true
+  servlet:
+    multipart:
+      max-file-size: 1048576000
+      max-request-size: 1048576000
+  task:
+    execution:
+      pool:
+        core-size: 3
+        keep-alive: 60s
+        max-size: 20
+      thread-name-prefix: spsTask-
 
-vmConfig:
-  projectName: springboot-restful-api-project-seed(application.yml)
+kyyee:
+  error-code-prefix: 201
+  log:
+    enableLog: true
+    url: http://bss-log:80
+  service:
+    bss-gateway: http://bss-gateway:80
+    bss-uuv: http://bss-uuv:80
+    imss-vx: http://10.209.8.24:9095
+    mg-fms82upLoad: http://mg-fms:82
+    mg-fms85: http://mg-fms:85
+    mg-om: http://mg-object-manage-be:80
+    uss-base: http://uss-base:80
+
+vm-config:
+  projectName: springboot-project-seed(application.yml)
   author: kyyee
   email: kyyeeyoung@163.com
