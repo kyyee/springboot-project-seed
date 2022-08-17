@@ -1,3 +1,0 @@
-将本地jar包导入到本地maven仓库
-
-mvn install:install-file -DgroupId=com.oracle "-DartifactId=ojdbc6" "-Dversion=11.1.0.7.0" "-Dpackaging=jar" "-Dfile=.\lib\ojdbc6-11.1.0.7.0.jar"
