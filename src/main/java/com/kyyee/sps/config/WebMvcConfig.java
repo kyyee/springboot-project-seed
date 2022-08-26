@@ -4,6 +4,7 @@
 
 package com.kyyee.sps.config;
 
+import com.kyyee.framework.common.config.SnakeToCamelModelAttributeMethodProcessor;
 import com.kyyee.sps.interceptor.JwtInterceptor;
 import com.kyyee.sps.interceptor.ProgramEnableInterceptor;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -11,9 +12,13 @@ import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author kyyee
@@ -22,6 +27,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    @Resource
+    private ProgramEnableInterceptor programEnableInterceptor;
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new SnakeToCamelModelAttributeMethodProcessor(true));
+    }
 
     @Bean
     public TomcatServletWebServerFactory servletContainer() {
@@ -32,15 +45,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return factory;
     }
 
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ProgramEnableInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/hTest/**", "/hMock/**", "/error");
+        registry.addInterceptor(programEnableInterceptor)
+            .addPathPatterns("/**")
+            .excludePathPatterns("/swagger-ui/**", "/error");
         registry.addInterceptor(new JwtInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/hTest/**", "/hMock/**", "/error");
+            .addPathPatterns("/**")
+            .excludePathPatterns("/swagger-ui/**", "/error");
     }
 
     @Override

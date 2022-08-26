@@ -1,6 +1,7 @@
-IP: localhost
+IP: 10.209.8.24
 DATASOURCE_URL: ${IP}:40093
-KAFKA_BOOTSTRAP_SERVERS: localhost:9092
+KAFKA_BOOTSTRAP_SERVERS: ${IP}:9092
+PGSQLSSLROOT: C:/Users/yanglei/Documents/pgsqlssl
 feign:
   client:
     config:

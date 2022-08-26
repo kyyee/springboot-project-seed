@@ -9,6 +9,7 @@ import com.kyyee.sps.service.InitService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,11 +23,11 @@ import java.nio.charset.StandardCharsets;
  * 初始化程序，如从Excel读取数据写入数据库等。
  */
 @Slf4j
+@Component
 public class ProgramEnableInterceptor implements HandlerInterceptor {
 
     @Resource
-    private
-    InitService service;
+    private InitService service;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
