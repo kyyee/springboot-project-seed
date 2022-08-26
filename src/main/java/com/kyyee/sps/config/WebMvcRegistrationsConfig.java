@@ -6,7 +6,6 @@ package com.kyyee.sps.config;
 
 import com.kyyee.sps.annotation.RestApiVersion;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
@@ -21,7 +20,7 @@ import java.util.regex.Pattern;
  * @author kyyee
  * restful api 版本管理
  */
-@Configuration
+//@Configuration
 public class WebMvcRegistrationsConfig implements WebMvcRegistrations {
     @Override
     public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {

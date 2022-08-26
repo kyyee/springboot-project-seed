@@ -5,9 +5,10 @@
 package com.kyyee.sps.aop;
 
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -26,31 +27,17 @@ import java.util.List;
 @Slf4j
 public class RequestAspect {
 
-    private static final String CUT = "@annotation(org.springframework.web.bind.annotation.RestController)";
-
-    @Value("${request.aspect.excluded.urls:,}")
+    public static final String GET = "@annotation(org.springframework.web.bind.annotation.GetMapping)";
+    public static final String POST = "||@annotation(org.springframework.web.bind.annotation.PostMapping)";
+    public static final String PUT = "||@annotation(org.springframework.web.bind.annotation.PutMapping)";
+    public static final String PATCH = "||@annotation(org.springframework.web.bind.annotation.PatchMapping)";
+    public static final String DELETE = "||@annotation(org.springframework.web.bind.annotation.DeleteMapping)";
+    public static final String REQUEST = "||@annotation(org.springframework.web.bind.annotation.RequestMapping)";
+    @Value("${request.aspect.excluded.urls:/swagger,}")
     private List<String> excludedUrls;
 
-    @Pointcut(CUT) // 声明切点
-    private void requestLog() {
-    }
-
-    /**
-     * 在核心业务执行前执行，不能阻止核心业务的调用。
-     *
-     * @param joinPoint 代理对象
-     */
-    @Before("requestLog()")
-    public void doBefore(JoinPoint joinPoint) {
-    }
-
-    /**
-     * 在核心业务退出后执行（含正常执行结束和异常退出）。
-     *
-     * @param joinPoint 代理对象
-     */
-    @After("requestLog()")
-    public void doAfter(JoinPoint joinPoint) {
+    @Pointcut(GET + POST + PUT + PATCH + DELETE + REQUEST) // 声明切点
+    private void request() {
     }
 
     /**
@@ -58,7 +45,7 @@ public class RequestAspect {
      *
      * @param proceedingJoinPoint 代理对象
      */
-    @Around("requestLog()") // 声明一个建言，传入定义的切点
+    @Around("request()") // 声明一个建言，传入定义的切点
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();

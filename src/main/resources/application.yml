@@ -20,7 +20,8 @@ server:
   port: 8080
 spring:
   profiles:
-    active: pro,h2
+#    active: dev,h2
+    active: dev,postgresql
   aop:
     auto: true
   jackson:
@@ -33,20 +34,20 @@ spring:
       spec: initialCapacity=50,maximumSize=500,expireAfterAccess=60s
     type: caffeine
   datasource:
-    secondary:
-      continue-on-error: true
-      driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://${DATASOURCE_URL}/sps2?currentSchema=public&sslmode=prefer&sslrootcert=${PGSQLSSLROOT}/root.crt&sslkey=${PGSQLSSLROOT}/pgsql.pk8&sslcert=${PGSQLSSLROOT}/pgsql.crt
-      password: ${DATASOURCE_PASSWORD}
-      username: ${DATASOURCE_USERNAME}
     primary:
       continue-on-error: true
       driver-class-name: org.postgresql.Driver
       jdbc-url: jdbc:postgresql://${DATASOURCE_URL}/${DATABASE}?currentSchema=public&sslmode=prefer&sslrootcert=${PGSQLSSLROOT}/root.crt&sslkey=${PGSQLSSLROOT}/pgsql.pk8&sslcert=${PGSQLSSLROOT}/pgsql.crt
       password: ${DATASOURCE_PASSWORD}
       username: ${DATASOURCE_USERNAME}
+    secondary:
+      continue-on-error: true
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://${DATASOURCE_URL}/${DATABASE}?currentSchema=public&sslmode=prefer&sslrootcert=${PGSQLSSLROOT}/root.crt&sslkey=${PGSQLSSLROOT}/pgsql.pk8&sslcert=${PGSQLSSLROOT}/pgsql.crt
+      password: ${DATASOURCE_PASSWORD}
+      username: ${DATASOURCE_USERNAME}
   flyway:
-    enabled: true
+    enabled: false
     clean-disabled: true
     out-of-order: false
     baseline-on-migrate: true

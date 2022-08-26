@@ -4,9 +4,9 @@
 
 package com.kyyee.sps.service;
 
-import com.kyyee.sps.domain.EmployeeDO;
-
-import java.util.List;
+import com.kyyee.framework.common.base.AutoPage;
+import com.kyyee.framework.common.base.PageQuery;
+import com.kyyee.sps.model.primary.Employee;
 
 /**
  * @author kyyee
@@ -17,16 +17,17 @@ public interface EmployeeService {
      * 根据雇员姓名获取某一雇员信息
      *
      * @param name 雇员姓名
-     * @return EmployeeDO
+     * @return Employee
      */
-    EmployeeDO getEmployeeByName(String name);
+    Employee getEmployeeByName(String name);
 
     /**
      * 获取全部雇员信息
      *
-     * @return List<EmployeeDO>
+     * @return List<Employee>
      */
-    List<EmployeeDO> listEmployee();
+    @AutoPage
+    Object listEmployee(PageQuery pageQuery);
 
     /**
      * 统计雇员人数
@@ -39,23 +40,23 @@ public interface EmployeeService {
      * 新增雇员信息，框架会为雇员增加id，创建时间，修改时间
      *
      * @param employee 雇员基本信息
-     * @return EmployeeDO
+     * @return Employee
      */
-    EmployeeDO saveEmployee(EmployeeDO employee);
+    Employee saveEmployee(Employee employee);
 
     /**
      * 删除雇员信息
      *
      * @param name 雇员姓名
      */
-    void removeEmployee(String name);
+    void removeEmployee(Long name);
 
     /**
      * 更新雇员信息
      *
-     * @param name     雇员姓名
+     * @param id       雇员姓名
      * @param employee 雇员基本信息
-     * @return EmployeeDO
+     * @return Employee
      */
-    EmployeeDO updateEmployee(String name, EmployeeDO employee);
+    Employee updateEmployee(Long id, Employee employee);
 }
