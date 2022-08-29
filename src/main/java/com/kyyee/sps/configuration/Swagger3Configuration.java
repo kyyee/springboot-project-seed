@@ -1,4 +1,4 @@
-package com.kyyee.sps.config;
+package com.kyyee.sps.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  * Swagger配置类
  */
 @Configuration
-public class Swagger3Config {
+public class Swagger3Configuration {
     @Bean
     public Docket docket() {
         return new Docket(DocumentationType.OAS_30)

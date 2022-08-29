@@ -13,7 +13,7 @@ import java.net.InetAddress;
  * @author kyyee
  * 与 ip 相关的公共方法
  */
-public class IpUtil {
+public class IpUtils {
 
     /**
      * 根据ip验证网络是否连通

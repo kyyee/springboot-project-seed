@@ -4,6 +4,7 @@ import com.kyyee.framework.common.enums.DeletedStatus;
 import com.kyyee.framework.common.interceptor.user.UserHandler;
 import lombok.Data;
 
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,6 +12,7 @@ public class BaseEntity {
 
     //    @GeneratedValue(generator = "uuidGenerator")
 //    @GenericGenerator(name = "uuidGenerator", strategy = "uuid")
+    @Id
     private Long id;
 
     /**

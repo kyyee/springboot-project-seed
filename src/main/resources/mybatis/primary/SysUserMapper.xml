@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kyyee.sps.mapper.primary.EmployeeMapper">
+<mapper namespace="com.kyyee.sps.mapper.primary.SysUserMapper">
 
-  <resultMap id="BaseResultMap" type="com.kyyee.sps.model.primary.Employee">
+  <resultMap id="BaseResultMap" type="com.kyyee.sps.model.primary.SysUser">
     <id column="id" jdbcType="BIGINT" property="id"/>
     <result column="name" jdbcType="VARCHAR" property="name"/>
-    <result column="age" jdbcType="INTEGER" property="age"/>
-    <result column="org_ids" jdbcType="VARCHAR" property="orgIds"
+    <result column="code" jdbcType="VARCHAR" property="code"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="token" jdbcType="VARCHAR" property="token"/>
+    <result column="status" jdbcType="SMALLINT" property="status"/>
+    <result column="role_ids" jdbcType="OTHER" property="roleIds"
             javaType="java.util.ArrayList" typeHandler="com.kyyee.sps.mapper.primary.handler.ListLongHandler"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
@@ -19,8 +22,11 @@
   <sql id="Base_Column_Alias">
     id,
     name,
-    age,
-    org_ids
+    code,
+    password,
+    token,
+    status,
+    role_ids,
     create_time,
     update_time,
     create_by,
