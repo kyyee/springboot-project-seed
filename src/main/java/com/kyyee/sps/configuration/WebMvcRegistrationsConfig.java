@@ -2,7 +2,7 @@
  * Copyright (c) 2018.  kyyee All rights reserved.
  */
 
-package com.kyyee.sps.config;
+package com.kyyee.sps.configuration;
 
 import com.kyyee.sps.annotation.RestApiVersion;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;

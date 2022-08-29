@@ -2,7 +2,7 @@
  * Copyright (c) 2018.  kyyee All rights reserved.
  */
 
-package com.kyyee.sps.config;
+package com.kyyee.sps.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

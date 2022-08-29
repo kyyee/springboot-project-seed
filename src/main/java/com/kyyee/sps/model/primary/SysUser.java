@@ -22,12 +22,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Employee extends BaseEntity {
+public class SysUser extends BaseEntity {
     private String name;
-
-    private Integer age;
-
-    @ColumnType(column = "org_ids", jdbcType = JdbcType.OTHER, typeHandler = ListLongHandler.class)
-    private List<Long> orgIds;
+    private String code;
+    private String password;
+    private String token;
+    private Short status;
+    @ColumnType(column = "role_ids", jdbcType = JdbcType.OTHER, typeHandler = ListLongHandler.class)
+    private List<Long> roleIds;
 
 }

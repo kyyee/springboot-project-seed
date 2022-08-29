@@ -21,7 +21,7 @@ server:
 spring:
   profiles:
 #    active: dev,h2
-    active: dev,postgresql
+    active: dev
   aop:
     auto: true
   jackson:
@@ -47,11 +47,11 @@ spring:
       password: ${DATASOURCE_PASSWORD}
       username: ${DATASOURCE_USERNAME}
   flyway:
-    enabled: false
+    enabled: true
     clean-disabled: true
     out-of-order: false
     baseline-on-migrate: true
-    validate-on-migrate: true
+    validate-on-migrate: false
     encoding: UTF-8
     locations: classpath:db/migration
     schemas: public

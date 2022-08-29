@@ -2,7 +2,7 @@
  * Copyright (c) 2018.  kyyee All rights reserved.
  */
 
-package com.kyyee.sps.config;
+package com.kyyee.sps.configuration;
 
 import com.kyyee.sps.service.InitService;
 import org.springframework.boot.ApplicationArguments;

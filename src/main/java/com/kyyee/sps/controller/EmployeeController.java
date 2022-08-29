@@ -6,9 +6,12 @@ package com.kyyee.sps.controller;
 
 import com.kyyee.framework.common.base.PageQuery;
 import com.kyyee.sps.annotation.RestApiVersion;
-import com.kyyee.sps.model.primary.Employee;
+import com.kyyee.sps.dto.request.BatchReqDto;
+import com.kyyee.sps.dto.request.EmployeeReqDto;
+import com.kyyee.sps.dto.response.EmployeeResDto;
 import com.kyyee.sps.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,35 +30,35 @@ public class EmployeeController {
     private
     EmployeeService service;
 
-    @GetMapping("/detail/{name}")
-    public Employee getEmployeeByName(@PathVariable String name) {
-        return service.getEmployeeByName(name);
+    @GetMapping("/{id}")
+    public EmployeeResDto detail(@PathVariable("id") Long id) {
+        return service.detail(id);
     }
 
     @GetMapping
-    public Object listEmployee(PageQuery pageQuery) {
-        return service.listEmployee(pageQuery);
+    public Object list(PageQuery pageQuery) {
+        return service.list(pageQuery);
     }
 
     @GetMapping("/count")
-    public long countEmployee() {
-        return service.countEmployee();
+    public long count() {
+        return service.count();
     }
 
     @PostMapping
-    public Employee saveEmployee(@RequestBody Employee employee) {
-        log.info("{}", employee);
-        return service.saveEmployee(employee);
+    public EmployeeResDto save(@RequestBody EmployeeReqDto reqDto) {
+        log.info("{}", reqDto);
+        return service.save(reqDto);
     }
 
-    @DeleteMapping("/{id}")
-    public void removeEmployee(@PathVariable Long id) {
-        service.removeEmployee(id);
+    @DeleteMapping
+    public void delete(@Validated @RequestBody BatchReqDto ids) {
+        service.delete(ids);
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-        log.info("{}", employee);
-        return service.updateEmployee(id, employee);
+    public EmployeeResDto update(@PathVariable Long id, @RequestBody EmployeeReqDto reqDto) {
+        log.info("{}", reqDto);
+        return service.update(id, reqDto);
     }
 }

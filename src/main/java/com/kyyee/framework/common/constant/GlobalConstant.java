@@ -17,7 +17,7 @@ public final class GlobalConstant {
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String HEADER_US_APP = "Us-App";
-    public static final String USER = "User";
+    public static final String USER = "Organization";
     public static final String SOURCE_AND_VERSION = "sourceAndVersion";
     public static final String BROADCAST = "broadcast";
     public static final String REDIS_PUSH_TOPIC = "push-message";
