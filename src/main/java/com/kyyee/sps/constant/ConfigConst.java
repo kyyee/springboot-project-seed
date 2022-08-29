@@ -17,10 +17,6 @@ public class ConfigConst {
      * 空格
      */
     public final static String SPACE = " ";
-    /**
-     * 验证远程主机是否在线，连接默认超时 200 毫秒以上
-     */
-    public final static int DEFAULT_TIMEOUT = 200;
 
     /**
      * 操作系统类型
