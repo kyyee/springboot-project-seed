@@ -107,3 +107,18 @@ kyyee:
     project-name: springboot-project-seed(application.yml)
     author: kyyee
     email: kyyeeyoung@163.com
+  kafka:
+    topics:
+      - name: user_insert_event
+        partitions: 3
+        single-replicas: 1
+        cluster-replicas: 2
+      - name: user_update_event
+        partitions: 3
+        single-replicas: 1
+        cluster-replicas: 2
+      - name: user_delete_event
+        partitions: 3
+        single-replicas: 1
+        cluster-replicas: 2
+      - name: other_topic
