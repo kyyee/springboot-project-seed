@@ -4,12 +4,16 @@
 
 package com.kyyee.sps.controller;
 
-import com.kyyee.framework.common.base.PageQuery;
-import com.kyyee.sps.annotation.RestApiVersion;
+import com.kyyee.sps.common.component.annotation.ApiVersion;
+import com.kyyee.sps.common.component.validated.group.Insert;
+import com.kyyee.sps.common.component.validated.group.Update;
 import com.kyyee.sps.dto.request.BatchReqDto;
 import com.kyyee.sps.dto.request.EmployeeReqDto;
+import com.kyyee.sps.dto.request.query.EmployeeQueryParam;
+import com.kyyee.sps.dto.response.BatchResDto;
 import com.kyyee.sps.dto.response.EmployeeResDto;
 import com.kyyee.sps.service.EmployeeService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +25,11 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/${api-prefix}/employee")
-@RestApiVersion(1)
+@ApiVersion(1)
 @CrossOrigin
 @Slf4j
+@Api(tags = "雇员管理")
+@Validated
 public class EmployeeController {
 
     @Resource
@@ -36,29 +42,22 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public Object list(PageQuery pageQuery) {
-        return service.list(pageQuery);
-    }
-
-    @GetMapping("/count")
-    public long count() {
-        return service.count();
+    public Object list(@Validated EmployeeQueryParam param) {
+        return service.list(param);
     }
 
     @PostMapping
-    public EmployeeResDto save(@RequestBody EmployeeReqDto reqDto) {
-        log.info("{}", reqDto);
+    public EmployeeResDto save(@Validated({Insert.class}) @RequestBody EmployeeReqDto reqDto) {
         return service.save(reqDto);
     }
 
     @DeleteMapping
-    public void delete(@Validated @RequestBody BatchReqDto ids) {
-        service.delete(ids);
+    public BatchResDto delete(@Validated @RequestBody BatchReqDto ids) {
+        return service.delete(ids);
     }
 
     @PutMapping("/{id}")
-    public EmployeeResDto update(@PathVariable Long id, @RequestBody EmployeeReqDto reqDto) {
-        log.info("{}", reqDto);
+    public EmployeeResDto update(@PathVariable Long id, @Validated({Update.class}) @RequestBody EmployeeReqDto reqDto) {
         return service.update(id, reqDto);
     }
 }

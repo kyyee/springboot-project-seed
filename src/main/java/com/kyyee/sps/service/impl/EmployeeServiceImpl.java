@@ -10,6 +10,8 @@ import com.kyyee.framework.common.enums.DeletedStatus;
 import com.kyyee.framework.common.exception.BaseErrorCode;
 import com.kyyee.framework.common.exception.BaseException;
 import com.kyyee.framework.common.utils.SnowFlake;
+import com.kyyee.sps.common.utils.BeanCopyUtils;
+import com.kyyee.sps.common.utils.DataTransformUtils;
 import com.kyyee.sps.dto.request.BatchReqDto;
 import com.kyyee.sps.dto.request.EmployeeReqDto;
 import com.kyyee.sps.dto.response.BatchResDto;
@@ -18,8 +20,6 @@ import com.kyyee.sps.dto.response.bean.FailDetail;
 import com.kyyee.sps.mapper.primary.EmployeeMapper;
 import com.kyyee.sps.model.primary.Employee;
 import com.kyyee.sps.service.EmployeeService;
-import com.kyyee.sps.utils.BeanCopyUtils;
-import com.kyyee.sps.utils.DataTransformUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -48,11 +48,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @AutoPage
     public Object list(PageQuery pageQuery) {
         return BeanCopyUtils.convertCollection(employeeMapper.selectAll(), EmployeeResDto.class);
-    }
-
-    @Override
-    public long count() {
-        return employeeMapper.selectCount(null);
     }
 
     @Override

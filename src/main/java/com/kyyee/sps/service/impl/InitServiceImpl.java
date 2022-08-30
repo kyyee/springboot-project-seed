@@ -4,10 +4,10 @@
 
 package com.kyyee.sps.service.impl;
 
-import com.kyyee.sps.constant.ConfigInjection;
+import com.kyyee.sps.common.constant.KyyeeConfigProperties;
 import com.kyyee.sps.service.InitService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,12 +16,13 @@ import javax.annotation.Resource;
  * @author kyyee
  */
 @Service
+@Slf4j
+@EnableConfigurationProperties(KyyeeConfigProperties.class)
 public class InitServiceImpl implements InitService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(InitServiceImpl.class);
 
     @Resource
     private
-    ConfigInjection configInjection;
+    KyyeeConfigProperties kyyeeConfigProperties;
 
     /**
      * 初始化成功标志
@@ -33,8 +34,8 @@ public class InitServiceImpl implements InitService {
      */
     @Override
     public void init() {
-        LOGGER.info("项目名称：{}（来源于application.yml配置文件）。", configInjection.getProjectName());
-        LOGGER.info("开发者：{}，联系方式：{}", configInjection.getAuthor(), configInjection.getEmail());
+        log.info("项目名称：{}（来源于application.yml配置文件）。", kyyeeConfigProperties.getProjectName());
+        log.info("开发者：{}，联系方式：{}", kyyeeConfigProperties.getAuthor(), kyyeeConfigProperties.getEmail());
         initBaseConfig();
         initDatabase();
         setInit(true);
@@ -55,7 +56,7 @@ public class InitServiceImpl implements InitService {
      */
     private void initBaseConfig() {
         // TODO 具体操作
-        LOGGER.info("init base config success");
+        log.info("init base config success");
     }
 
     /**
@@ -63,7 +64,7 @@ public class InitServiceImpl implements InitService {
      */
     private void initDatabase() {
         // TODO 具体操作
-        LOGGER.info("init initDatabase success");
+        log.info("init initDatabase success");
     }
 
     public static void setInit(boolean init) {

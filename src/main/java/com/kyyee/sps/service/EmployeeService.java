@@ -33,13 +33,6 @@ public interface EmployeeService {
     Object list(PageQuery pageQuery);
 
     /**
-     * 统计雇员人数
-     *
-     * @return long
-     */
-    long count();
-
-    /**
      * 新增雇员信息，框架会为雇员增加id，创建时间，修改时间
      *
      * @param reqDto 雇员基本信息
