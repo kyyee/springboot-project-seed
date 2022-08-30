@@ -36,27 +36,47 @@ public class PageQuery implements Serializable {
     @JsonProperty("order_info")
     private OrderInfo[] orderInfo;
 
+    private Integer limit;
+    private Integer offset;
+
     public void dispose() {
-        if (this.pageNum == null) {
+        if (this.getPageNum() == null) {
             this.setPageNum(1);
         }
-        if (this.pageSize == null) {
+        if (this.getPageSize() == null) {
             this.setPageSize(20);
         }
-        if (this.pageNum <= 0 || this.pageSize <= 0) {
+        if (this.getPageNum() <= 0 || this.getPageSize() <= 0) {
             this.setPageNum(0);
             this.setPageSize(10000);
         }
-        if (StringUtils.isEmpty(this.sortby)) {
+        if (this.getOffset() == null) {
+            this.setOffset(0);
+        }
+        if (this.getLimit() == null) {
+            this.setLimit(5);
+        }
+        if (StringUtils.isEmpty(this.getSortby())) {
             this.setSortby("create_time");
         }
-        if (StringUtils.isEmpty(this.order)) {
+        if (StringUtils.isEmpty(this.getOrder())) {
             this.setOrder("DESC");
         }
     }
 
     public String orderBy() {
-        return this.getSortby() + " " + this.getOrder();
+        String primary = this.getSortby() + " " + this.getOrder();
+        if (getOrderInfo() == null || getOrderInfo().length <= 0) {
+            return primary;
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (OrderInfo orderInfo : getOrderInfo()) {
+                sb.append(orderInfo.getKey()).append(" ").append(orderInfo.getOrder()).append(",");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            String secondary = sb.toString();
+            return primary + "," + secondary;
+        }
     }
 
 }
