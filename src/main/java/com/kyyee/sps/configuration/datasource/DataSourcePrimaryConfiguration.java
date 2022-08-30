@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 /**
- * 系统数据源配置
+ * 系统主数据源配置
  */
 @Configuration
 @AutoConfigureAfter({PostgresqlInitialConfiguration.class})

@@ -16,12 +16,9 @@ import tk.mybatis.spring.annotation.MapperScan;
 import javax.sql.DataSource;
 import java.util.Objects;
 
-/**
- * 医院oracle视图数据源配置
- */
 @Configuration
 @AutoConfigureAfter({PostgresqlInitialConfiguration.class})
-@MapperScan(basePackages = "com.unisinsight.imss.mapper.secondary", sqlSessionFactoryRef = "sqlSessionFactorySecondary")
+@MapperScan(basePackages = "com.kyyee.sps.mapper.secondary", sqlSessionFactoryRef = "sqlSessionFactorySecondary")
 public class DataSourceSecondaryConfiguration {
 
     @Bean(name = "dataSourceSecondary")
