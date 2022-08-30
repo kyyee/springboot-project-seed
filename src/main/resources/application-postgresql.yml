@@ -1,12 +1,6 @@
-#mysql database config
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    #    ip 可修改
     url: jdbc:postgresql://${DATASOURCE_URL}/${DATABASE}
     username: pgsql
     password: pgsql
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
