@@ -1,12 +1,6 @@
-#oracle database config
 spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-#    ip可以修改
     url: jdbc:oracle:thin:@localhost:1521:xe
     username: system
     password: oracle
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
