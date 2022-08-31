@@ -12,19 +12,23 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.kyyee.framework.common.config.SnakeToCamelModelAttributeMethodProcessor;
 import com.kyyee.framework.common.interceptor.BaseHeaderInterceptor;
+import com.kyyee.sps.common.component.converter.LocalDateConverter;
+import com.kyyee.sps.common.component.converter.LocalDateTimeConverter;
+import com.kyyee.sps.common.component.converter.LocalTimeConverter;
 import com.kyyee.sps.common.component.interceptor.ProgramEnableInterceptor;
+import com.kyyee.sps.common.component.jackson.deser.LocalDateTimeDeserializer;
+import com.kyyee.sps.common.component.jackson.ser.LocalDateTimeSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -57,11 +61,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Resource
     private ProgramEnableInterceptor programEnableInterceptor;
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new SnakeToCamelModelAttributeMethodProcessor(true));
-    }
-
     @Bean
     public TomcatServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
@@ -69,6 +68,18 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404.html"),
             new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html"));
         return factory;
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new SnakeToCamelModelAttributeMethodProcessor(true));
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new LocalDateTimeConverter());
+        registry.addConverter(new LocalDateConverter());
+        registry.addConverter(new LocalTimeConverter());
     }
 
     @Override
