@@ -18,8 +18,9 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.kyyee.framework.common.config.SnakeToCamelModelAttributeMethodProcessor;
-import com.kyyee.sps.common.component.interceptor.JwtInterceptor;
+import com.kyyee.framework.common.interceptor.BaseHeaderInterceptor;
 import com.kyyee.sps.common.component.interceptor.ProgramEnableInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
@@ -42,8 +46,13 @@ import java.util.List;
  * 自定义资源位置
  */
 @Configuration
-@EnableWebMvc
 public class WebMvcConfiguration implements WebMvcConfigurer {
+
+    @Value("${api-prefix:NA}")
+    private String apiPrefix;
+
+    @Value("${kyyee.file.save-dir:/home/file/}")
+    private String saveDir;
 
     @Resource
     private ProgramEnableInterceptor programEnableInterceptor;
@@ -66,15 +75,17 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(programEnableInterceptor)
             .addPathPatterns("/**")
-            .excludePathPatterns("/swagger-ui/**", "/error");
-        registry.addInterceptor(new JwtInterceptor())
+            .excludePathPatterns("/swagger-ui/**", "/file.html", "/error");
+        registry.addInterceptor(new BaseHeaderInterceptor())
             .addPathPatterns("/**")
-            .excludePathPatterns("/swagger-ui/**", "/error");
+            .excludePathPatterns("/swagger-ui/**", "/file.html", "/error");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/json/**").addResourceLocations("classpath:/json/");
+
+        registry.addResourceHandler(apiPrefix + "/fs/**").addResourceLocations("file:" + saveDir);
     }
 
     @Override

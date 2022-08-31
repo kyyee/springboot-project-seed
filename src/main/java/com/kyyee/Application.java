@@ -21,12 +21,8 @@ import java.util.Arrays;
 public class Application {
 
     public static void main(String[] args) {
-
         ApplicationContext context = SpringApplication.run(Application.class, args);
-//                .getBean(InitService.class).init();
-
         String[] beans = context.getBeanDefinitionNames();
-        Arrays.stream(beans).sorted().forEach(log::info);
-
+        Arrays.stream(beans).sorted().forEach(log::debug);
     }
 }

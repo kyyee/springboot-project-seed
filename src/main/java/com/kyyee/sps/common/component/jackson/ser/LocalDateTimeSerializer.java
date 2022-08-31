@@ -1,7 +1,3 @@
-/*
- * www.unisinsight.com Inc.
- * Copyright (c) 2018 All Rights Reserved
- */
 package com.kyyee.sps.common.component.jackson.ser;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -13,11 +9,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-/**
- * @author yanglei 00699 [yang.lei@unisinsight.com]
- * @date 2020/12/15 09:46
- * @since 1.0
- */
 public class LocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
     public static final LocalDateTimeSerializer INSTANCE = new LocalDateTimeSerializer();
 

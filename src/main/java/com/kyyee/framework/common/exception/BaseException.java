@@ -1,7 +1,3 @@
-/*
- * www.unisinsight.com Inc.
- * Copyright (c) 2018 All Rights Reserved
- */
 package com.kyyee.framework.common.exception;
 
 
@@ -9,10 +5,6 @@ import org.slf4j.helpers.MessageFormatter;
 
 /**
  * 基础异常
- *
- * @author tangang [tan.gang@h3c.com]
- * @date 2018/9/11 17:12
- * @since 1.0
  */
 public class BaseException extends RuntimeException {
 

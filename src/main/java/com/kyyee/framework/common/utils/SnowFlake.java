@@ -77,16 +77,17 @@ public final class SnowFlake {
      */
     private static final long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);
 
+    private volatile static SnowFlake singleton = null;
+
     /**
      * 数据中心ID(0~31)
      */
-    private static long dataCenterId;
+    private final long dataCenterId;
 
     /**
      * 机器ID(0~31)
      */
-    private static long workerId;
-    private volatile static SnowFlake singleton = null;
+    private final long workerId;
     /**
      * 毫秒内序列(0~4095)
      */
@@ -118,17 +119,10 @@ public final class SnowFlake {
         log.debug("worker starting. timestamp left shift {}, datacenter id bits {}, worker id bits {}, sequence bits {}, workerid {}",
             TIMESTAMP_LEFT_SHIFT, DATA_CENTER_ID_BITS, WORKER_ID_BITS, SEQUENCE_BITS, workerId);
 
-        SnowFlake.workerId = workerId;
-        SnowFlake.dataCenterId = dataCenterId;
+        this.workerId = workerId;
+        this.dataCenterId = dataCenterId;
     }
 
-    /**
-     * 功能描述: 获取ID
-     *
-     * @return {@link long}
-     * @author qiuweiwu [qiuweiwu@unisinsight.com]
-     * @date 2020/5/14 10:27
-     */
     public static long getId() {
         if (singleton == null) {
             synchronized (SnowFlake.class) {

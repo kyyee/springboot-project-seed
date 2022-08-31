@@ -1,8 +1,4 @@
 package com.kyyee.framework.common.interceptor;
-/*
- * www.unisinsight.com Inc.
- * Copyright (c) 2018 All Rights Reserved
- */
 
 import com.kyyee.framework.common.constant.GlobalConstant;
 import com.kyyee.framework.common.utils.ThreadLocalUtils;
@@ -16,11 +12,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * @author yanglei 00699 [yang.lei@unisinsight.com]
- * @date 2020/11/09 11:29
- * @since 1.0
- */
 public class FeignClientRestHeaderInterceptor implements RequestInterceptor {
 
     @Override
