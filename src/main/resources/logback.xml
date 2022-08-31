@@ -1,71 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright (c) 2018.  kyyee All rights reserved.
+<!-- 日志组件启动时，打印调试信息，并监控此文件变化，周期300秒 -->
+<configuration scan="true" scanPeriod="300 seconds" debug="false">
+
+  <springProperty scope="context" name="appName" source="spring.application.name"
+                  defaultValue="NONE"/>
+  <springProperty scope="context" name="logLevel" source="logging.level.root"
+                  defaultValue="INFO"/>
+  <springProperty scope="context" name="sqlLevel" source="logging.level.sql"
+                  defaultValue="DEBUG"/>
+  <springProperty scope="context" name="kyyeeLogLevel" source="logging.level.kyyee"
+                  defaultValue="INFO"/>
+  <springProperty scope="context" name="LOGGING_PATH" source="logging.path"
+                  defaultValue="/data/logs"/>
+
+  <conversionRule conversionWord="ip" converterClass="com.kyyee.framework.common.config.LogIpConfig"/>
+
+  <!-- 配置文件，包括此文件内的所有变量的配置 -->
+  <property name="MY_PATTERN"
+            value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-15ip] %-5level [%thread] %logger{36}:%L- %msg%n"
+  />
+  <!--
+  value="%d{yyyy-MM-dd HH:mm:ss.SSS} [TxId : %X{PtxId} , SpanId : %X{PspanId}] %-5level [%thread] %logger{36}:%L- %msg%n"
+  [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%X{traceId}] %-5level %logger{50} - %msg%n
   -->
 
-<!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
-<configuration scan="true" scanPeriod="10 seconds">
-    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
-        <resetJUL>true</resetJUL>
-    </contextListener>
-    <!--定义日志文件存储路径，请勿使用相对路径-->
-    <property name="LOG_PATH" value="./log/"/>
+  <!--错误级别-->
+  <!--滚动记录把日志输出到文件-->
+  <appender name="APP-ERR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- 正在记录的日志文件的路径及文件名 -->
+    <file>${LOGGING_PATH}/${appName}/${appName}-err.log</file>
+    <!-- 滚动策略：按文件大小和日期拆分 -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!-- 日志文件输出的文件名 -->
+      <fileNamePattern>${LOGGING_PATH}/${appName}/%d{yyyy-MM-dd}/${appName}-error-%d{HH}.%i.zip</fileNamePattern>
+      <!-- 单个日志文件大小限制 -->
+      <maxFileSize>100MB</maxFileSize>
+      <!-- 日志文件保留天数 -->
+      <maxHistory>30</maxHistory>
+      <!-- 日志文件总大小限制,超出将删除旧日志 -->
+      <totalSizeCap>10GB</totalSizeCap>
+    </rollingPolicy>
+    <!-- 日志文件内容追加 -->
+    <append>true</append>
+    <!-- 日志输出格式及字符集配置 -->
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${MY_PATTERN}</pattern>
+      <charset>utf-8</charset>
+    </encoder>
+    <!-- 日志级别过滤 -->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <!-- 过滤级别 -->
+      <level>ERROR</level>
+      <!-- 符合过滤条件的操作 -->
+      <onMatch>ACCEPT</onMatch>
+      <!-- 不符合过滤条件的操作 -->
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
 
-    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${LOG_PATH}/info.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/info-%d{yyyyMMdd}-%i.log</fileNamePattern>
-            <maxFileSize>5MB</maxFileSize>
-            <!--日志保留天数-->
-            <maxHistory>15</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} -%msg%n</Pattern>-->
-            <Pattern>%d{HH:mm:ss} [%-25thread] %-5level %-25logger{0} -%msg%n</Pattern>
-        </encoder>
-    </appender>
+  <!--ALL-->
+  <appender name="APP-ALL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOGGING_PATH}/${appName}/${appName}-all.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!--日志文件输出的文件名 -->
+      <fileNamePattern>${LOGGING_PATH}/${appName}/%d{yyyy-MM-dd}/${appName}-all-%d{HH}.%i.zip</fileNamePattern>
+      <!--日志文件保留天数 -->
+      <maxFileSize>100MB</maxFileSize>
+      <maxHistory>7</maxHistory>
+      <totalSizeCap>10GB</totalSizeCap>
+    </rollingPolicy>
+    <append>true</append>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${MY_PATTERN}</pattern>
+      <charset>utf-8</charset>
+    </encoder>
+  </appender>
+  <appender name="APP-ALL-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+    <!--不设置discardingThreshold参数时，discardingThreshold=queueSize/5-->
+    <!--当队列剩余空间小于discardingThreshold并且日志级别为INFO及以下时，将被丢弃-->
+    <!--<discardingThreshold>0</discardingThreshold>-->
+    <queueSize>1024</queueSize>
+    <appender-ref ref="APP-ALL"/>
+  </appender>
 
-    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>
-        <File>${LOG_PATH}/error.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/error-%d{yyyyMMdd}-%i.log</fileNamePattern>
-            <maxFileSize>5MB</maxFileSize>
-            <!--日志保留天数-->
-            <maxHistory>15</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} -%msg%n</Pattern>-->
-            <Pattern>%d{HH:mm:ss} [%-25thread] %-5level %-25logger{0} -%msg%n</Pattern>
-        </encoder>
-    </appender>
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <!--encoder默认配置为PatternLayoutEncoder-->
-        <encoder>
-            <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} -%msg%n</Pattern>-->
-            <Pattern>%d{HH:mm:ss} [%-25thread] %-5level %-25logger{0} -%msg%n</Pattern>
-        </encoder>
-    </appender>
+  <!--DRUID-->
+  <!--<appender name="DRUID" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    &lt;!&ndash; 正在记录的日志文件的路径及文件名 &ndash;&gt;
+    <file>${LOGGING_PATH}/${appName}/${appName}-druid_slow_sql.log</file>
+    &lt;!&ndash; 日志记录器的滚动策略，按日期，按大小记录 &ndash;&gt;
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      &lt;!&ndash;日志文件输出的文件名 &ndash;&gt;
+      <fileNamePattern>${LOGGING_PATH}/${appName}/%d{yyyy-MM-dd}/${appName}-druid_slow_sql-%d{HH}.%i.zip</fileNamePattern>
+      &lt;!&ndash;日志文件保留天数 &ndash;&gt;
+      <maxFileSize>100MB</maxFileSize>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>10GB</totalSizeCap>
+    </rollingPolicy>
+    <append>true</append>
+    &lt;!&ndash; 日志文件的格式 &ndash;&gt;
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L - %msg%n</pattern>
+      <charset>utf-8</charset>
+    </encoder>
+    &lt;!&ndash; 此日志文件只记录级别的 &ndash;&gt;
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+  <appender name="DRUID-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+    &lt;!&ndash;不丢失日志，但是队列满了之后会阻塞&ndash;&gt;
+    <discardingThreshold>0</discardingThreshold>
+    &lt;!&ndash;队列容量大小&ndash;&gt;
+    <queueSize>1024</queueSize>
+    &lt;!&ndash;将同步日志DRUID转换为异步日志&ndash;&gt;
+    <appender-ref ref="DRUID"/>
+  </appender>-->
 
-    <!--hibernate日志输出-->
-    <!--<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>-->
-    <!--<logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="TRACE"/>-->
-    <!--<logger name="org.hibernate.SQL" level="DEBUG"/>-->
-    <!--<logger name="org.hibernate.engine.QueryParameters" level="DEBUG"/>-->
-    <!--<logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG"/>-->
 
-    <!--springboot日志输出-->
-    <!--<logger name="org.springframework.web" level="DEBUG"/>-->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+      <pattern>${MY_PATTERN}</pattern>
+    </encoder>
+  </appender>
 
-    <!--应用日志输出-->
-    <logger name="com.example" level="DEBUG"/>
+  <root level="${logLevel}">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="APP-ERR"/>
+    <appender-ref ref="APP-ALL-ASYNC"/>
+  </root>
 
-    <root level="INFO">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="INFO_FILE"/>
-        <appender-ref ref="ERROR_FILE"/>
-    </root>
+  <!-- 打印sql  -->
+  <logger name="java.sql.Connection" level="${sqlLevel}"/>
+  <logger name="java.sql.Statement" level="${sqlLevel}"/>
+  <logger name="java.sql.PreparedStatement" level="${sqlLevel}"/>
+  <logger name="com.kyyee" level="${kyyeeLogLevel}"/>
+
+  <!--<logger name="com.alibaba.druid.filter.stat.StatFilter" level="ERROR" additivity="false">
+    <appender-ref ref="DRUID-ASYNC"/>
+  </logger>-->
+
 </configuration>

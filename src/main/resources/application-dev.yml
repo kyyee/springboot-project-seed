@@ -1,0 +1,44 @@
+IP: 10.209.8.24
+DATASOURCE_URL: ${IP}:40093
+KAFKA_BOOTSTRAP_SERVERS: ${IP}:9092
+PGSQLSSLROOT: C:/Users/yanglei/Documents/pgsqlssl
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
+logging:
+  level:
+    root: info
+    com:
+      kyyee: debug
+server:
+  port: 52000
+spring:
+  redis:
+    database: 13
+    host: localhost
+    jedis:
+      pool:
+        max-active: 100
+        max-idle: 10
+        max-wait: -1ms
+        min-idle: 5
+    password: ''
+    port: 6379
+    timeout: 1000ms
+kyyee:
+  log:
+    url: http://${IP}:11102
+  service:
+    bss-gateway: http://${IP}:11125
+    bss-uuv: http://${IP}:11101
+    imss-vx: http://${IP}:9095
+    mg-fms82upLoad: http://${IP}:14178
+    mg-fms85: http://${IP}:14177
+    mg-om: http://${IP}:14548
+    uss-base: http://${IP}:16504
+    viid-mda: http://${IP}:2530
+
+  file:
+    save-dir: D:/home/file/
