@@ -1,10 +1,11 @@
 package com.kyyee.framework.common.utils;
 
 
+import java.io.IOException;
 import java.net.*;
 import java.util.Enumeration;
 
-public class IPUtils {
+public class IpUtils {
     /**
      * 获取本机的内网ip地址
      */
@@ -94,6 +95,19 @@ public class IPUtils {
             return "";
         }
         return inet.getHostAddress();
+    }
+
+    /**
+     * 根据ip验证网络是否连通
+     *
+     * @param ip ip
+     * @return 连通返回true，反之返回false
+     * @throws IOException IO异常。
+     */
+    public static boolean ping(String ip) throws IOException {
+        return InetAddress.getByName(ip)
+            // 验证远程主机是否在线，连接默认超时 200 毫秒以上
+            .isReachable(2000);
     }
 
     public static void main(String[] args) {

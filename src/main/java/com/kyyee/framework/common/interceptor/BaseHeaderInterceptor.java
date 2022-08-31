@@ -1,10 +1,5 @@
 package com.kyyee.framework.common.interceptor;
 
-/*
- * www.unisinsight.com Inc.
- * Copyright (c) 2018 All Rights Reserved
- */
-
 import com.kyyee.framework.common.constant.GlobalConstant;
 import com.kyyee.framework.common.interceptor.user.User;
 import com.kyyee.framework.common.interceptor.user.UserHandler;
@@ -17,13 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
 
-/**
- * description
- *
- * @author t17153 [tan.gang@h3c.com]
- * @date 2018/10/22 18:10
- * @since 1.0
- */
 public class BaseHeaderInterceptor extends HandlerInterceptorAdapter {
 
     @Override

@@ -1,7 +1,3 @@
-/*
- * www.unisinsight.com Inc.
- * Copyright (c) 2018 All Rights Reserved
- */
 package com.kyyee.sps.common.component.cache;
 
 import lombok.Data;
@@ -21,10 +17,6 @@ import java.util.stream.Collectors;
 
 /**
  * websocket 用户连接信息
- *
- * @author yanglei 00699 [yang.lei@unisinsight.com]
- * @date 2020/12/10 13:42
- * @since 1.0
  */
 @Slf4j
 public class UserCache {

@@ -1,18 +1,5 @@
 package com.kyyee.framework.common.constant;
 
-/*
- * www.unisinsight.com Inc.
- * Copyright (c) 2018 All Rights Reserved
- */
-
-
-/**
- * description
- *
- * @author t17153 [tan.gang@h3c.com]
- * @date 2018/10/22 18:56
- * @since 1.0
- */
 public final class GlobalConstant {
 
     public static final String AUTHORIZATION = "Authorization";

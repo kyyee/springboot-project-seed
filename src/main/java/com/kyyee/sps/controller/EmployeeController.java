@@ -20,13 +20,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-/**
- * @author kyyee
- */
 @RestController
-@RequestMapping("/${api-prefix}/employee")
+@RequestMapping("/${api-prefix}/employees")
 @ApiVersion(1)
-@CrossOrigin
 @Slf4j
 @Api(tags = "雇员管理")
 @Validated

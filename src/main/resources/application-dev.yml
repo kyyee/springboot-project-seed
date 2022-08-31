@@ -39,3 +39,6 @@ kyyee:
     mg-om: http://${IP}:14548
     uss-base: http://${IP}:16504
     viid-mda: http://${IP}:2530
+
+  file:
+    save-dir: D:/home/file/
