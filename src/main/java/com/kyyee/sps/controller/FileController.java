@@ -6,7 +6,7 @@ import com.kyyee.sps.common.component.validated.group.Upload;
 import com.kyyee.sps.dto.request.FileReqDto;
 import com.kyyee.sps.dto.response.FileResDto;
 import com.kyyee.sps.service.FileService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 @RequestMapping("/${api-prefix}/files")
 @ApiVersion(1)
 @Slf4j
-@Api(tags = "文件管理")
+@Tag(name = "文件管理")
 @Validated
 public class FileController {
 

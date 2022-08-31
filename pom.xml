@@ -142,10 +142,18 @@
       <artifactId>flyway-core</artifactId>
     </dependency>
 
+    <!--    spring-boot Versions    Minimum springdoc-openapi Versions-->
+    <!--    2.3.x, 1.5.x            1.4.0+-->
     <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-boot-starter</artifactId>
-      <version>3.0.0</version>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-ui</artifactId>
+      <version>1.4.8</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.xiaoymin</groupId>
+      <artifactId>knife4j-springdoc-ui</artifactId>
+      <version>3.0.3</version>
     </dependency>
     <dependency>
       <groupId>com.taobao.arthas</groupId>
