@@ -13,7 +13,7 @@ import com.kyyee.sps.dto.request.query.EmployeeQueryParam;
 import com.kyyee.sps.dto.response.BatchResDto;
 import com.kyyee.sps.dto.response.EmployeeResDto;
 import com.kyyee.sps.service.EmployeeService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ import javax.annotation.Resource;
 @RequestMapping("/${api-prefix}/employees")
 @ApiVersion(1)
 @Slf4j
-@Api(tags = "雇员管理")
+@Tag(name = "雇员管理")
 @Validated
 public class EmployeeController {
 

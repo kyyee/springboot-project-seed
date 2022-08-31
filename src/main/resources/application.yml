@@ -122,3 +122,6 @@ kyyee:
         single-replicas: 1
         cluster-replicas: 2
       - name: other_topic
+  websocket:
+    base-path: ${api-prefix}/websocket/endpoint-wisely
+    seed-channel: ${api-prefix}/websocket-channel

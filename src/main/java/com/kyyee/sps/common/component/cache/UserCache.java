@@ -161,6 +161,8 @@ public class UserCache {
 
         // 最后推送时间
         private Instant lastSendTime = Instant.now();
+
+        private Integer outer;
     }
 
     static class CacheData {

@@ -33,7 +33,7 @@ public class BaseHeaderInterceptor extends HandlerInterceptorAdapter {
     }
 
     private void handleUserInfo(String authorization) throws Exception {
-        //编码转换
+        // 编码转换
 //        authorization = EscapeUtils.unescape(EscapeUtils.unescape(authorization));
         authorization = URLDecoder.decode(authorization, "UTF-8");
 

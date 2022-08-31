@@ -9,6 +9,7 @@ import com.kyyee.sps.common.constant.ConfigConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.boot.task.TaskExecutorBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -28,6 +29,17 @@ public class AsyncConfiguration extends AsyncConfigurerSupport {
 
     @Resource
     private TaskExecutorBuilder taskExecutorBuilder;
+
+    // todo 不注入这个bean会报错，和websocket的Executor冲突
+    @Bean
+    public ThreadPoolTaskExecutor customTaskExecutor(TaskExecutorBuilder taskExecutorBuilder) {
+        ThreadPoolTaskExecutor taskExecutor = taskExecutorBuilder.build();
+        taskExecutor.setCorePoolSize(ConfigConst.CORE_POOL_SIZE);
+        taskExecutor.setMaxPoolSize(ConfigConst.MAX_POOL_SIZE);
+        taskExecutor.setQueueCapacity(ConfigConst.QUEUE_CAPACITY);
+        taskExecutor.initialize();
+        return taskExecutor;
+    }
 
     @Override
     public Executor getAsyncExecutor() {

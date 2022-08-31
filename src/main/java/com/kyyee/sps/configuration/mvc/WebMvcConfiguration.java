@@ -86,6 +86,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/json/**").addResourceLocations("classpath:/json/");
 
         registry.addResourceHandler(apiPrefix + "/fs/**").addResourceLocations("file:" + saveDir);
+
+        registry.addResourceHandler(apiPrefix + "/images/**").addResourceLocations("classpath:/images/");
+        registry.addResourceHandler(apiPrefix + "/audios/**").addResourceLocations("classpath:/audios/");
     }
 
     @Override

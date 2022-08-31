@@ -1,6 +1,6 @@
 package com.kyyee.sps.dto.response.bean;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,9 +8,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class FailDetail {
 
-    @ApiModelProperty(value = "失败id", required = true)
+    @Schema(name = "失败id", required = true)
     private Long id;
 
-    @ApiModelProperty(value = "失败原因", required = true)
+    @Schema(name = "失败原因", required = true)
     private String message;
 }
