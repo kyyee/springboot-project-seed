@@ -162,6 +162,7 @@ public class WebsocketMockController {
         } catch (ExecutionException e) {
             log.error("websocket connect failed, message:{}", e.getMessage(), e);
         }
+        // todo 必须用Res包装 String，否则 HttpMessageConverter 处理时会报错，由于converters太多造成
         return Res.success(clientId);
     }
 
