@@ -20,7 +20,7 @@ public class PostgresqlInitialConfiguration {
     private String username;
     @Value("${DATASOURCE_PASSWORD:pgsql}")
     private String password;
-    @Value("${DATABASE:cg_imss_cdplatform}")
+    @Value("${DATABASE:sps}")
     private String database;
     @Value("${PGSQLSSLROOT:/opt/app/pgsqlssl}")
     private String pgsqlsslroot;

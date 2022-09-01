@@ -1,0 +1,15 @@
+[Unit]
+Description=springboot project seed 后端服务
+After=network.target redis.service
+Wants=redis.service mysql.service
+
+[Service]
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/jdk/bin"
+ExecStart=/opt/app/sps/be/app.jar
+SuccessExitStatus=143
+SuccessExitStatus=SIGKILL
+Restart=on-failure
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -94,7 +94,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/json/**").addResourceLocations("classpath:/json/");
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/favicon.ico");
 
         registry.addResourceHandler(apiPrefix + "/fs/**").addResourceLocations("file:" + saveDir);
 

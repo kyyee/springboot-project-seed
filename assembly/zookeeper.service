@@ -1,0 +1,16 @@
+[Unit]
+Description=Zookeeper service
+After=network.target
+
+[Service]
+Type=simple
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/jdk/bin"
+User=root
+Group=root
+ExecStart=/usr/local/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties
+ExecStop=/usr/local/kafka/bin/zookeeper-server-stop.sh
+SuccessExitStatus=SIGKILL
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
