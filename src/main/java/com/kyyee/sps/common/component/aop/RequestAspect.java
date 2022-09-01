@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -48,6 +49,9 @@ public class RequestAspect {
     @Around("request()") // 声明一个建言，传入定义的切点
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (ObjectUtils.isEmpty(attributes)) {
+            return proceedingJoinPoint.proceed();
+        }
         HttpServletRequest request = attributes.getRequest();
 
         String requestURI = request.getRequestURI();
