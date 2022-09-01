@@ -1,0 +1,13 @@
+[Unit]
+Description=Redis Service
+After=network.target
+
+[Service]
+User=root
+ExecStart=/usr/local/redis/bin/redis-server
+ExecStop=/usr/local/redis/bin/redis-cli -h 127.0.0.1 -p 6379 shutdown
+SuccessExitStatus=SIGKILL
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
