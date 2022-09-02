@@ -1,6 +1,7 @@
 IP: 10.209.8.24
 DATASOURCE_URL: ${IP}:40093
 KAFKA_BOOTSTRAP_SERVERS: ${IP}:9092
+REDIS_URL: ${IP}:6380
 PGSQLSSLROOT: C:/Users/yanglei/Documents/pgsqlssl
 feign:
   client:
@@ -16,17 +17,7 @@ server:
   port: 52000
 spring:
   redis:
-    database: 13
-    host: localhost
-    jedis:
-      pool:
-        max-active: 100
-        max-idle: 10
-        max-wait: -1ms
-        min-idle: 5
-    password: ''
-    port: 6379
-    timeout: 1000ms
+    database: 0
 kyyee:
   log:
     url: http://${IP}:11102
