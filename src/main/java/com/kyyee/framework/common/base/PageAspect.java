@@ -27,7 +27,7 @@ public class PageAspect {
     @Around("page()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object[] args = proceedingJoinPoint.getArgs();
-        Optional<Object> optional = Arrays.stream(args).filter(o -> o.getClass().isAssignableFrom(PageQuery.class)).findAny();
+        Optional<Object> optional = Arrays.stream(args).filter(o -> PageQuery.class.isAssignableFrom(o.getClass())).findAny();
         if (!optional.isPresent()) {
             return proceedingJoinPoint.proceed();
         }

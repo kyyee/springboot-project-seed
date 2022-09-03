@@ -8,9 +8,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class FailDetail {
 
-    @Schema(name = "失败id", required = true)
+    @Schema(description = "失败id", required = true)
     private Long id;
 
-    @Schema(name = "失败原因", required = true)
+    @Schema(description = "失败原因", required = true)
     private String message;
 }
