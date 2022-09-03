@@ -4,6 +4,7 @@
 
 package com.kyyee.sps.common.component.aop;
 
+import com.kyyee.sps.common.utils.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,7 +17,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -57,7 +57,7 @@ public class RequestAspect {
         String requestURI = request.getRequestURI();
 
         if (!excludedUrls.contains(requestURI)) {
-            log.info("REQUEST {} : {}", requestURI, Arrays.toString(proceedingJoinPoint.getArgs()));
+            log.info("REQUEST {} : {}", requestURI, JSON.toString(proceedingJoinPoint.getArgs()));
         }
         try {
             Object proceed = proceedingJoinPoint.proceed();
@@ -66,7 +66,7 @@ public class RequestAspect {
             }
             return proceed;
         } catch (Throwable e) {
-            log.error("REQUEST {} : {}", requestURI, Arrays.toString(proceedingJoinPoint.getArgs()), e);
+            log.error("REQUEST {} : {}", requestURI, JSON.toString(proceedingJoinPoint.getArgs()), e);
             throw e;
         }
     }

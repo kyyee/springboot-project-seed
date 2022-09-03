@@ -1,10 +1,10 @@
 package com.kyyee.sps.controller.mock;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kyyee.framework.common.base.Res;
 import com.kyyee.framework.common.utils.ThreadUtils;
 import com.kyyee.sps.common.component.cache.UserCache;
 import com.kyyee.sps.common.utils.BeanCopyUtils;
+import com.kyyee.sps.common.utils.JSON;
 import com.kyyee.sps.dto.websocket.SeedMessage;
 import com.kyyee.sps.manager.websocket.Notification;
 import com.kyyee.sps.manager.websocket.WebSocketSender;
@@ -52,9 +52,6 @@ import java.util.concurrent.ExecutionException;
 public class WebsocketMockController {
 
     private static final Map<String, StompSession> SESSION_MAP = new ConcurrentHashMap<>();
-
-    @Resource
-    private ObjectMapper objectMapper;
 
     @Value("${server.port:80}")
     private String serverPort;
@@ -200,7 +197,7 @@ public class WebsocketMockController {
         // 为什么使用new ClassPathResource("mocks/person.json").getInputStream()而不是new ClassPathResource("mocks/person.json").getFile()，如下Q&A
         // @link <a href='https://stackoverflow.com/questions/25869428/classpath-resource-not-found-when-running-as-jar'>
         // Questions 25869428 (stackoverflow.com)</a>
-        Notification notification = objectMapper.readValue(new ClassPathResource("mocks/notification.json").getInputStream(), Notification.class);
+        Notification notification = JSON.toBean(new ClassPathResource("mocks/notification.json").getInputStream(), Notification.class);
         notification.setContent(notification.getContent() + Instant.now());
         notification.setReceiver(userCode);
         notification.setHappenTime(LocalDateTime.now());

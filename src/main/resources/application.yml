@@ -101,6 +101,23 @@ spring:
         max-size: 20
       thread-name-prefix: spsTask-
 
+springdoc:
+  swagger-ui:
+    # 修改Swagger UI路径
+    path: /ui.html
+    # 开启Swagger UI界面
+    enabled: true
+  api-docs:
+    # 修改api-docs路径
+    path: /v3/api-docs
+    # 开启api-docs
+    enabled: true
+  # 配置需要生成接口文档的扫描包
+  packages-to-scan: com.kyyee.sps.controller
+  # 配置需要生成接口文档的接口路径
+  paths-to-match: ${api-prefix}/**
+  group: ${spring.application.name}
+
 kyyee:
   error-code-prefix: 201
   log:

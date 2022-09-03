@@ -35,7 +35,7 @@ public class FileController {
     }
 
     @DeleteMapping("{filename}")
-    public void delete(@PathVariable(name = "filename", required = false) @RequestParam(name = "filename", required = false) String filename) {
+    public void delete(@PathVariable(name = "filename", required = false) String filename) {
         service.delete(filename);
     }
 }

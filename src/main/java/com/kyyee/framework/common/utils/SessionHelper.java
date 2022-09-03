@@ -2,8 +2,8 @@ package com.kyyee.framework.common.utils;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kyyee.framework.common.constant.GlobalConstant;
+import com.kyyee.sps.common.utils.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -22,8 +22,6 @@ import java.util.Objects;
  */
 @Slf4j
 public class SessionHelper {
-
-    public static final ObjectMapper MAPPER = new ObjectMapper();
 
     private SessionHelper() {
     }
@@ -100,20 +98,15 @@ public class SessionHelper {
 
     public static JsonNode getSessionJson(String name) {
         try {
-            return MAPPER.readTree(Objects.requireNonNull(getSession(name)));
+            return JSON.mapper().readTree(Objects.requireNonNull(getSession(name)));
         } catch (Exception e) {
             log.error(e.getMessage());
         }
         return null;
     }
 
-    public static <T> T getSessionObject(String name, Class<T> t) {
-        try {
-            return MAPPER.readValue(Objects.requireNonNull(getSession(name)), t);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-        return null;
+    public static <T> T getSessionObject(String name, Class<T> clazz) {
+        return JSON.toBean(Objects.requireNonNull(getSession(name)), clazz);
     }
 
     public static void setSession(String name, Object obj) {
@@ -121,32 +114,24 @@ public class SessionHelper {
     }
 
     public static void setSessionJson(String name, Object obj) {
-        try {
-            setSession(name, MAPPER.writeValueAsString(Objects.requireNonNull(obj)));
-        } catch (Exception e) {
-            log.error("set session failed:{}", e.getMessage());
-        }
+        setSession(name, JSON.toString(Objects.requireNonNull(obj)));
     }
 
     /**
      * @param name
-     * @param t    必须是对象 引用类型 不能是int 等
+     * @param clazz 必须是对象 引用类型 不能是int 等
      * @param <T>
      * @return
      */
     @Deprecated
-    public static <T> T getAttribute(String name, Class<T> t) {
-        try {
-            HttpSession session = SessionHelper.getSession(true);
-            String json = (String) session.getAttribute(name);
-            if (String.class.isAssignableFrom(t)) {
-                return (T) json;
-            }
-            return MAPPER.readValue(json, t);
-        } catch (Exception e) {
-            log.error(e.getMessage());
+    public static <T> T getAttribute(String name, Class<T> clazz) {
+
+        HttpSession session = SessionHelper.getSession(true);
+        String json = (String) session.getAttribute(name);
+        if (String.class.isAssignableFrom(clazz)) {
+            return (T) json;
         }
-        return null;
+        return JSON.toBean(json, clazz);
     }
 
     /**
@@ -157,30 +142,21 @@ public class SessionHelper {
      */
     @Deprecated
     public static JsonNode getAttribute(String name) {
-        try {
-            HttpSession session = SessionHelper.getSession(true);
-            String json = (String) session.getAttribute(name);
-            return MAPPER.readTree(json);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-        return null;
+        HttpSession session = SessionHelper.getSession(true);
+        String json = (String) session.getAttribute(name);
+        return JSON.toJsonNode(json);
     }
 
     /**
      * @param name
-     * @param t
-     * @param <T>  t 必须是对象 引用类型 不能是 String  int 等
+     * @param obj
+     * @param <T>  obj 必须是对象 引用类型 不能是 String  int 等
      */
     @Deprecated
-    public static <T> void setAttribute(String name, T t) {
+    public static <T> void setAttribute(String name, T obj) {
         HttpSession session = SessionHelper.getSession(true);
-        try {
-            session.setAttribute(name, MAPPER.writeValueAsString(t));
-        } catch (Exception e) {
-            log.error("set attribute failed:{}", e.getMessage());
-            session.setAttribute(name, "");
-        }
+        session.setAttribute(name, JSON.toString(obj));
+
     }
 
 

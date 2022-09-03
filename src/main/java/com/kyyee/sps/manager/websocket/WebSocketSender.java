@@ -1,8 +1,7 @@
 package com.kyyee.sps.manager.websocket;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kyyee.sps.common.component.cache.UserCache;
+import com.kyyee.sps.common.utils.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +30,6 @@ public class WebSocketSender implements InitializingBean {
     @Resource
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @Resource
-    private ObjectMapper objectMapper;
-
     public void sendNotification(Notification notification) {
         if (ObjectUtils.isEmpty(UserCache.getAll())) {
             return;
@@ -54,13 +50,8 @@ public class WebSocketSender implements InitializingBean {
                     log.debug("inner");
                 }
 
-                String message;
-                try {
-                    message = objectMapper.writeValueAsString(notification);
-                } catch (JsonProcessingException e) {
-                    log.error("serialize notification_channel websocket message error. message:{}", e.getMessage(), e);
-                    return;
-                }
+                String message = JSON.toString(notification);
+
                 // 点对点消息会发送到 [/user/{clientId}/{notificationChannelName}]
                 simpMessagingTemplate.convertAndSendToUser(clientId, notificationChannelName, message);
                 // 更新最后推送时间
