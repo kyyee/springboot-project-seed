@@ -1,14 +1,11 @@
 package com.kyyee.sps.mapper.primary.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.kyyee.framework.common.utils.SpringUtils;
+import com.kyyee.sps.common.utils.JSON;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.postgresql.util.PGobject;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.sql.CallableStatement;
@@ -24,10 +21,7 @@ public class ListLongHandler extends BaseTypeHandler<List<Long>> {
     public void setNonNullParameter(PreparedStatement ps, int i, List<Long> parameter, JdbcType jdbcType) throws SQLException {
         PGobject object = new PGobject();
         object.setType("jsonb");
-        ObjectMapper objectMapper = SpringUtils.getBean("objectMapper", ObjectMapper.class);
-        if (!ObjectUtils.isEmpty(objectMapper)) {
-            object.setValue(objectMapper.writeValueAsString(parameter));
-        }
+        object.setValue(JSON.toString(parameter));
         ps.setObject(i, object);
     }
 
@@ -51,10 +45,8 @@ public class ListLongHandler extends BaseTypeHandler<List<Long>> {
 
     @SneakyThrows
     private List<Long> getList(String json) {
-        ObjectMapper objectMapper = SpringUtils.getBean("objectMapper", ObjectMapper.class);
-        if (StringUtils.hasLength(json) && !ObjectUtils.isEmpty(objectMapper)) {
-            CollectionType javaType = objectMapper.getTypeFactory().constructCollectionType(List.class, String.class);
-            return objectMapper.readValue(json, javaType);
+        if (StringUtils.hasLength(json)) {
+            return JSON.toList(json, String.class);
         }
         return null;
     }

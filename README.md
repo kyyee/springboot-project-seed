@@ -1,7 +1,6 @@
-
 ## 做这个种子的心路历程
 
-最近在做一个大型的J2EE项目，后端语言选择了Java，理所当然的选择了Spring，使用Spring MVC来做restful风格的api开发很是方便，Spring下面有很多子项目通过Springboot集成也很舒服。程序员都知道沟通很重要，实际项目中，往往是各自为战，尽管使用的是相同的框架、工具，编写的代码却千差万别，为了统一基础代码风格，编写了这个项目种子。
+最近在做一个大型的J2EE项目，后端语言选择了Java，理所当然的选择了SpringBoot，使用SpringBoot来做restful风格的api开发很是方便，Spring下面有很多子项目通过Springboot集成也很舒服。程序员都知道沟通很重要，实际项目中，往往是各自为战，尽管使用的是相同的框架、工具，编写的代码却千差万别，为了统一基础代码风格，编写了这个项目种子。
 
 除此之外，在开发一个Web后端api项目时，通常都会经历搭建项目、选择依赖管理工具、引入基础包依赖、配置框架等，为了加快项目的开发进度（早点下班）还需要封装一些常用的类和工具，如标准的响应结构体封装、统一异常处理切面、接口签名认证、初始化运行方法、轮询方法、api版本控制封装、异步方法配置等。
 
@@ -31,7 +30,8 @@
 
 ## springboot 选择
 
-当前 springboot 更新到 2.0.0 。新版本增加了spring webflux 支持。springboot 1.5.x 版本会持续更新，springboot 2.0.0 要求 jdk 至少为1.8 。springboot 2.0.0 是springboot的另一个分支。当前种子选择 springboot 1.5.10 ，后续会增加 springboot 2.0.0 的分支。
+当前 springboot 更新到 2.0.0 。新版本增加了spring webflux 支持。springboot 1.5.x 版本会持续更新，springboot 2.0.0 要求 jdk
+至少为1.8 。springboot 2.0.0 是springboot的另一个分支。当前种子选择 springboot 1.5.10 ，后续会增加 springboot 2.0.0 的分支。
 
 ## 统一JSON响应结构、返回码封装。
 
@@ -39,36 +39,36 @@
 
 public class StandardResponseDTO<T> {
 
-    private int code;
-    private String message;
-    private T data;
+  private int code;
+  private String message;
+  private T data;
 
-    public StandardResponseDTO() {
-    }
+  public StandardResponseDTO() {
+  }
 
-    /**
-     * 成功时返回
-     *
-     * @param code 响应码
-     * @param data 响应体
-     */
-    public StandardResponseDTO(int code, T data) {
-        this(code, "", data);
-    }
+  /**
+   * 成功时返回
+   *
+   * @param code 响应码
+   * @param data 响应体
+   */
+  public StandardResponseDTO(int code, T data) {
+    this(code, "", data);
+  }
 
-    /**
-     * 失败时返回
-     *
-     * @param code    响应码
-     * @param message 错误信息详细描述
-     * @param data    响应体
-     */
-    public StandardResponseDTO(int code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
-    }
-    // getter or setter
+  /**
+   * 失败时返回
+   *
+   * @param code    响应码
+   * @param message 错误信息详细描述
+   * @param data    响应体
+   */
+  public StandardResponseDTO(int code, String message, T data) {
+    this.code = code;
+    this.message = message;
+    this.data = data;
+  }
+  // getter or setter
 }
 
 ```
@@ -81,55 +81,55 @@ public class StandardResponseDTO<T> {
 
 @ControllerAdvice
 public class ExceptionsHandler implements ThrowsAdvice {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionsHandler.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionsHandler.class);
 
-    @ExceptionHandler(DataAccessResourceFailureException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public StandardResponseDTO dataAccessResourceFailureException(DataAccessResourceFailureException e) {
-        LOGGER.error(e.getMessage());
-        return HttpResponseUtil.error(ErrorCodeEnum.CANNOT_ACCESS_DATABASE);
-    }
+  @ExceptionHandler(DataAccessResourceFailureException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public StandardResponseDTO dataAccessResourceFailureException(DataAccessResourceFailureException e) {
+    LOGGER.error(e.getMessage());
+    return HttpResponseUtil.error(ErrorCodeEnum.CANNOT_ACCESS_DATABASE);
+  }
 
-    @ExceptionHandler(NullPointerException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public StandardResponseDTO nullPointerException(NullPointerException e) {
-        LOGGER.error(e.getMessage());
-        return HttpResponseUtil.error(ErrorCodeEnum.NULL_POINTER_EXCEPTION);
-    }
+  @ExceptionHandler(NullPointerException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public StandardResponseDTO nullPointerException(NullPointerException e) {
+    LOGGER.error(e.getMessage());
+    return HttpResponseUtil.error(ErrorCodeEnum.NULL_POINTER_EXCEPTION);
+  }
 
-    @ExceptionHandler(IOException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public StandardResponseDTO ioException(IOException e) {
-        LOGGER.error(e.getMessage());
-        return HttpResponseUtil.error(ErrorCodeEnum.IO_EXCEPTION);
-    }
+  @ExceptionHandler(IOException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public StandardResponseDTO ioException(IOException e) {
+    LOGGER.error(e.getMessage());
+    return HttpResponseUtil.error(ErrorCodeEnum.IO_EXCEPTION);
+  }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public StandardResponseDTO exception(Exception e) {
-        LOGGER.error("{}, message: {}", e.getClass(), e.getMessage());
-        return HttpResponseUtil.error(ErrorCodeEnum.UNKNOWN_EXCEPTION);
-    }
+  @ExceptionHandler(Exception.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public StandardResponseDTO exception(Exception e) {
+    LOGGER.error("{}, message: {}", e.getClass(), e.getMessage());
+    return HttpResponseUtil.error(ErrorCodeEnum.UNKNOWN_EXCEPTION);
+  }
 
-    @ExceptionHandler(ServiceException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public StandardResponseDTO serviceException(ServiceException e) {
-        LOGGER.error(e.getMessage());
-        return HttpResponseUtil.error(ErrorCodeEnum.SERVICE_EXCEPTION, e.getMessage());
-    }
+  @ExceptionHandler(ServiceException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public StandardResponseDTO serviceException(ServiceException e) {
+    LOGGER.error(e.getMessage());
+    return HttpResponseUtil.error(ErrorCodeEnum.SERVICE_EXCEPTION, e.getMessage());
+  }
 
-    @ExceptionHandler(IllegalParameterException.class)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public StandardResponseDTO illegalParameterException(IllegalParameterException e) {
-        LOGGER.error(e.getMessage());
-        return HttpResponseUtil.error(ErrorCodeEnum.ILLEGAL_PARAMETER_EXCEPTION);
-    }
+  @ExceptionHandler(IllegalParameterException.class)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public StandardResponseDTO illegalParameterException(IllegalParameterException e) {
+    LOGGER.error(e.getMessage());
+    return HttpResponseUtil.error(ErrorCodeEnum.ILLEGAL_PARAMETER_EXCEPTION);
+  }
 }
 
 ```
@@ -142,14 +142,14 @@ public class ExceptionsHandler implements ThrowsAdvice {
 
 @Component
 public class StartupRunnerConfig implements ApplicationRunner {
-    @Resource
-    private
-    InitService service;
+  @Resource
+  private
+  InitService service;
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        service.init();
-    }
+  @Override
+  public void run(ApplicationArguments args) throws Exception {
+    service.init();
+  }
 }
 
 ```
@@ -162,28 +162,29 @@ preHandle 函数中返回 true 表示验证通过，请求会向下传递，返�
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
-    @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        // TODO jwt处理
-        return true;
-    }
+  @Override
+  public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+    // TODO jwt处理
+    return true;
+  }
 
-    @Override
-    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+  @Override
+  public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
 
-    }
+  }
 
-    @Override
-    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+  @Override
+  public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
 
-    }
+  }
 }
 
 ```
 
 ## 多种关系型数据库支持
 
-支持 H2、MySQL、Oracle、Sqlite 数据库，相应的模板连接文件已经配置好，修改连接地址，用户名密码即可使用，这些数据库都支持 Spring Data JPA 管理。
+支持 H2、MySQL、Oracle、Sqlite 数据库，相应的模板连接文件已经配置好，修改连接地址，用户名密码即可使用，这些数据库都支持 Spring
+Data JPA 管理。
 
 使用不同数据库只需更改application.yml中的
 
@@ -217,7 +218,7 @@ spring:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-#    ip 可修改
+    #    ip 可修改
     url: jdbc:mysql://localhost:3306/seed
     username: root
     password: 123456
@@ -234,7 +235,7 @@ spring:
 spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-#    ip可以修改
+    #    ip可以修改
     url: jdbc:oracle:thin:@localhost:1521:xe
     username: system
     password: oracle
@@ -271,15 +272,15 @@ spring:
 
 @Component
 public class Tasks {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Tasks.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Tasks.class);
 
-    /**
-     * 计划任务，每隔5分钟更新一次数据库VM的运行状态
-     */
-    @Scheduled(fixedRate = ConfigConst.FIXED_RATE_THRESHOLD)
-    public void scheduled() {
-        LOGGER.info("5 分钟一次轮询！");
-    }
+  /**
+   * 计划任务，每隔5分钟更新一次数据库VM的运行状态
+   */
+  @Scheduled(fixedRate = ConfigConst.FIXED_RATE_THRESHOLD)
+  public void scheduled() {
+    LOGGER.info("5 分钟一次轮询！");
+  }
 }
 
 ```
@@ -297,50 +298,52 @@ public class Tasks {
 @RestApiVersion(1)
 @CrossOrigin
 public class EmployeeController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
 
-    @Resource
-    private
-    EmployeeService service;
+  @Resource
+  private
+  EmployeeService service;
 
-    @GetMapping("/detail/{name}")
-    public StandardResponseDTO getEmployeeByName(@PathVariable String name) {
-        return HttpResponseUtil.success(service.getEmployeeByName(name));
-    }
+  @GetMapping("/detail/{name}")
+  public StandardResponseDTO getEmployeeByName(@PathVariable String name) {
+    return HttpResponseUtil.success(service.getEmployeeByName(name));
+  }
 
-    @GetMapping
-    public StandardResponseDTO listEmployee() {
-        return HttpResponseUtil.success(service.listEmployee());
-    }
+  @GetMapping
+  public StandardResponseDTO listEmployee() {
+    return HttpResponseUtil.success(service.listEmployee());
+  }
 
-    @GetMapping("/count")
-    public StandardResponseDTO countEmployee() {
-        return HttpResponseUtil.success(service.countEmployee());
-    }
+  @GetMapping("/count")
+  public StandardResponseDTO countEmployee() {
+    return HttpResponseUtil.success(service.countEmployee());
+  }
 
-    @PostMapping
-    public StandardResponseDTO saveEmployee(@RequestBody EmployeeDO employee) {
-        LOGGER.info("{}", employee);
-        return HttpResponseUtil.success(service.saveEmployee(employee));
-    }
+  @PostMapping
+  public StandardResponseDTO saveEmployee(@RequestBody EmployeeDO employee) {
+    LOGGER.info("{}", employee);
+    return HttpResponseUtil.success(service.saveEmployee(employee));
+  }
 
-    @DeleteMapping("/{name}")
-    public StandardResponseDTO removeEmployee(@PathVariable String name) {
-        service.removeEmployee(name);
-        return HttpResponseUtil.success();
-    }
+  @DeleteMapping("/{name}")
+  public StandardResponseDTO removeEmployee(@PathVariable String name) {
+    service.removeEmployee(name);
+    return HttpResponseUtil.success();
+  }
 
-    @PutMapping("/{name}")
-    public StandardResponseDTO updateEmployee(@PathVariable String name, @RequestBody EmployeeDO employee) {
-        LOGGER.info("{}", employee);
-        return HttpResponseUtil.success(service.updateEmployee(name, employee));
-    }
+  @PutMapping("/{name}")
+  public StandardResponseDTO updateEmployee(@PathVariable String name, @RequestBody EmployeeDO employee) {
+    LOGGER.info("{}", employee);
+    return HttpResponseUtil.success(service.updateEmployee(name, employee));
+  }
 }
 
 ```
 
 ## 总结
 
-该项目抽取了几个基于 springboot 开发的项目的一些公共代码，只是一个项目框架。这个项目的特性多是 spring 及 hibernate 的特性。与 spring 耦合度很高，springboot 2.0.0 宣称在性能上相比 springboot 1.5.x 有很大提升，后续我会将该种子项目的 springboot 版本更新到 2.0.0。
+该项目抽取了几个基于 springboot 开发的项目的一些公共代码，只是一个项目框架。这个项目的特性多是 spring 及 hibernate 的特性。与
+spring 耦合度很高，springboot 2.0.0 宣称在性能上相比 springboot 1.5.x 有很大提升，后续我会将该种子项目的 springboot 版本更新到
+2.0.0。
 
 希望它对你有所帮助。

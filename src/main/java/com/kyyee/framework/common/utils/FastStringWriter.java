@@ -103,5 +103,6 @@ public class FastStringWriter extends Writer {
     }
 
     public void close() {
+        this.buf = null;
     }
 }

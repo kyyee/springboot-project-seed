@@ -48,8 +48,8 @@ public class SpringUtils implements ApplicationContextAware {
         if (context != null) {
             try {
                 context.publishEvent(event);
-            } catch (Exception var2) {
-                throw ExceptionUtils.unchecked(var2);
+            } catch (Exception e) {
+                throw ExceptionUtils.unchecked(e);
             }
         }
     }

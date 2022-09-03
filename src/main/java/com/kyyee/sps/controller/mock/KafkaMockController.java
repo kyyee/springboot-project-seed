@@ -1,6 +1,5 @@
 package com.kyyee.sps.controller.mock;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kyyee.sps.configuration.kafka.KafkaTopicProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,8 +23,6 @@ import java.util.concurrent.*;
 @Slf4j
 @Tag(name = "kafka消息模拟服务")
 public class KafkaMockController {
-    @Resource
-    private ObjectMapper objectMapper;
 
     @Resource
     private KafkaTemplate<String, String> kafkaTemplate;

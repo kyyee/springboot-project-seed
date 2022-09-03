@@ -192,7 +192,12 @@ public class FileServiceImpl implements FileService {
             File directory = new File(saveDir + filepath);
             if (directory.exists()) {
                 log.info("delete file:{}", directory.getName());
-                FileUtils.deleteDirectory(directory);
+                if (directory.isDirectory()) {
+                    FileUtils.deleteDirectory(directory);
+                }
+                if (directory.isFile()) {
+                    FileUtils.deleteQuietly(directory);
+                }
             }
         } catch (IOException e) {
             log.warn("delete filename:{} failed. message:{}", filepath, e.getMessage(), e);
