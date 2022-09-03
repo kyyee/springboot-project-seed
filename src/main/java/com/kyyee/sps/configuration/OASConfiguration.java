@@ -5,6 +5,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import org.springdoc.core.GroupedOpenApi;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,6 +15,21 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class OASConfiguration {
+
+    @Value("${spring.application.name:NA}")
+    private String appName;
+
+    @Value("${api-prefix:NA}")
+    private String apiPrefix;
+
+    @Bean
+    public GroupedOpenApi adminApi() {
+        return GroupedOpenApi.builder()
+            .group(appName)
+            .pathsToMatch(apiPrefix + "/**")
+            .packagesToScan("com.kyyee.sps.controller")
+            .build();
+    }
 
     @Bean
     public OpenAPI springOpenAPI() {

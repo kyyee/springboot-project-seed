@@ -11,10 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 public class BatchResDto {
 
-    @Schema(name = "删除成功ids")
+    @Schema(description = "删除成功ids")
     private List<Long> successIds;
 
-    @Schema(name = "删除失败ids")
+    @Schema(description = "删除失败ids")
     private List<FailDetail> failIds;
 
 }

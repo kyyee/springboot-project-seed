@@ -21,19 +21,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeResDto {
-    @Schema(name = "id，主键雪花id", required = true)
+    @Schema(description = "id，主键雪花id", required = true)
     private Long id;
 
-    @Schema(name = "名称", required = true)
+    @Schema(description = "名称", required = true)
     private String name;
 
-    @Schema(name = "年龄")
+    @Schema(description = "年龄")
     private Integer age;
 
-    @Schema(name = "组织id", required = true)
+    @Schema(description = "组织id", required = true)
     private List<Long> orgIds;
 
-    @Schema(name = "组织", required = true)
+    @Schema(description = "组织", required = true)
     private List<Organization> orgs;
 
 }

@@ -12,6 +12,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -34,7 +36,7 @@ public class RequestAspect {
     public static final String PATCH = "||@annotation(org.springframework.web.bind.annotation.PatchMapping)";
     public static final String DELETE = "||@annotation(org.springframework.web.bind.annotation.DeleteMapping)";
     public static final String REQUEST = "||@annotation(org.springframework.web.bind.annotation.RequestMapping)";
-    @Value("${request.aspect.excluded.urls:/swagger,}")
+    @Value("${request.aspect.excluded.urls:/v3/api-docs/**,/${api-prefix}/files/**}")
     private List<String> excludedUrls;
 
     @Pointcut(GET + POST + PUT + PATCH + DELETE + REQUEST) // 声明切点
@@ -56,7 +58,9 @@ public class RequestAspect {
 
         String requestURI = request.getRequestURI();
 
-        if (!excludedUrls.contains(requestURI)) {
+        boolean excluded = CollectionUtils.isEmpty(excludedUrls) || excludedUrls.stream().anyMatch(pattern -> new AntPathMatcher().match(pattern, requestURI));
+
+        if (!excluded) {
             log.info("REQUEST {} : {}", requestURI, JSON.toString(proceedingJoinPoint.getArgs()));
         }
         try {

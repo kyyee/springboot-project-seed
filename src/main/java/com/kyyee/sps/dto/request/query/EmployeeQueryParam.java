@@ -20,6 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EmployeeQueryParam extends PageQuery {
 
-    @Schema(name = "搜索关键字")
+    @Schema(description = "搜索关键字")
     private String keyword;
 }

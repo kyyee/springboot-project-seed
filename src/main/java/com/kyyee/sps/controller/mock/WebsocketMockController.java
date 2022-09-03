@@ -1,6 +1,5 @@
 package com.kyyee.sps.controller.mock;
 
-import com.kyyee.framework.common.base.Res;
 import com.kyyee.framework.common.utils.ThreadUtils;
 import com.kyyee.sps.common.component.cache.UserCache;
 import com.kyyee.sps.common.utils.BeanCopyUtils;
@@ -75,8 +74,8 @@ public class WebsocketMockController {
 
     @GetMapping("/websocket-connect")
     @Operation(summary = "模拟websocket客户端")
-    public Res<String> websocketConnect(@RequestParam(value = "user_code", required = false, defaultValue = "admin") String userCode,
-                                        @RequestParam(value = "user_name", required = false, defaultValue = "admin") String userName) {
+    public String websocketConnect(@RequestParam(value = "user_code", required = false, defaultValue = "admin") String userCode,
+                                   @RequestParam(value = "user_name", required = false, defaultValue = "admin") String userName) {
         // 建立连接
         log.info("websocket connect start...");
         List<Transport> transports = new ArrayList<>(2);
@@ -160,7 +159,7 @@ public class WebsocketMockController {
             log.error("websocket connect failed, message:{}", e.getMessage(), e);
         }
         // todo 必须用Res包装 String，否则 HttpMessageConverter 处理时会报错，由于converters太多造成
-        return Res.success(clientId);
+        return clientId;
     }
 
     @DeleteMapping("/websocket-disconnect/{client_id}")

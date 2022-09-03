@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 public class BatchReqDto {
 
     @NotBlank(message = "id不能为空")
-    @Schema(name = "主键，多个用英文逗号隔开", example = "1137168911171588,1076231311196160")
+    @Schema(description = "主键，多个用英文逗号隔开", example = "1137168911171588,1076231311196160")
     private String ids;
 
 }
