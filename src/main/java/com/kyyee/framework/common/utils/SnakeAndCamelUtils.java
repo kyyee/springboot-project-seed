@@ -36,7 +36,7 @@ public class SnakeAndCamelUtils {
     public static String convertSnakeToCamel(String name) {
         if (StringUtils.isEmpty(name)) {
             return "";
-        } else if (name.indexOf("_") < 0) {
+        } else if (!name.contains("_")) {
             return name;
         } else {
             StringBuilder result = new StringBuilder();

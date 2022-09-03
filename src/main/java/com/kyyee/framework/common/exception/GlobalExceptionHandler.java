@@ -1,13 +1,11 @@
 package com.kyyee.framework.common.exception;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.google.common.base.Joiner;
 import com.kyyee.framework.common.base.Res;
 import com.kyyee.framework.common.utils.SessionHelper;
-import com.kyyee.framework.common.utils.SpringUtils;
+import com.kyyee.sps.common.utils.JSON;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -180,16 +178,10 @@ public class GlobalExceptionHandler implements ThrowsAdvice {
         Object data = null;
         Res<Object> res = null;
         if (!StringUtils.isEmpty(content)) {
-            final ObjectMapper objectMapper = SpringUtils.getBean(ObjectMapper.class);
-            try {
-                TypeReference<Res<Object>> typeReference = new TypeReference<Res<Object>>() {
-                };
-                res = objectMapper.readValue(content, typeReference);
-                if (res.isSuccess()) {
-                    data = res.getData();
-                }
-            } catch (JsonProcessingException jsonProcessingException) {
-                jsonProcessingException.printStackTrace();
+            res = JSON.toBean(content, new TypeReference<Res<Object>>() {
+            });
+            if (res.isSuccess()) {
+                data = res.getData();
             }
         }
         if (res == null || res.isSuccess()) {

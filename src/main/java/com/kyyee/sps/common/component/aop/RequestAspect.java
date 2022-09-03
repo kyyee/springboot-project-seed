@@ -4,6 +4,7 @@
 
 package com.kyyee.sps.common.component.aop;
 
+import com.kyyee.sps.common.utils.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -11,11 +12,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,7 +36,7 @@ public class RequestAspect {
     public static final String PATCH = "||@annotation(org.springframework.web.bind.annotation.PatchMapping)";
     public static final String DELETE = "||@annotation(org.springframework.web.bind.annotation.DeleteMapping)";
     public static final String REQUEST = "||@annotation(org.springframework.web.bind.annotation.RequestMapping)";
-    @Value("${request.aspect.excluded.urls:/swagger,}")
+    @Value("${request.aspect.excluded.urls:/v3/api-docs/**,/${api-prefix}/files/**}")
     private List<String> excludedUrls;
 
     @Pointcut(GET + POST + PUT + PATCH + DELETE + REQUEST) // 声明切点
@@ -48,12 +51,17 @@ public class RequestAspect {
     @Around("request()") // 声明一个建言，传入定义的切点
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (ObjectUtils.isEmpty(attributes)) {
+            return proceedingJoinPoint.proceed();
+        }
         HttpServletRequest request = attributes.getRequest();
 
         String requestURI = request.getRequestURI();
 
-        if (!excludedUrls.contains(requestURI)) {
-            log.info("REQUEST {} : {}", requestURI, Arrays.toString(proceedingJoinPoint.getArgs()));
+        boolean excluded = CollectionUtils.isEmpty(excludedUrls) || excludedUrls.stream().anyMatch(pattern -> new AntPathMatcher().match(pattern, requestURI));
+
+        if (!excluded) {
+            log.info("REQUEST {} : {}", requestURI, JSON.toString(proceedingJoinPoint.getArgs()));
         }
         try {
             Object proceed = proceedingJoinPoint.proceed();
@@ -62,7 +70,7 @@ public class RequestAspect {
             }
             return proceed;
         } catch (Throwable e) {
-            log.error("REQUEST {} : {}", requestURI, Arrays.toString(proceedingJoinPoint.getArgs()), e);
+            log.error("REQUEST {} : {}", requestURI, JSON.toString(proceedingJoinPoint.getArgs()), e);
             throw e;
         }
     }

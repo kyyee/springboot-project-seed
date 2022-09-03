@@ -25,15 +25,15 @@ import java.util.List;
 @AllArgsConstructor
 public class EmployeeReqDto {
     @NotNull(message = "id不能为空", groups = {Update.class})
-    @Schema(name = "id，主键雪花id")
+    @Schema(description = "id，主键雪花id")
     private Long id;
     @NotNull(message = "名称不能为空", groups = {Insert.class, Update.class})
-    @Schema(name = "名称", required = true)
+    @Schema(description = "名称", required = true)
     private String name;
-    @Schema(name = "年龄")
+    @Schema(description = "年龄")
     private Integer age;
     @Size(message = "组织id不能为空", min = 1, groups = {Insert.class, Update.class})
-    @Schema(name = "组织id", required = true)
+    @Schema(description = "组织id", required = true)
     private List<Long> orgIds;
 
 }

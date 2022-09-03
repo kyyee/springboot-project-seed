@@ -15,7 +15,7 @@ public final class ThreadUtils {
     public static void sleep(long millis) {
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException var3) {
+        } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
@@ -24,7 +24,7 @@ public final class ThreadUtils {
     public static void sleep(TimeUnit timeUnit, long timeout) {
         try {
             timeUnit.sleep(timeout);
-        } catch (InterruptedException var4) {
+        } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 

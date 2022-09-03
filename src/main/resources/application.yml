@@ -4,6 +4,9 @@ DATASOURCE_USERNAME: pgsql
 DATASOURCE_PASSWORD: pgsql
 KAFKA_BOOTSTRAP_SERVERS: kafka-hs:9093
 SQLSSLROOT: /opt/app/sqlssl
+REDIS_URL: redis-svc:6379
+REDIS_USERNAME:
+REDIS_PASSWORD: redis_123
 #/api/${group-name}/v2/${project-name}
 api-prefix: /api/kyyee/v2/${spring.application.name}
 debug: false
@@ -71,6 +74,15 @@ spring:
       retries: 3
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  redis:
+    url: redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_URL}
+    timeout: 1000ms
+    jedis:
+      pool:
+        max-active: 100
+        max-idle: 10
+        max-wait: -1ms
+        min-idle: 1
   mvc:
     throw-exception-if-no-handler-found: true
   security:
@@ -88,6 +100,23 @@ spring:
         keep-alive: 60s
         max-size: 20
       thread-name-prefix: spsTask-
+
+springdoc:
+  swagger-ui:
+    # 修改Swagger UI路径
+    path: /ui.html
+    # 开启Swagger UI界面
+    enabled: true
+  api-docs:
+    # 修改api-docs路径
+    path: /v3/api-docs
+    # 开启api-docs
+    enabled: true
+  # 配置需要生成接口文档的扫描包
+  packages-to-scan: com.kyyee.sps.controller
+  # 配置需要生成接口文档的接口路径
+  paths-to-match: ${api-prefix}/**
+  group: ${spring.application.name}
 
 kyyee:
   error-code-prefix: 201

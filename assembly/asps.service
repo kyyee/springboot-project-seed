@@ -1,0 +1,15 @@
+[Unit]
+Description=springboot project seed 前后端服务
+After=syslog.target
+
+[Service]
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/jdk/bin"
+User=root
+Type=forking
+ExecStart=/opt/app/sps/startup.sh start
+ExecStop=/opt/app/sps/startup.sh stop
+SuccessExitStatus=SIGKILL
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

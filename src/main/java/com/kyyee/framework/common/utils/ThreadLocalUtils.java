@@ -19,7 +19,7 @@ public class ThreadLocalUtils {
     }
 
     public static Map<String, Object> getAll() {
-        return new HashMap(LOCAL.get());
+        return new HashMap<>(LOCAL.get());
     }
 
     public static <T> T put(String key, T value) {

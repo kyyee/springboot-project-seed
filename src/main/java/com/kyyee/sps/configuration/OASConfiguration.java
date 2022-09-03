@@ -36,7 +36,7 @@ public class OASConfiguration {
         return new OpenAPI()
             .info(new Info()
                 .title("OAS接口文档")
-                .description("S更多请查看 https://github.com/kyyee/springboot-project-seed")
+                .description("更多请查看 https://github.com/kyyee/springboot-project-seed")
                 .contact(new Contact()
                     .name("kyyee")
                     .url("https://github.com/kyyee")

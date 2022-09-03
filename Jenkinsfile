@@ -3,7 +3,7 @@
 pipeline {
     agent {
         docker {
-            image 'ip:port/cg/jenkins-build-runtime-centos:20220831'
+            image 'ip:port/groupname/jenkins-build-runtime-centos:20220831'
         }
     }
 
@@ -15,11 +15,15 @@ pipeline {
         info = '1.springboot 种子项目'
     }
     stages {
-        stage('Pre-Build') {
+        stage('pre-build') {
             steps {
                 sh '''
                     mkdir $tar_name-$detail_version
-                    mv $WORKSPACE/deploy-config/cg-cjcc/* $tar_name-$detail_version/
+                    mkdir -p $tar_name_vx-$detail_version/fe
+                    mkdir -p $tar_name_vx-$detail_version/be
+                    mkdir -p $tar_name_vx-$detail_version/be/config
+
+                    mv $WORKSPACE/assembly/* $tar_name_vx-$detail_version/ && chmod +x $tar_name_vx-$detail_version/*.sh
                     echo "" > $tar_name-$detail_version/version.json
                     echo "{" >> $tar_name-$detail_version/version.json
                     echo "\\"app_name\\":\\"$tar_name\\"," >> $tar_name-$detail_version/version.json
@@ -37,22 +41,11 @@ pipeline {
                 '''
             }
         }
-        stage('Frontend-Build') {
+        stage('build') {
             steps {
                 sh '''
-                    if [ -d $WORKSPACE/cg-cjcc-fe/ ]; then
-                        cd $WORKSPACE/cg-cjcc-fe/
-                        pwd && ls
-                        chmod +x ./build.sh && bash -x ./build.sh
-                    fi
-                '''
-            }
-        }
-        stage('Backend-Build') {
-            steps {
-                sh '''
-                    if [ -d $WORKSPACE/cg-cjcc-be/ ]; then
-                        cd $WORKSPACE/cg-cjcc-be/
+                    if [ -d $WORKSPACE/ ]; then
+                        cd $WORKSPACE/
                         pwd && ls
                         chmod +x ./build.sh && bash -x ./build.sh
                     fi
@@ -90,7 +83,7 @@ pipeline {
                                       usePromotionTimestamp  : false,
                                       useWorkspaceInPromotion: false,
                                       verbose                : false]]
-                echo "ftp://username:password@localhost//DEVELOP/CG/${tar_name}/${detail_version}/${tar_name}-${detail_version}-${BUILD_TIMESTAMP}.tar.gz"
+                echo "ftp://username:password@localhost/DEVELOP/GROUPNAME/${tar_name}/${detail_version}/${tar_name}-${detail_version}-${BUILD_TIMESTAMP}.tar.gz"
 
             }
         }
