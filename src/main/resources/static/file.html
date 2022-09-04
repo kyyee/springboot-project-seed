@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>File Upload</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet">
   <style>
     /* 自定义进度条样式 */
     .percent input[type=range] {
@@ -44,6 +45,7 @@
   </style>
 </head>
 <body>
+<a href="./index.html">返回首页</a>
 <h1>文件上传</h1>
 <form id="upload-form" enctype="multipart/form-data">
   <input id="uploadFile" type="file" name="file"/>
@@ -63,7 +65,14 @@
     <a id="sliceUploadFileHref" href="" target="_self">文件地址</a>
   </div>
 </form>
+<footer class="text-center panel-footer" role="contentinfo">
+  <div class="container">
+    <p class="">Designed by <a href="https://github.com/kyyee" target="_blank">@kyyee</a> with <a
+      href="https://github.com/twbs/bootstrap" target="_blank">Bootstrap</a></p>
+  </div>
+</footer>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/spark-md5/3.0.2/spark-md5.js"></script>
 <script src="file.js" type="module"></script>
 </html>

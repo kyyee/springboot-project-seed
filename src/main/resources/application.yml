@@ -11,6 +11,12 @@ REDIS_PASSWORD: redis_123
 api-prefix: /api/kyyee/v2/${spring.application.name}
 debug: false
 
+LOG_PATH: /var/log
+logging:
+  path: ${LOG_PATH}
+  level:
+    root: info
+
 management:
   endpoint:
     health:
@@ -104,7 +110,7 @@ spring:
 springdoc:
   swagger-ui:
     # 修改Swagger UI路径
-    path: /ui.html
+    path: /swagger-ui.html
     # 开启Swagger UI界面
     enabled: true
   api-docs:
@@ -116,7 +122,6 @@ springdoc:
   packages-to-scan: com.kyyee.sps.controller
   # 配置需要生成接口文档的接口路径
   paths-to-match: ${api-prefix}/**
-  group: ${spring.application.name}
 
 kyyee:
   error-code-prefix: 201
@@ -124,13 +129,8 @@ kyyee:
     enableLog: true
     url: http://bss-log:80
   service:
-    bss-gateway: http://bss-gateway:80
     bss-uuv: http://bss-uuv:80
     imss-vx: http://10.209.8.24:9095
-    mg-fms82upLoad: http://mg-fms:82
-    mg-fms85: http://mg-fms:85
-    mg-om: http://mg-object-manage-be:80
-    uss-base: http://uss-base:80
 
   config:
     project-name: springboot-project-seed(application.yml)

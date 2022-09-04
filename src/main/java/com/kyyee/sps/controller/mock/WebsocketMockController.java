@@ -1,5 +1,6 @@
 package com.kyyee.sps.controller.mock;
 
+import com.kyyee.framework.common.base.Res;
 import com.kyyee.framework.common.utils.ThreadUtils;
 import com.kyyee.sps.common.component.cache.UserCache;
 import com.kyyee.sps.common.utils.BeanCopyUtils;
@@ -37,20 +38,19 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
+import java.util.*;
+import java.util.concurrent.*;
 
 @RestController
-@RequestMapping("${api-prefix}/mocks")
+@RequestMapping("${api-prefix}/mocks/websocket")
 @Slf4j
 @Tag(name = "消息组件websocket消息服务")
 public class WebsocketMockController {
 
     private static final Map<String, StompSession> SESSION_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, Future<?>> FUTURE_MAP = new ConcurrentHashMap<>();
+
+    private final ScheduledExecutorService service = new ScheduledThreadPoolExecutor(3);
 
     @Value("${server.port:80}")
     private String serverPort;
@@ -74,8 +74,8 @@ public class WebsocketMockController {
 
     @GetMapping("/websocket-connect")
     @Operation(summary = "模拟websocket客户端")
-    public String websocketConnect(@RequestParam(value = "user_code", required = false, defaultValue = "admin") String userCode,
-                                   @RequestParam(value = "user_name", required = false, defaultValue = "admin") String userName) {
+    public Res<String> websocketConnect(@RequestParam(value = "user_code", required = false, defaultValue = "admin") String userCode,
+                                        @RequestParam(value = "user_name", required = false, defaultValue = "admin") String userName) {
         // 建立连接
         log.info("websocket connect start...");
         List<Transport> transports = new ArrayList<>(2);
@@ -158,8 +158,8 @@ public class WebsocketMockController {
         } catch (ExecutionException e) {
             log.error("websocket connect failed, message:{}", e.getMessage(), e);
         }
-        // todo 必须用Res包装 String，否则 HttpMessageConverter 处理时会报错，由于converters太多造成
-        return clientId;
+        // 必须用Res包装String，否则HttpMessageConverter处理时会报错，由于StringHttpMessageConverter顺序在converters靠前
+        return Res.success(clientId);
     }
 
     @DeleteMapping("/websocket-disconnect/{client_id}")
@@ -186,8 +186,8 @@ public class WebsocketMockController {
     @SneakyThrows
     @GetMapping("/websocket-send")
     @Operation(summary = "模拟发送一条websocket消息")
-    public void websocketSend(@RequestParam(value = "user_code", required = false, defaultValue = "admin") String userCode,
-                              @RequestParam(value = "user_name", required = false, defaultValue = "admin") String userName) {
+    public Notification websocketSend(@RequestParam(value = "user_code", required = false, defaultValue = "admin") String userCode,
+                                      @RequestParam(value = "user_name", required = false, defaultValue = "admin") String userName) {
 
         // exception message:
         // java.io.FileNotFoundException: class path resource [mocks/person.json] cannot be resolved to absolute file path
@@ -202,6 +202,39 @@ public class WebsocketMockController {
         notification.setHappenTime(LocalDateTime.now());
 
         webSocketSender.sendNotification(notification);
+        return notification;
+    }
 
+    @GetMapping("/start")
+    @Operation(summary = "开始模拟发送随机消息（每百毫秒）")
+    public Res<String> mockStart(@RequestParam(value = "period", defaultValue = "10") Integer period) {
+        final String threadId = UUID.randomUUID().toString();
+        Future<?> future = service.scheduleAtFixedRate(() -> websocketSend("admin", "admin"), 0L, new Random().nextInt(period * 100), TimeUnit.MILLISECONDS);
+
+        log.info("the thread id is:{}, period is:{}", threadId, period);
+        FUTURE_MAP.put(threadId, future);
+
+        return Res.success(threadId);
+    }
+
+    @DeleteMapping("/stop/{thread_id}")
+    @Operation(summary = "停止模拟某随机消息任务")
+    public void mockStop(@PathVariable(value = "thread_id") String threadId) {
+        Future<?> future = FUTURE_MAP.get(threadId);
+        if (!ObjectUtils.isEmpty(future) && !future.isCancelled()) {
+            future.cancel(true);
+        }
+        FUTURE_MAP.remove(threadId);
+    }
+
+    @DeleteMapping("/stop")
+    @Operation(summary = "停止模拟所有随机消息任务")
+    public void mockStop() {
+        FUTURE_MAP.values().forEach(future -> {
+            if (!ObjectUtils.isEmpty(future) && !future.isCancelled()) {
+                future.cancel(true);
+            }
+        });
+        FUTURE_MAP.clear();
     }
 }

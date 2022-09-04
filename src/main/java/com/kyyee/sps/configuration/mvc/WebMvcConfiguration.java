@@ -92,8 +92,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setObjectMapper(JSON.mapper());
 
-        converters.clear();
-        converters.add(0, converter);
+        converters.add(converter);
     }
 
     @Override
