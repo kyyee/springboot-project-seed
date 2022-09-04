@@ -36,7 +36,7 @@ public class RequestAspect {
     public static final String PATCH = "||@annotation(org.springframework.web.bind.annotation.PatchMapping)";
     public static final String DELETE = "||@annotation(org.springframework.web.bind.annotation.DeleteMapping)";
     public static final String REQUEST = "||@annotation(org.springframework.web.bind.annotation.RequestMapping)";
-    @Value("${request.aspect.excluded.urls:/v3/api-docs/**,/${api-prefix}/files/**}")
+    @Value("${request.aspect.excluded.urls:${springdoc.swagger-ui.path},${springdoc.api-docs.path}/**,/${api-prefix}/files/**}")
     private List<String> excludedUrls;
 
     @Pointcut(GET + POST + PUT + PATCH + DELETE + REQUEST) // 声明切点
