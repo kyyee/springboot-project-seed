@@ -11,6 +11,12 @@ REDIS_PASSWORD: redis_123
 api-prefix: /api/kyyee/v2/${spring.application.name}
 debug: false
 
+LOG_PATH: /var/log
+logging:
+  path: ${LOG_PATH}
+  level:
+    root: info
+
 management:
   endpoint:
     health:
