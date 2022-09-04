@@ -1,5 +1,0 @@
-LOGGING_PATH: /var/log
-logging:
-  path: ${LOGGING_PATH}
-  level:
-    root: info
