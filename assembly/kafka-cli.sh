@@ -6,7 +6,7 @@
 	时间：2020.05.14
 !
 
-KAFKA_HOME=/usr/local/kafka/bin
+KAFKA_HOME=/usr/local/kafka
 
 KAFKA_BOOTSTRAP_SERVERS=localhost:9092
 
@@ -47,7 +47,7 @@ function option(){
   echo '11) 退出'
   echo -n '请选择输入相应的序号并回车：'
   read answer
-  if [ $answer =~ $RULE ]; then
+  if [[ $answer =~ $RULE ]]; then
     readOption $answer
   elif [ $answer -eq 11 ]; then
 		echo '退出程序'
@@ -93,21 +93,21 @@ function readOption(){
 }
 
 function listTopic(){
-  ${KAFKA_HOME}/kafka-topics.sh --zookeeper ${ZOOKEEPER_SERVER} --list
+  ${KAFKA_HOME}/bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
 	option
 }
 
 function topicDescribe(){
 	echo -n "输入topic名："
   read topic_name
-	${KAFKA_HOME}/kafka-topics.sh --zookeeper ${ZOOKEEPER_SERVER} --describe --topic $topic_name
+	${KAFKA_HOME}/bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --describe --topic $topic_name
 	option
 }
 
 function deleteTopic(){
 	echo -n "输入topic名："
   read topic_name
-	${KAFKA_HOME}/kafka-topics.sh --zookeeper ${ZOOKEEPER_SERVER} --delete --topic $topic_name
+	${KAFKA_HOME}/bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --delete --topic $topic_name
 	option
 }
 
@@ -116,7 +116,7 @@ function alterPartition(){
   read topic_name
 	echo -n "输入分区数："
 	read partition_num
-	${KAFKA_HOME}/kafka-topics.sh --zookeeper ${ZOOKEEPER_SERVER} --alter --topic $topic_name --partitions $partition_num
+	${KAFKA_HOME}/bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --alter --topic $topic_name --partitions $partition_num
 	option
 }
 
@@ -125,28 +125,28 @@ function consumer(){
   read topic_name
 	echo -n "是否从最老的数据开始消费[y/n]"
 	read yes_no
-	[ $yes_no == [y/Y] ] && topic_name="$topic_name --from-beginning"
+	[[ $yes_no == [y/Y] ]] && topic_name="$topic_name --from-beginning"
 	echo $topic_name
-	${KAFKA_HOME}/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --topic $topic_name
+	${KAFKA_HOME}/bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --topic $topic_name
 	option
 }
 
 function producer(){
 	echo -n "输入topic名："
   read topic_name
-	${KAFKA_HOME}/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic $topic_name
+	${KAFKA_HOME}/bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic $topic_name
 	option
 }
 
 function listGroup(){
-  ${KAFKA_HOME}/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
+  ${KAFKA_HOME}/bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
 	option
 }
 
 function groupDescribe(){
 	echo -n "输入groupId："
   read group_id
-	${KAFKA_HOME}/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --describe --group $group_id
+	${KAFKA_HOME}/bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --describe --group $group_id
 	option
 }
 
@@ -156,10 +156,10 @@ function createTopic(){
 	echo -n "输入副本数(直接回车默认为1)："
 	read replication
 	[ -z "$replication" ] && replication=1
-	echo -n "输入分区数(直接回车默认为60)"
+	echo -n "输入分区数(直接回车默认为3)"
 	read partitions
-	[ -z "$partitions" ] && partitions=60
-	${KAFKA_HOME}/kafka-topics.sh --zookeeper ${ZOOKEEPER_SERVER} --create --topic $topic_name --replication-factor $replication --partitions $partitions
+	[ -z "$partitions" ] && partitions=3
+	${KAFKA_HOME}/bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --create --topic $topic_name --replication-factor $replication --partitions $partitions
 	option
 }
 
@@ -168,7 +168,7 @@ function resetGroup(){
   read topic_name
 	echo -n "输入groupId："
   read group_id
-	${KAFKA_HOME}/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --reset-offsets --to-latest --execute --group $group_id --topic $topic_name
+	${KAFKA_HOME}/bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --reset-offsets --to-latest --execute --group $group_id --topic $topic_name
 	option
 }
 cover
