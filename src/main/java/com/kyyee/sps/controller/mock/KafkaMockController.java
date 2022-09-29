@@ -38,6 +38,8 @@ public class KafkaMockController {
     @GetMapping("/kafka-send")
     @Operation(summary = "模拟接入方发送一条kafka消息")
     public Object sendNotification(@RequestParam(value = "count", defaultValue = "1") Integer count) {
+        kafkaTemplate.send("user_insert_event", "test");
+
         return null;
     }
 
