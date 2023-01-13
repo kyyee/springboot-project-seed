@@ -15,14 +15,6 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.annotation.Resource;
 
-/**
- * <p>
- * Websocket配置文件
- *
- * @author zhoubiao [KF.zhoubiao@h3c.com]
- * @date 2018/9/18 9:25
- * @since 1.0
- */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
