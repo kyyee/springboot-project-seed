@@ -11,21 +11,28 @@
 ## 使用方法
 
 1. 克隆本项目到本地
-2. 使用IDEA打开，选择*.gradle文件，使用gradle构建本项目
+2. 使用IDEA打开，选择pom.xml文件，使用maven构建本项目
 3. 下载项目需要的依赖包
-4. 运行Application.java中的main函数
+4. 修改[application-dev.yml](src%2Fmain%2Fresources%2Fapplication-dev.yml)中的pgsql、kafka配置
+5. 运行[Application.java](src%2Fmain%2Fjava%2Fcom%2Fkyyee%2FApplication.java)Application.java中的main函数
+6. 访问 http://localhost:8080
 
 ## 特征
 
-- 当前的springboot为1.5.10版
+- 当前的springboot为2.3.7.RELEASE
 - 统一JSON响应结构、返回码封装
 - 基于 @ControllerAdvice 统一异常处理
 - 基于 ApplicationRunner 的初始化
-- 基于 HandlerInterceptor 的 jwt 等拦截器
-- 多种关系型数据库支持
+- 基于 HandlerInterceptor 的拦截器
+- pgsql关系型数据库支持
 - 基于 slf4j/logback 的日志处理
-- 基于 @Scheduled 的轮询处理
+- 基于 @Scheduled 的定时任务处理
 - 基于 @Async 的异步任务处理
+- 文件上传下载示例
+- 文件分片上传下载示例
+- websocket消息推送示例
+- 多数据源示例
+- docker构建脚本示例
 - 封装好的 RestApiVersion 处理 api 版本
 
 ## springboot 选择
