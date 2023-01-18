@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -150,10 +149,10 @@ public class FileServiceImpl implements FileService {
     private void unmap(MappedByteBuffer buffer) {
         if (buffer != null) {
             buffer.force();
-            final jdk.internal.ref.Cleaner cleaner = ((sun.nio.ch.DirectBuffer) buffer).cleaner();
-            if (cleaner != null) {
-                cleaner.clean();
-            }
+//            final Cleaner cleaner = ((DirectBuffer) buffer).cleaner();
+//            if (cleaner != null) {
+//                cleaner.clean();
+//            }
         }
     }
 
