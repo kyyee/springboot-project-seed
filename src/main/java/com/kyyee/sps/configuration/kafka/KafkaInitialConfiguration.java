@@ -19,13 +19,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-/**
- * description KafkaConfig
- *
- * @author wenwenxian [KF.wenwenxian@h3c.com]
- * @date 2020/3/17 15:02
- * @since 1.0
- */
 @Configuration
 @ConditionalOnProperty(prefix = "kyyee.kafka", name = "enabled", matchIfMissing = true)
 @EnableConfigurationProperties(KafkaTopicProperties.class)

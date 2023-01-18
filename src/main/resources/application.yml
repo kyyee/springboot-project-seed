@@ -130,7 +130,7 @@ kyyee:
     url: http://bss-log:80
   service:
     bss-uuv: http://bss-uuv:80
-    imss-vx: http://10.209.8.24:9095
+    imss-vx: http://172.20.178.223:9095
 
   config:
     project-name: springboot-project-seed(application.yml)

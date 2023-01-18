@@ -29,4 +29,38 @@
     version
   </sql>
 
+  <sql id="Example_Where_Clause">
+    <trim prefixOverrides="AND | OR">
+      <if test="keyword != null and keyword != ''">
+        and concat_ws('¿', name) LIKE #{keyword} ESCAPE '¿'
+      </if>
+      <if test="age != null">
+        and disposition_status = #{age}
+      </if>
+      <if test="orgIds != null and orgIds.size() > 0">
+        and org_ids @&gt; #{orgIds,typeHandler=com.kyyee.sps.mapper.primary.handler.ListLongHandler}
+      </if>
+      <if test="beginTime != null and endTime != null">
+        and (
+        (create_time between #{beginTime} and #{endTime})
+        or
+        (update_time between #{beginTime} and #{endTime})
+        or
+        (create_time &lt;= #{beginTime} and update_time &gt;= #{endTime})
+        )
+      </if>
+      and deleted=0
+    </trim>
+  </sql>
+
+  <select id="selectByParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_Alias"/>
+    from employee
+    <if test="_parameter != null">
+      <where>
+        <include refid="Example_Where_Clause"/>
+      </where>
+    </if>
+  </select>
 </mapper>

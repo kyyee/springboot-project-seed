@@ -15,8 +15,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * 借用newCachedThreadPool特性实现线程自动回收
  * 借用synchronized特性实现限流控制
  * 建议项目中所有多线程编程，均使用此类的execute方法
- *
- * @author tangmingdong
  */
 @Slf4j
 public class ThreadPoolUtils {
