@@ -19,14 +19,14 @@
 
 ## 环境依赖
 
-- jdk: openjdk1.8
+- jdk: openjdk17
 - kafka: 2.12-2.5.1
 - pgsql: 15
 
 ## 特征
 
 - 支持包管理工具maven和gradle
-- springboot版本为2.3.7.RELEASE
+- springboot版本为3.0.1
 - 统一HTTP Response响应JSON结构封装
 - 基于 @ControllerAdvice 的AOP异常拦截处理
 - 基于 ApplicationRunner 的初始化
