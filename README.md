@@ -41,9 +41,9 @@
 - docker构建脚本示例
 
 ## 统一HTTP Response响应JSON结构封装
-[BaseErrorCode.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/framework/common/exception/BaseErrorCode.java)
-[Res.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/framework/common/base/Res.java)
-[ResultHandler.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/sps/common/component/aop/ResultHandler.java)
+- [BaseErrorCode.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/framework/common/exception/BaseErrorCode.java)
+- [Res.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/framework/common/base/Res.java)
+- [ResultHandler.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/sps/common/component/aop/ResultHandler.java)
 
 基于@RestControllerAdvice的返回值拦截封装。
 
@@ -125,8 +125,8 @@ public final class Res<T> {
 ```
 
 ## 基于 @ControllerAdvice 的AOP异常拦截处理
-[GlobalExceptionHandler.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/framework/common/exception/GlobalExceptionsHandler.java)
-[CustomExceptionsHandler.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/sps/common/exception/CustomExceptionsHandler.java)
+- [GlobalExceptionHandler.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/framework/common/exception/GlobalExceptionsHandler.java)
+- [CustomExceptionsHandler.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/sps/common/exception/CustomExceptionsHandler.java)
 
 可以参考CustomExceptionsHandler.java的异常捕获实现，将自定义异常拦截添加到CustomExceptionsHandler.java末尾。
 
@@ -421,7 +421,7 @@ spring:
 ```
 
 ## 基于 slf4j/logback 的日志切面
-[RequestAspect.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/sps/common/component/aop/ResultAspect.java)
+- [RequestAspect.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/sps/common/component/aop/ResultAspect.java)
 
 有关于 RequestMapping 的日志切面，可记录当前调用函数起止时间。
 
@@ -484,7 +484,7 @@ public class RequestAspect {
 
 ## 基于 @Scheduled 的定时任务
 
-[KafkaConsumerRestartTask.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/sps/common/component/scheduler/KafkaConsumerRestartTask.java)
+- [KafkaConsumerRestartTask.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/sps/common/component/scheduler/KafkaConsumerRestartTask.java)
 kafka 消费者掉线恢复
 
 ```Java
