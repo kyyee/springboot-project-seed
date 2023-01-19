@@ -86,12 +86,12 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-openfeign</artifactId>
     </dependency>
-    <!--    &lt;!&ndash; https://mvnrepository.com/artifact/commons-io/commons-io &ndash;&gt;-->
-    <!--    <dependency>-->
-    <!--      <groupId>commons-io</groupId>-->
-    <!--      <artifactId>commons-io</artifactId>-->
-    <!--      <version>2.11.0</version>-->
-    <!--    </dependency>-->
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.11.0</version>
+    </dependency>
 
     <dependency>
       <groupId>com.google.guava</groupId>
