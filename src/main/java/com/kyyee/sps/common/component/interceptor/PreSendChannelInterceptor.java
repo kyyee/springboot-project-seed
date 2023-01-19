@@ -3,6 +3,7 @@ package com.kyyee.sps.common.component.interceptor;
 import com.kyyee.framework.common.interceptor.user.User;
 import com.kyyee.sps.common.component.cache.UserCache;
 import com.kyyee.sps.common.utils.BeanCopyUtils;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -13,7 +14,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.LinkedList;

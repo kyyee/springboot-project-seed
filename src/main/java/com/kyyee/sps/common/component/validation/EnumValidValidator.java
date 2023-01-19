@@ -1,10 +1,10 @@
 package com.kyyee.sps.common.component.validation;
 
 import com.kyyee.sps.common.component.validation.constraints.EnumValid;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.util.StringUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;

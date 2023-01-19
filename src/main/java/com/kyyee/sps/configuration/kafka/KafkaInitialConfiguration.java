@@ -1,5 +1,6 @@
 package com.kyyee.sps.configuration.kafka;
 
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.*;
 import org.springframework.beans.factory.InitializingBean;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

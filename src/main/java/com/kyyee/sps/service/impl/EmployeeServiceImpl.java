@@ -21,12 +21,12 @@ import com.kyyee.sps.dto.response.bean.FailDetail;
 import com.kyyee.sps.mapper.primary.EmployeeMapper;
 import com.kyyee.sps.model.primary.Employee;
 import com.kyyee.sps.service.EmployeeService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

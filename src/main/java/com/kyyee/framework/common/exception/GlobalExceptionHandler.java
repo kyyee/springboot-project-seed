@@ -7,6 +7,7 @@ import com.kyyee.framework.common.base.Res;
 import com.kyyee.framework.common.utils.SessionHelper;
 import com.kyyee.sps.common.utils.JSON;
 import feign.FeignException;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
@@ -29,7 +30,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.List;
 

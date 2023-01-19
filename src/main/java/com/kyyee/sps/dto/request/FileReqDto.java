@@ -2,11 +2,10 @@ package com.kyyee.sps.dto.request;
 
 import com.kyyee.sps.common.component.validated.group.SliceUpload;
 import com.kyyee.sps.common.component.validated.group.Upload;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class FileReqDto {

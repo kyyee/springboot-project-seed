@@ -4,6 +4,7 @@ import com.kyyee.framework.common.base.Res;
 import com.kyyee.sps.configuration.kafka.KafkaTopicProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -11,7 +12,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;

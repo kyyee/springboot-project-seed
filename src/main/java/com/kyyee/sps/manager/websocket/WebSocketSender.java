@@ -2,6 +2,7 @@ package com.kyyee.sps.manager.websocket;
 
 import com.kyyee.sps.common.component.cache.UserCache;
 import com.kyyee.sps.common.utils.JSON;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import javax.annotation.Resource;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 

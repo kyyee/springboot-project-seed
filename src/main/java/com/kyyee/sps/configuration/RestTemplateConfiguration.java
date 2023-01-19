@@ -41,14 +41,14 @@ public class RestTemplateConfiguration implements RestTemplateCustomizer {
         restTemplate.setErrorHandler(new ResponseErrorHandler() {
             @Override
             public boolean hasError(ClientHttpResponse clientHttpResponse) throws IOException {
-                log.info("restTemplate hasError - {} - {}", clientHttpResponse.getStatusCode(), clientHttpResponse.getStatusCode().getReasonPhrase());
+                log.info("restTemplate hasError - {} - {}", clientHttpResponse.getStatusCode(), clientHttpResponse.getStatusText());
                 return clientHttpResponse.getStatusCode().is4xxClientError()
-                        || clientHttpResponse.getStatusCode().is5xxServerError();
+                    || clientHttpResponse.getStatusCode().is5xxServerError();
             }
 
             @Override
             public void handleError(ClientHttpResponse clientHttpResponse) throws IOException {
-                throw new IOException(clientHttpResponse.getStatusCode().getReasonPhrase());
+                throw new IOException(clientHttpResponse.getStatusText());
             }
         });
     }

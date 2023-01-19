@@ -7,11 +7,10 @@ import com.kyyee.sps.dto.request.FileReqDto;
 import com.kyyee.sps.dto.response.FileResDto;
 import com.kyyee.sps.service.FileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/${api-prefix}/files")
