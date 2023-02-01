@@ -30,7 +30,6 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author kyyee
@@ -108,7 +107,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public EmployeeResDto update(Long id, EmployeeReqDto reqDto) {
-        Employee oldEmployee = Optional.ofNullable(employeeMapper.selectByPrimaryKey(id)).orElseThrow(() -> BaseException.of(BaseErrorCode.UPDATE_FAILED));
+        Employee oldEmployee = employeeMapper.selectByPrimaryKey(id).orElseThrow(() -> BaseException.of(BaseErrorCode.UPDATE_FAILED));
         if (ObjectUtils.isEmpty(oldEmployee)
             || (!ObjectUtils.isEmpty(oldEmployee) && DeletedStatus.DELETED.value().equals(oldEmployee.getDeleted()))) {
             throw BaseException.of(BaseErrorCode.RESULT_EMPTY_ERROR.of(), "雇员{}不存在", reqDto.getId());

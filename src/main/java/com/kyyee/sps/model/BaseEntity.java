@@ -2,17 +2,15 @@ package com.kyyee.sps.model;
 
 import com.kyyee.framework.common.enums.DeletedStatus;
 import com.kyyee.framework.common.interceptor.user.UserHandler;
+import io.mybatis.provider.Entity;
 import lombok.Data;
 
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
 public class BaseEntity {
 
-    //    @GeneratedValue(generator = "uuidGenerator")
-//    @GenericGenerator(name = "uuidGenerator", strategy = "uuid")
-    @Id
+    @Entity.Column(id = true)
     private Long id;
 
     /**
@@ -36,7 +34,6 @@ public class BaseEntity {
      */
     private Integer version;
 
-    //    @PrePersist
     public void prePersist() {
         this.createBy = UserHandler.userCode();
         this.createTime = LocalDateTime.now();
@@ -44,7 +41,6 @@ public class BaseEntity {
         this.deleted = DeletedStatus.EXIST.value();
     }
 
-    //    @PreUpdate
     public void preUpdate(BaseEntity entity) {
         this.id = entity.getId();
         this.updateBy = UserHandler.userCode();

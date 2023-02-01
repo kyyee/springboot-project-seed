@@ -9,11 +9,12 @@ REDIS_USERNAME:
 REDIS_PASSWORD: redis_123
 #/api/${group-name}/v2/${project-name}
 api-prefix: /api/kyyee/v2/${spring.application.name}
-debug: false
+debug: true
 
 LOG_PATH: /var/log
 logging:
-  path: ${LOG_PATH}
+  file:
+    path: ${LOG_PATH}
   level:
     root: info
 
@@ -25,11 +26,11 @@ management:
       base-path: ${api-prefix}/actuator
       exposure:
         include: '*'
-server:
-  port: 8080
+#server:
+#  port: 8080
 spring:
   profiles:
-#    active: dev,h2
+    #    active: dev,h2
     active: dev
   aop:
     auto: true
@@ -80,15 +81,16 @@ spring:
       retries: 3
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-  redis:
-    url: redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_URL}
-    timeout: 1000ms
-    jedis:
-      pool:
-        max-active: 100
-        max-idle: 10
-        max-wait: -1ms
-        min-idle: 1
+  data:
+    redis:
+      url: redis://${REDIS_USERNAME}:${REDIS_PASSWORD}@${REDIS_URL}
+      timeout: 1000ms
+      jedis:
+        pool:
+          max-active: 100
+          max-idle: 10
+          max-wait: -1ms
+          min-idle: 1
   mvc:
     throw-exception-if-no-handler-found: true
   security:
@@ -107,21 +109,31 @@ spring:
         max-size: 20
       thread-name-prefix: spsTask-
 
+# springdoc-openapi项目配置
 springdoc:
   swagger-ui:
     # 修改Swagger UI路径
     path: /swagger-ui.html
     # 开启Swagger UI界面
     enabled: true
+    tags-sorter: alpha
+    operations-sorter: alpha
   api-docs:
     # 修改api-docs路径
     path: /v3/api-docs
     # 开启api-docs
     enabled: true
-  # 配置需要生成接口文档的扫描包
-  packages-to-scan: com.kyyee.sps.controller
-  # 配置需要生成接口文档的接口路径
-  paths-to-match: ${api-prefix}/**
+  group-configs:
+    - group: ${spring.application.name}
+      # 配置需要生成接口文档的接口路径
+      paths-to-match: ${api-prefix}/**
+      # 配置需要生成接口文档的扫描包
+      packages-to-scan: com.kyyee.sps.controller
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
 
 kyyee:
   error-code-prefix: 201

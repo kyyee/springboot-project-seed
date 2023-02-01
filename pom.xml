@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -19,7 +19,8 @@
 
   <properties>
     <java.version>17</java.version>
-    <spring-cloud.version>2022.0.0</spring-cloud.version>
+    <spring-cloud.version>2022.0.1</spring-cloud.version>
+    <spring-data.version>2022.0.1</spring-data.version>
   </properties>
   <dependencies>
     <dependency>
@@ -115,7 +116,7 @@
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper-spring-boot-starter</artifactId>
-      <version>1.2.13</version>
+      <version>1.4.6</version>
     </dependency>
 
     <!--    <dependency>-->
@@ -147,20 +148,26 @@
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-core</artifactId>
     </dependency>
-
-    <!--    spring-boot Versions    Minimum springdoc-openapi Versions-->
-    <!--    2.3.x, 1.5.x            1.4.0+-->
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-ui</artifactId>
-      <version>1.4.8</version>
-    </dependency>
-
     <dependency>
       <groupId>com.github.xiaoymin</groupId>
-      <artifactId>knife4j-springdoc-ui</artifactId>
-      <version>3.0.3</version>
+      <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+      <version>4.0.0</version>
     </dependency>
+
+    <!--    &lt;!&ndash;    spring-boot Versions    Minimum springdoc-openapi Versions&ndash;&gt;-->
+    <!--    &lt;!&ndash;    2.3.x, 1.5.x            1.4.0+&ndash;&gt;-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.springdoc</groupId>-->
+    <!--      <artifactId>springdoc-openapi-ui</artifactId>-->
+    <!--      <version>1.4.8</version>-->
+    <!--    </dependency>-->
+
+    <!--    <dependency>-->
+    <!--      <groupId>com.github.xiaoymin</groupId>-->
+    <!--      <artifactId>knife4j-springdoc-ui</artifactId>-->
+    <!--      <version>3.0.3</version>-->
+    <!--    </dependency>-->
+
     <dependency>
       <groupId>net.coobird</groupId>
       <artifactId>thumbnailator</artifactId>
@@ -224,6 +231,13 @@
         <version>${spring-cloud.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-bom</artifactId>
+        <version>${spring-data.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
       <dependency>
         <groupId>io.mybatis</groupId>
