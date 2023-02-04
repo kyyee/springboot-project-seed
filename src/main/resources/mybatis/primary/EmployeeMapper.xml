@@ -6,7 +6,7 @@
     <id column="id" jdbcType="BIGINT" property="id"/>
     <result column="name" jdbcType="VARCHAR" property="name"/>
     <result column="age" jdbcType="INTEGER" property="age"/>
-    <result column="org_ids" jdbcType="VARCHAR" property="orgIds"
+    <result column="org_ids" jdbcType="OTHER" property="orgIds"
             javaType="java.util.ArrayList" typeHandler="com.kyyee.sps.mapper.primary.handler.ListLongHandler"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
@@ -20,7 +20,7 @@
     id,
     name,
     age,
-    org_ids
+    org_ids,
     create_time,
     update_time,
     create_by,

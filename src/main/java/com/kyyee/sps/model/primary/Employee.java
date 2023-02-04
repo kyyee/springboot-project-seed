@@ -22,6 +22,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity.Table(value = "employee", autoResultMap = true)
 public class Employee extends BaseEntity {
     private String name;
 

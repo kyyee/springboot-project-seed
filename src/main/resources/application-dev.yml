@@ -15,8 +15,8 @@ logging:
     root: info
     com:
       kyyee: debug
-#server:
-#  port: 52000
+server:
+  port: 8080
 spring:
   data:
     redis:

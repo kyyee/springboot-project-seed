@@ -4,7 +4,6 @@
 
 package com.kyyee.sps.controller;
 
-import com.kyyee.sps.common.component.annotation.ApiVersion;
 import com.kyyee.sps.common.component.validated.group.Insert;
 import com.kyyee.sps.common.component.validated.group.Update;
 import com.kyyee.sps.dto.request.BatchReqDto;
@@ -20,8 +19,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/${api-prefix}/employees")
-@ApiVersion(1)
+@RequestMapping("${api-prefix}/employees")
+//@ApiVersion(1)
 @Slf4j
 @Tag(name = "雇员管理")
 @Validated

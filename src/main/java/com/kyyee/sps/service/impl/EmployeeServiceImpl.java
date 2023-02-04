@@ -38,12 +38,11 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Resource
-    private
-    EmployeeMapper employeeMapper;
+    private EmployeeMapper employeeMapper;
 
     @Override
     public EmployeeResDto detail(Long id) {
-        return BeanCopyUtils.convert(employeeMapper.selectByPrimaryKey(id), EmployeeResDto.class);
+        return BeanCopyUtils.convert(employeeMapper.selectByPrimaryKey(id).orElseThrow(() -> BaseException.of(BaseErrorCode.UPDATE_FAILED)), EmployeeResDto.class);
     }
 
     @Override
@@ -108,8 +107,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional(rollbackFor = Exception.class)
     public EmployeeResDto update(Long id, EmployeeReqDto reqDto) {
         Employee oldEmployee = employeeMapper.selectByPrimaryKey(id).orElseThrow(() -> BaseException.of(BaseErrorCode.UPDATE_FAILED));
-        if (ObjectUtils.isEmpty(oldEmployee)
-            || (!ObjectUtils.isEmpty(oldEmployee) && DeletedStatus.DELETED.value().equals(oldEmployee.getDeleted()))) {
+        if (ObjectUtils.isEmpty(oldEmployee) || (!ObjectUtils.isEmpty(oldEmployee) && DeletedStatus.DELETED.value().equals(oldEmployee.getDeleted()))) {
             throw BaseException.of(BaseErrorCode.RESULT_EMPTY_ERROR.of(), "雇员{}不存在", reqDto.getId());
         }
         Employee employee = BeanCopyUtils.convert(reqDto, Employee.class);

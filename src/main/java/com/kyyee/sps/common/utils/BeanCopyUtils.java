@@ -3,7 +3,7 @@ package com.kyyee.sps.common.utils;
 import com.kyyee.framework.common.exception.BaseErrorCode;
 import com.kyyee.framework.common.exception.BaseException;
 import lombok.SneakyThrows;
-import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -25,8 +25,9 @@ public final class BeanCopyUtils {
         final Class<?> sourceClz = source.getClass();
         try {
             T target = targetClz.getDeclaredConstructor().newInstance();
-            BeanCopier beanCopier = BeanCopier.create(sourceClz, targetClz, false);
-            beanCopier.copy(source, target, null);
+            BeanUtils.copyProperties(source, target);
+//            BeanCopier beanCopier = BeanCopier.create(sourceClz, targetClz, false);
+//            beanCopier.copy(source, target, null);
             return target;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException e) {

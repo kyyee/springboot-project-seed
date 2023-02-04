@@ -1,6 +1,5 @@
 package com.kyyee.sps.controller;
 
-import com.kyyee.sps.common.component.annotation.ApiVersion;
 import com.kyyee.sps.common.component.validated.group.SliceUpload;
 import com.kyyee.sps.common.component.validated.group.Upload;
 import com.kyyee.sps.dto.request.FileReqDto;
@@ -13,8 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/${api-prefix}/files")
-@ApiVersion(1)
+@RequestMapping("${api-prefix}/files")
+//@ApiVersion(1)
 @Slf4j
 @Tag(name = "文件管理")
 @Validated

@@ -22,6 +22,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity.Table(value = "sys_user", autoResultMap = true)
 public class SysUser extends BaseEntity {
     private String name;
     private String code;

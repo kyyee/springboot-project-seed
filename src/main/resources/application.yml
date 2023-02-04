@@ -9,7 +9,7 @@ REDIS_USERNAME:
 REDIS_PASSWORD: redis_123
 #/api/${group-name}/v2/${project-name}
 api-prefix: /api/kyyee/v2/${spring.application.name}
-debug: true
+debug: false
 
 LOG_PATH: /var/log
 logging:
@@ -26,8 +26,8 @@ management:
       base-path: ${api-prefix}/actuator
       exposure:
         include: '*'
-#server:
-#  port: 8080
+server:
+  port: 8080
 spring:
   profiles:
     #    active: dev,h2
