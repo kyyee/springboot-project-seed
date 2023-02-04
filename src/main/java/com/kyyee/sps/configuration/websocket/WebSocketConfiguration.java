@@ -35,7 +35,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint(endpoint)
-            .setAllowedOrigins("*") // 解决跨域问题
+            .setAllowedOriginPatterns("*") // 解决跨域问题
             .withSockJS()
             .setInterceptors(new HttpSessionIdHandshakeInterceptor());
     }
