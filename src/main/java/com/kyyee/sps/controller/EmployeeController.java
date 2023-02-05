@@ -4,8 +4,7 @@
 
 package com.kyyee.sps.controller;
 
-import com.kyyee.sps.common.component.validated.group.Insert;
-import com.kyyee.sps.common.component.validated.group.Update;
+import com.kyyee.sps.common.component.validated.group.Employee;
 import com.kyyee.sps.dto.request.BatchReqDto;
 import com.kyyee.sps.dto.request.EmployeeReqDto;
 import com.kyyee.sps.dto.request.query.EmployeeQueryParam;
@@ -41,7 +40,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeResDto save(@Validated({Insert.class}) @RequestBody EmployeeReqDto reqDto) {
+    public EmployeeResDto save(@Validated({Employee.Insert.class}) @RequestBody EmployeeReqDto reqDto) {
         return service.save(reqDto);
     }
 
@@ -51,7 +50,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public EmployeeResDto update(@PathVariable Long id, @Validated({Update.class}) @RequestBody EmployeeReqDto reqDto) {
+    public EmployeeResDto update(@PathVariable Long id, @Validated({Employee.Update.class}) @RequestBody EmployeeReqDto reqDto) {
         return service.update(id, reqDto);
     }
 }

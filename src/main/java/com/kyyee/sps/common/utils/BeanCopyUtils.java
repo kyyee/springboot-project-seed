@@ -26,6 +26,7 @@ public final class BeanCopyUtils {
         try {
             T target = targetClz.getDeclaredConstructor().newInstance();
             BeanUtils.copyProperties(source, target);
+            // todo jdk8 to jdk17
 //            BeanCopier beanCopier = BeanCopier.create(sourceClz, targetClz, false);
 //            beanCopier.copy(source, target, null);
             return target;

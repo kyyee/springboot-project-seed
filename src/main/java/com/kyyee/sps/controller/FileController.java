@@ -1,7 +1,6 @@
 package com.kyyee.sps.controller;
 
-import com.kyyee.sps.common.component.validated.group.SliceUpload;
-import com.kyyee.sps.common.component.validated.group.Upload;
+import com.kyyee.sps.common.component.validated.group.File;
 import com.kyyee.sps.dto.request.FileReqDto;
 import com.kyyee.sps.dto.response.FileResDto;
 import com.kyyee.sps.service.FileService;
@@ -23,12 +22,12 @@ public class FileController {
     private FileService service;
 
     @PostMapping("/upload")
-    public FileResDto upload(@Validated({Upload.class}) FileReqDto reqDto) {
+    public FileResDto upload(@Validated({File.Upload.class}) FileReqDto reqDto) {
         return service.upload(reqDto);
     }
 
     @PostMapping("/slice-upload")
-    public FileResDto sliceUpload(@Validated({SliceUpload.class}) FileReqDto resDto) {
+    public FileResDto sliceUpload(@Validated({File.SliceUpload.class}) FileReqDto resDto) {
         return service.sliceUpload(resDto);
     }
 

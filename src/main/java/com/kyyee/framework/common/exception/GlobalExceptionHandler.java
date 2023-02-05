@@ -2,7 +2,6 @@ package com.kyyee.framework.common.exception;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.google.common.base.Joiner;
 import com.kyyee.framework.common.base.Res;
 import com.kyyee.framework.common.utils.SessionHelper;
 import com.kyyee.sps.common.utils.JSON;
@@ -140,10 +139,9 @@ public class GlobalExceptionHandler implements ThrowsAdvice {
     public ResponseEntity<Object> httpMessageNotReadableHandle(HttpMessageNotReadableException e) {
         if (e.getCause() instanceof InvalidFormatException) {
             InvalidFormatException ife = (InvalidFormatException) e.getCause();
-            Joiner joiner = Joiner.on(" ").skipNulls();
             String message = BaseErrorCode.INVALID_PARAM_ERROR.getMsg();
             if (null != ife) {
-                message = joiner.join(message, "字段：", ife.getValue(), "正确类型:", ife.getTargetType());
+                message = String.join(" ", message, "字段：", ife.getValue().toString(), "正确类型:", ife.getTargetType().toString());
             }
 
             Res<Object> result = Res.error(BaseErrorCode.INVALID_PARAM_ERROR.getCode(), message);

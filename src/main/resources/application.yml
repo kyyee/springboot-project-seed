@@ -27,6 +27,8 @@ management:
       exposure:
         include: '*'
 server:
+  servlet:
+    context-path: /
   port: 8080
 spring:
   profiles:

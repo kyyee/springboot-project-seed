@@ -22,32 +22,27 @@
     <spring-cloud.version>2022.0.1</spring-cloud.version>
     <spring-data.version>2022.0.1</spring-data.version>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-properties-migrator</artifactId>
-      <scope>runtime</scope>
+      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-aop</artifactId>
     </dependency>
-    <!--    <dependency>-->
-    <!--      <groupId>org.springframework.boot</groupId>-->
-    <!--      <artifactId>spring-boot-starter-data-jpa</artifactId>-->
-    <!--    </dependency>-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -57,20 +52,18 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-mail</artifactId>
     </dependency>
-
-    <!--    <dependency>-->
-    <!--      <groupId>org.springframework.boot</groupId>-->
-    <!--      <artifactId>spring-boot-starter-security</artifactId>-->
-    <!--    </dependency>-->
-    <!--    <dependency>-->
-    <!--      <groupId>org.springframework.boot</groupId>-->
-    <!--      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>-->
-    <!--    </dependency>-->
-    <!--    <dependency>-->
-    <!--      <groupId>org.springframework.boot</groupId>-->
-    <!--      <artifactId>spring-boot-starter-oauth2-client</artifactId>-->
-    <!--    </dependency>-->
-
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-client</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-quartz</artifactId>
@@ -80,61 +73,39 @@
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-websocket</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-openfeign</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.11.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>16.0</version>
-    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>org.springframework.boot</groupId>-->
+    <!--      <artifactId>spring-boot-starter-data-jpa</artifactId>-->
+    <!--    </dependency>-->
     <dependency>
       <groupId>org.springframework.kafka</groupId>
       <artifactId>spring-kafka</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
+      <groupId>com.github.xiaoymin</groupId>
+      <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
     </dependency>
-
-    <!--    <dependency>-->
-    <!--      <groupId>tk.mybatis</groupId>-->
-    <!--      <artifactId>mapper-spring-boot-starter</artifactId>-->
-    <!--      <version>2.1.5</version>-->
-    <!--    </dependency>-->
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper-spring-boot-starter</artifactId>
       <version>1.4.6</version>
     </dependency>
-
-    <!--    <dependency>-->
-    <!--      <groupId>org.mybatis.spring.boot</groupId>-->
-    <!--      <artifactId>mybatis-spring-boot-starter</artifactId>-->
-    <!--      <version>2.2.2</version>-->
-    <!--    </dependency>-->
     <dependency>
       <groupId>io.mybatis</groupId>
       <artifactId>mybatis-service</artifactId>
-      <version>2.1.0</version>
     </dependency>
-    <!--    <dependency>-->
-    <!--      <groupId>com.github.pagehelper</groupId>-->
-    <!--      <artifactId>pagehelper</artifactId>-->
-    <!--      <version>5.3.1</version>-->
-    <!--    </dependency>-->
-
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
@@ -149,54 +120,29 @@
       <artifactId>flyway-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.github.xiaoymin</groupId>
-      <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-      <version>4.0.0</version>
-    </dependency>
-
-    <!--    &lt;!&ndash;    spring-boot Versions    Minimum springdoc-openapi Versions&ndash;&gt;-->
-    <!--    &lt;!&ndash;    2.3.x, 1.5.x            1.4.0+&ndash;&gt;-->
-    <!--    <dependency>-->
-    <!--      <groupId>org.springdoc</groupId>-->
-    <!--      <artifactId>springdoc-openapi-ui</artifactId>-->
-    <!--      <version>1.4.8</version>-->
-    <!--    </dependency>-->
-
-    <!--    <dependency>-->
-    <!--      <groupId>com.github.xiaoymin</groupId>-->
-    <!--      <artifactId>knife4j-springdoc-ui</artifactId>-->
-    <!--      <version>3.0.3</version>-->
-    <!--    </dependency>-->
-
-    <dependency>
       <groupId>net.coobird</groupId>
       <artifactId>thumbnailator</artifactId>
-      <version>0.4.17</version>
+      <version>0.4.19</version>
     </dependency>
-
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>easyexcel</artifactId>
-      <version>3.1.1</version>
+      <version>3.2.0</version>
     </dependency>
-
     <dependency>
       <groupId>net.lingala.zip4j</groupId>
       <artifactId>zip4j</artifactId>
-      <version>2.11.2</version>
+      <version>2.11.3</version>
     </dependency>
-
     <dependency>
       <groupId>com.carrotsearch</groupId>
       <artifactId>java-sizeof</artifactId>
       <version>0.0.5</version>
     </dependency>
-
-
     <dependency>
       <groupId>com.taobao.arthas</groupId>
       <artifactId>arthas-spring-boot-starter</artifactId>
-      <version>3.6.3</version>
+      <version>3.6.7</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -246,12 +192,23 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>com.github.xiaoymin</groupId>
+        <artifactId>knife4j-dependencies</artifactId>
+        <version>4.0.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <build>
     <finalName>app</finalName>
     <plugins>
+      <plugin>
+        <groupId>org.graalvm.buildtools</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -266,6 +223,7 @@
           <skip>true</skip>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 </project>
