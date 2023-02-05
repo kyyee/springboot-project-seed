@@ -8,7 +8,6 @@ import com.kyyee.sps.common.utils.JSON;
 import feign.FeignException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.TypeMismatchException;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -71,7 +71,7 @@ public class GlobalExceptionHandler implements ThrowsAdvice {
         String message;
         for (int i = 0; i < errors.size(); i++) {
             FieldError error = errors.get(i);
-            message = Strings.isNotBlank(error.getDefaultMessage()) ? error.getDefaultMessage() : notEmpty;
+            message = StringUtils.hasText(error.getDefaultMessage()) ? error.getDefaultMessage() : notEmpty;
             if (notEmpty.equals(message)) {
                 messageBuilder.append(error.getField());
             }
@@ -130,19 +130,23 @@ public class GlobalExceptionHandler implements ThrowsAdvice {
     @ExceptionHandler(TypeMismatchException.class)
     @ResponseBody
     public ResponseEntity<Object> typeMismatchHandle(TypeMismatchException e) {
+        String message = BaseErrorCode.INVALID_PARAM_ERROR.getMsg();
+        if (e instanceof MethodArgumentTypeMismatchException matme) {
+            message = String.join(" ", message, "字段：", matme.getName(), "正确类型:", String.valueOf(matme.getRequiredType()));
+        } else {
+            message = String.join(" ", message, "字段：", e.getPropertyName(), "正确类型:", String.valueOf(e.getRequiredType()));
+        }
+
+        final Res<Object> res = Res.error(BaseErrorCode.INVALID_PARAM_ERROR.getCode(), message);
         log.error("param type mismatch exception={}", e.getMessage(), e);
-        final Res<Object> res = Res.error(BaseErrorCode.INVALID_PARAM_ERROR.getCode(), BaseErrorCode.INVALID_PARAM_ERROR.getMsg() + e.getPropertyName() + "类型应该为" + e.getRequiredType());
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public ResponseEntity<Object> httpMessageNotReadableHandle(HttpMessageNotReadableException e) {
-        if (e.getCause() instanceof InvalidFormatException) {
-            InvalidFormatException ife = (InvalidFormatException) e.getCause();
+        if (e.getCause() instanceof InvalidFormatException ife) {
             String message = BaseErrorCode.INVALID_PARAM_ERROR.getMsg();
-            if (null != ife) {
-                message = String.join(" ", message, "字段：", ife.getValue().toString(), "正确类型:", ife.getTargetType().toString());
-            }
+            message = String.join(" ", message, "字段：", ife.getPathReference(), "正确类型:", ife.getTargetType().toString());
 
             Res<Object> result = Res.error(BaseErrorCode.INVALID_PARAM_ERROR.getCode(), message);
             log.error("param type mismatch exception={}", e.getMessage(), e);
@@ -176,7 +180,7 @@ public class GlobalExceptionHandler implements ThrowsAdvice {
         Object data = null;
         Res<Object> res = null;
         if (!StringUtils.isEmpty(content)) {
-            res = JSON.toBean(content, new TypeReference<Res<Object>>() {
+            res = JSON.toBean(content, new TypeReference<>() {
             });
             if (res.isSuccess()) {
                 data = res.getData();
