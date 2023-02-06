@@ -3,6 +3,7 @@ package com.kyyee.sps.common.component.interceptor;
 import com.kyyee.framework.common.interceptor.user.User;
 import com.kyyee.sps.common.component.cache.UserCache;
 import com.kyyee.sps.common.utils.BeanCopyUtils;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -13,10 +14,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.messaging.support.NativeMessageHeaderAccessor.NATIVE_HEADERS;
@@ -51,21 +51,20 @@ public class PreSendChannelInterceptor implements ChannelInterceptor {
         // 判断客户端的连接状态
         if (sha.getCommand() == StompCommand.CONNECT) {
             String clientId = "";
-            LinkedList<?> clientIdList = (LinkedList<?>) nativeHeadersMap.get("id");
+            List<?> clientIdList = (List<?>) nativeHeadersMap.get("id");
             if (clientIdList != null) {
                 clientId = clientIdList.get(0).toString();
-
             }
 
             int outer = 0;
-            LinkedList<?> outerList = (LinkedList<?>) nativeHeadersMap.get("outer");
+            List<?> outerList = (List<?>) nativeHeadersMap.get("outer");
             if (outerList != null) {
                 outer = Integer.parseInt(outerList.get(0).toString());
             }
 
             // 从user取值
             User user = null;
-            LinkedList<?> userList = (LinkedList<?>) nativeHeadersMap.get("user");
+            List<?> userList = (List<?>) nativeHeadersMap.get("user");
             if (userList != null) {
                 String userStr = userList.get(0).toString();
 
@@ -140,13 +139,11 @@ public class PreSendChannelInterceptor implements ChannelInterceptor {
         String idString = null;
         if (sha.getSessionAttributes().get(ID_KEY) == null && nativeHeadersMap != null) {
 
-            LinkedList<?> idList = (LinkedList<?>) nativeHeadersMap.get("id");
+            List<?> idList = (List<?>) nativeHeadersMap.get("id");
             if (idList != null) {
                 idString = idList.get(0).toString();
                 sha.getSessionAttributes().put(ID_KEY, idList.get(0).toString());
-
             }
-
         }
 
         // 判断客户端的连接状态

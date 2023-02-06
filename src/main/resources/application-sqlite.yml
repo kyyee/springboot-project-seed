@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    driver-class-name: org.sqlite.JDBC
-    url: jdbc:sqlite:./sqlite/seed.db
-    username:
-    password:

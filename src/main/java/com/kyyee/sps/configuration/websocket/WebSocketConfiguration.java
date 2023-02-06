@@ -2,6 +2,7 @@ package com.kyyee.sps.configuration.websocket;
 
 import com.kyyee.sps.common.component.interceptor.HttpSessionIdHandshakeInterceptor;
 import com.kyyee.sps.common.component.interceptor.PreSendChannelInterceptor;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +13,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
-
-import javax.annotation.Resource;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -36,7 +35,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint(endpoint)
-            .setAllowedOrigins("*") // 解决跨域问题
+            .setAllowedOriginPatterns("*") // 解决跨域问题
             .withSockJS()
             .setInterceptors(new HttpSessionIdHandshakeInterceptor());
     }

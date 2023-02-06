@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.Cleaner;
-import sun.nio.ch.DirectBuffer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -151,10 +149,11 @@ public class FileServiceImpl implements FileService {
     private void unmap(MappedByteBuffer buffer) {
         if (buffer != null) {
             buffer.force();
-            final Cleaner cleaner = ((DirectBuffer) buffer).cleaner();
-            if (cleaner != null) {
-                cleaner.clean();
-            }
+            // todo jdk8 to jdk17
+//            final Cleaner cleaner = ((DirectBuffer) buffer).cleaner();
+//            if (cleaner != null) {
+//                cleaner.clean();
+//            }
         }
     }
 

@@ -4,13 +4,12 @@ import com.kyyee.framework.common.constant.GlobalConstant;
 import com.kyyee.framework.common.utils.ThreadLocalUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 
 public class FeignClientRestHeaderInterceptor implements RequestInterceptor {
 

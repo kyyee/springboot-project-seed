@@ -22,7 +22,7 @@ public enum EmployeeDepartmentEnum {
     @Override
     public String toString() {
         return "EmployeeDepartmentEnum{" +
-                "name='" + name + '\'' +
-                '}';
+            "name='" + name + '\'' +
+            '}';
     }
 }

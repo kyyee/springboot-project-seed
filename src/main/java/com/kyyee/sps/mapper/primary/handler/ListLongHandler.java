@@ -46,7 +46,7 @@ public class ListLongHandler extends BaseTypeHandler<List<Long>> {
     @SneakyThrows
     private List<Long> getList(String json) {
         if (StringUtils.hasLength(json)) {
-            return JSON.toList(json, String.class);
+            return JSON.toList(json, Long.class);
         }
         return null;
     }

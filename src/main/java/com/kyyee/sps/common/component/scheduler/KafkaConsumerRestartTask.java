@@ -2,6 +2,7 @@ package com.kyyee.sps.common.component.scheduler;
 
 import com.kyyee.sps.configuration.kafka.KafkaInitialConfiguration;
 import com.kyyee.sps.configuration.kafka.KafkaTopicProperties;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
@@ -18,7 +19,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;

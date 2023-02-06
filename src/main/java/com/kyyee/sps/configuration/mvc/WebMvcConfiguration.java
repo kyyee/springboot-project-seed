@@ -11,6 +11,7 @@ import com.kyyee.sps.common.component.converter.LocalDateTimeConverter;
 import com.kyyee.sps.common.component.converter.LocalTimeConverter;
 import com.kyyee.sps.common.component.interceptor.ProgramEnableInterceptor;
 import com.kyyee.sps.common.utils.JSON;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
@@ -26,7 +27,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -99,8 +99,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
 
         registry.addMapping("/**")
+            .allowedOriginPatterns("*")
             .allowCredentials(true)
-            .allowedOrigins("*")
             .allowedHeaders("*")
             .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS")
             .maxAge(3600L);

@@ -1,12 +1,11 @@
 package com.kyyee.framework.common.config;
 
 import com.kyyee.framework.common.utils.SpringUtils;
+import jakarta.servlet.ServletRequest;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor;
-
-import javax.servlet.ServletRequest;
 
 /**
  * 下划线转驼峰处理器

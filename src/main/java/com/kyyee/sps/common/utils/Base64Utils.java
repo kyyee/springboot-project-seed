@@ -179,7 +179,7 @@ public class Base64Utils {
     private static void compressFile(File file) throws IOException {
         if (file.length() > 50 * 1024f) {
             File compressFile = new File(".compress");
-            org.apache.commons.io.FileUtils.copyFile(file, compressFile);
+            FileUtils.copyFile(file, compressFile);
             Thumbnails.of(compressFile).scale(1f).outputQuality(0.5f).toFile(file);
         }
     }

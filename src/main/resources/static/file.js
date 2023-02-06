@@ -34,8 +34,12 @@ class FileSlice {
             }
             // 2.设置分片参数属性、获取文件MD5值
             let chunkSize = FileSlice.chunkSize;
+            sliceUploadSubmitBtn.disabled = true;
+            fileDom.disabled = true;
             const md5 = await this._getFileMd5(file, chunkSize).then(md5 => {
                 console.log(md5);
+                sliceUploadSubmitBtn.disabled = false;
+                fileDom.disabled = false;
                 let id = Snowflake.getId();
                 this._sliceUploadFile(file, index, chunkSize, id, md5);
             })
@@ -55,8 +59,12 @@ class FileSlice {
             }
             // 2.设置分片参数属性、获取文件MD5值
             let chunkSize = FileSlice.chunkSize;
+            uploadSubmitBtn.disabled = true;
+            fileDom.disabled = true;
             const md5 = await this._getFileMd5(file, chunkSize).then(md5 => {
                 console.log(md5);
+                uploadSubmitBtn.disabled = false;
+                fileDom.disabled = false;
                 let id = Snowflake.getId();
                 this._uploadFile(file, id, md5);
             })

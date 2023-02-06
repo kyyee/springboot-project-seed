@@ -16,10 +16,11 @@ logging:
     com:
       kyyee: debug
 server:
-  port: 52000
+  port: 8080
 spring:
-  redis:
-    database: 0
+  data:
+    redis:
+      database: 0
 kyyee:
   log:
     url: http://${IP}:11102

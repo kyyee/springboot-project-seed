@@ -2,11 +2,11 @@ package com.kyyee.framework.common.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kyyee.framework.common.utils.SnakeAndCamelUtils;
+import jakarta.servlet.ServletRequest;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;
 import org.springframework.web.servlet.mvc.method.annotation.ExtendedServletRequestDataBinder;
 
-import javax.servlet.ServletRequest;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;

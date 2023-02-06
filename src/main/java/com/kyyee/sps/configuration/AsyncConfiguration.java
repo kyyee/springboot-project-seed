@@ -6,16 +6,16 @@ package com.kyyee.sps.configuration;
 
 import com.kyyee.framework.common.exception.BaseException;
 import com.kyyee.sps.common.constant.ConfigConst;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.boot.task.TaskExecutorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import javax.annotation.Resource;
 import java.util.concurrent.Executor;
 
 /**
@@ -25,7 +25,7 @@ import java.util.concurrent.Executor;
 @Configuration
 @EnableAsync
 @Slf4j
-public class AsyncConfiguration extends AsyncConfigurerSupport {
+public class AsyncConfiguration implements AsyncConfigurer {
 
     @Resource
     private TaskExecutorBuilder taskExecutorBuilder;
@@ -53,7 +53,6 @@ public class AsyncConfiguration extends AsyncConfigurerSupport {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        super.getAsyncUncaughtExceptionHandler();
         return (throwable, method, objects) -> {
             if (throwable.getClass().isAssignableFrom(BaseException.class)) {
                 String code = ((BaseException) throwable).getCode();

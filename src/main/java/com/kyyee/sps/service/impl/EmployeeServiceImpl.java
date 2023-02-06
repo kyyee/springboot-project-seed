@@ -21,16 +21,15 @@ import com.kyyee.sps.dto.response.bean.FailDetail;
 import com.kyyee.sps.mapper.primary.EmployeeMapper;
 import com.kyyee.sps.model.primary.Employee;
 import com.kyyee.sps.service.EmployeeService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author kyyee
@@ -39,12 +38,11 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Resource
-    private
-    EmployeeMapper employeeMapper;
+    private EmployeeMapper employeeMapper;
 
     @Override
     public EmployeeResDto detail(Long id) {
-        return BeanCopyUtils.convert(employeeMapper.selectByPrimaryKey(id), EmployeeResDto.class);
+        return BeanCopyUtils.convert(employeeMapper.selectByPrimaryKey(id).orElseThrow(() -> BaseException.of(BaseErrorCode.UPDATE_FAILED)), EmployeeResDto.class);
     }
 
     @Override
@@ -108,9 +106,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public EmployeeResDto update(Long id, EmployeeReqDto reqDto) {
-        Employee oldEmployee = Optional.ofNullable(employeeMapper.selectByPrimaryKey(id)).orElseThrow(() -> BaseException.of(BaseErrorCode.UPDATE_FAILED));
-        if (ObjectUtils.isEmpty(oldEmployee)
-            || (!ObjectUtils.isEmpty(oldEmployee) && DeletedStatus.DELETED.value().equals(oldEmployee.getDeleted()))) {
+        Employee oldEmployee = employeeMapper.selectByPrimaryKey(id).orElseThrow(() -> BaseException.of(BaseErrorCode.UPDATE_FAILED));
+        if (ObjectUtils.isEmpty(oldEmployee) || (!ObjectUtils.isEmpty(oldEmployee) && DeletedStatus.DELETED.value().equals(oldEmployee.getDeleted()))) {
             throw BaseException.of(BaseErrorCode.RESULT_EMPTY_ERROR.of(), "雇员{}不存在", reqDto.getId());
         }
         Employee employee = BeanCopyUtils.convert(reqDto, Employee.class);

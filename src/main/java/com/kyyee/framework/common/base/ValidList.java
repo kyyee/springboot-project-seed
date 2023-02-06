@@ -1,8 +1,8 @@
 package com.kyyee.framework.common.base;
 
+import jakarta.validation.Valid;
 import lombok.Data;
 
-import javax.validation.Valid;
 import java.util.*;
 
 @Data
