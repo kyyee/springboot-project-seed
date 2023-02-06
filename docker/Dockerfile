@@ -1,4 +1,4 @@
-FROM openjdk:8u102-jdk AS base
+FROM openjdk:8-jdk-alpine AS base
 COPY . /opt/app/
 COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
 RUN echo > /etc/apk/repositories \
