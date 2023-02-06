@@ -8,7 +8,9 @@ vi /etc/init.d/pgsql
 
 # 修改/etc/init.d/pgsql中的prefix为安装路径/usr/local/pgsql
 
-chkconfig --add pgsql
+chmod +x /etc/init.d/pgsql
+
+chkconfig --add /etc/init.d/pgsql
 
 systemctl status pgsql
 
