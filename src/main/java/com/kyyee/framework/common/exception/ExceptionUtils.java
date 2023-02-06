@@ -15,18 +15,17 @@ public class ExceptionUtils {
     }
 
     public static RuntimeException unchecked(Throwable e) {
-        if (e instanceof Error) {
-            throw (Error) e;
+        if (e instanceof Error error) {
+            throw  error;
         } else if (!(e instanceof IllegalAccessException) && !(e instanceof IllegalArgumentException) && !(e instanceof NoSuchMethodException)) {
-            if (e instanceof InvocationTargetException) {
-                return new RuntimeException(((InvocationTargetException) e).getTargetException());
-            } else if (e instanceof RuntimeException) {
-                return (RuntimeException) e;
+            if (e instanceof InvocationTargetException ite) {
+                return new RuntimeException(ite.getTargetException());
+            } else if (e instanceof RuntimeException re) {
+                return  re;
             } else {
-                if (e instanceof InterruptedException) {
+                if (e instanceof InterruptedException ie) {
                     Thread.currentThread().interrupt();
                 }
-
                 return runtime(e);
             }
         } else {
@@ -42,15 +41,15 @@ public class ExceptionUtils {
         Throwable unwrapped = wrapped;
 
         while (true) {
-            while (!(unwrapped instanceof InvocationTargetException)) {
-                if (!(unwrapped instanceof UndeclaredThrowableException)) {
+            while (!(unwrapped instanceof InvocationTargetException ite)) {
+                if (unwrapped instanceof UndeclaredThrowableException ute) {
+                    unwrapped = ute.getUndeclaredThrowable();
+                } else {
                     return unwrapped;
                 }
-
-                unwrapped = ((UndeclaredThrowableException) unwrapped).getUndeclaredThrowable();
             }
 
-            unwrapped = ((InvocationTargetException) unwrapped).getTargetException();
+            unwrapped = ite.getTargetException();
         }
     }
 

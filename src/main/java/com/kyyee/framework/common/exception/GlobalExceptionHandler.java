@@ -110,10 +110,7 @@ public class GlobalExceptionHandler implements ThrowsAdvice {
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<Object> maxUploadSizeExceededException(MaxUploadSizeExceededException e) {
-
-        if (e.getCause().getCause() instanceof SizeLimitExceededException) {
-            final SizeLimitExceededException slee = (SizeLimitExceededException) e.getCause().getCause();
-
+        if (e.getCause().getCause() instanceof SizeLimitExceededException slee) {
             final String message = BaseErrorCode.FILE_SIZE_ERROR.getMsg() + "限制大小："
                 + slee.getPermittedSize() / 1024 / 1024 + "MB，" + "实际大小：" + slee.getActualSize() / 1024 / 1024
                 + "MB";
