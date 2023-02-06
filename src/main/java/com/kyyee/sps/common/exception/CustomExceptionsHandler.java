@@ -19,6 +19,7 @@ public class CustomExceptionsHandler implements ThrowsAdvice {
 
     public static final String DATABASE_NOT_EXIST = "[\\s\\S]*FATAL: database [\\s\\S]* does not exist[\\s\\S]*";
 
+    // todo To generate documentation automatically, make sure all the methods declare the HTTP Code responses using the annotation: @ResponseStatus
     @ExceptionHandler(UnknownHostException.class)
     public ResponseEntity<Object> unknownHostException(UnknownHostException e) {
         Res<Object> result = Res.error(BaseErrorCode.HTTP_REQUEST_FAILED.getCode(), BaseErrorCode.HTTP_REQUEST_FAILED.getMsg() + e.getMessage());

@@ -19,6 +19,8 @@ logging:
     root: info
 
 management:
+  server:
+    port: 9090
   endpoint:
     health:
       show-details: always
@@ -131,6 +133,9 @@ springdoc:
       paths-to-match: ${api-prefix}/**
       # 配置需要生成接口文档的扫描包
       packages-to-scan: com.kyyee.sps.controller
+  show-actuator: true
+  use-management-port: true
+
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true
