@@ -49,7 +49,7 @@ if [ -z "$(docker network ls|grep br-app)" ]; then
 fi
 
 docker pull bitnami/zookeeper:3.8.0 && docker rm -f zookeeper && docker run -d --restart=always -p 2181:2181 --name zookeeper --network br-app -e ALLOW_ANONYMOUS_LOGIN=yes bitnami/zookeeper:3.8.0
-docker pull bitnami/kafka:3.3.1 && docker rm -f kafka && docker run -d --restart=always -p 9092:9092 --name kafka --network br-app -e ALLOW_PLAINTEXT_LISTENER=yes -e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 -e KAFKA_CFG_LISTENERS=PLAINTEXT://:9092 -e KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://192.168.3.200:9092 bitnami/kafka:3.3.1
+docker pull bitnami/kafka:3.3.1 && docker rm -f kafka && docker run -d --restart=always -p 9092:9092 --name kafka --network br-app -e ALLOW_PLAINTEXT_LISTENER=yes -e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 -e KAFKA_CFG_LISTENERS=PLAINTEXT://:9092 -e KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 bitnami/kafka:3.3.1
 docker pull postgres:15.1 && docker rm -f postgres && docker run -d --restart=always -p 5432:5432 --name postgres --network br-app -e POSTGRES_PASSWORD=123456 -v /data/postgresql:/var/lib/postgresql/data postgres:15.1
 #docker pull mysql:8.0.32 && docker rm -f mysql && docker run -d --restart=always -p 3306:3306 --name mysql --network br-app -e MYSQL_ROOT_PASSWORD=123456 -v /data/mysql:/var/lib/mysql mysql:8.0.32
 docker pull mariadb:10.10.2 && docker rm -f mariadb && docker run -d --restart=always -p 3306:3306 --name mariadb --network br-app -e MARIADB_ROOT_PASSWORD=123456 -v /data/mariadb:/var/lib/mysql mariadb:10.10.2

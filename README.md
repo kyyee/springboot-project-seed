@@ -8,13 +8,20 @@
 
 如果你有类似的需求，可以克隆下来试试。欢迎star或fork，如果在使用中发现问题或者有什么建议欢迎提 issue 或 pr 一起完善。
 
+## 前置条件
+
+本服务依赖于redis/kafka/postgres。
+运行[Application.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/Application.java)之前需先准备好基础环境。
+可通过[docker.sh](assembly%2Fdocker.sh)一键在GNU/Linux服务器安装docker，并拉起对应的依赖服务。
+
+
 ## 使用方法
 
 1. 克隆本项目到本地
 2. 使用IDEA打开，选择pom.xml文件，使用maven构建本项目
 3. 下载项目需要的依赖包
 4. 修改[application-dev.yml](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/resources/application-dev.yml)中的pgsql、kafka配置
-5. 运行[Application.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/Application.java)Application.java中的main函数
+5. 运行[Application.java](https://github.com/kyyee/springboot-project-seed/blob/v2.0.0/src/main/java/com/kyyee/Application.java)中的main函数
 6. 访问 http://localhost:8080
 
 ## 环境依赖
