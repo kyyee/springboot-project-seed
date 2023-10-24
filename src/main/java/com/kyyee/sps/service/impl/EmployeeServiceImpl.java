@@ -64,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeResDto save(EmployeeReqDto reqDto) {
         Employee employee = BeanCopyUtils.convert(reqDto, Employee.class);
         employee.setId(SnowFlake.getId());
-        employee.setCreateTime(LocalDateTime.now());
+        employee.setCreateAt(LocalDateTime.now());
         employee.prePersist();
 
         int i = employeeMapper.insert(employee);

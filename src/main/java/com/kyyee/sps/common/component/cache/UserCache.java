@@ -92,22 +92,22 @@ public class UserCache {
     }
 
     public static List<User> getAllUser() {
-        return cache.values().stream().map(CacheData::getUser).collect(Collectors.toList());
+        return cache.values().stream().map(CacheData::getUser).toList();
     }
 
     public static List<User> getByUserCode(String userCode) {
-        return cache.values().stream().filter(cacheData -> cacheData.getUser().getUserCode().equals(userCode))
-            .map(CacheData::getUser).collect(Collectors.toList());
+        return cache.values().stream().map(CacheData::getUser)
+            .filter(user -> user.getUserCode().equals(userCode)).toList();
     }
 
     public static List<User> getByUserId(Long userId) {
-        return cache.values().stream().filter(cacheData -> cacheData.getUser().getUserId().equals(userId))
-            .map(CacheData::getUser).collect(Collectors.toList());
+        return cache.values().stream().map(CacheData::getUser)
+            .filter(user -> user.getUserId().equals(userId)).toList();
     }
 
     public static List<User> getByRoleId(Long roleId) {
-        return cache.values().stream().filter(cacheData -> cacheData.getUser().getRoles().contains(roleId))
-            .map(CacheData::getUser).collect(Collectors.toList());
+        return cache.values().stream().map(CacheData::getUser)
+            .filter(user -> user.getRoles().contains(roleId)).toList();
     }
 
     @Data

@@ -27,24 +27,25 @@ public class Application {
         String[] beans = context.getBeanDefinitionNames();
         Arrays.stream(beans).sorted().forEach(log::debug);
         Environment environment = context.getEnvironment();
+        String serverPort = environment.getProperty("server.port");
         log.info("""
-                Application '{}' is running! Access URLs:\n
-                Local: \t\thttp://localhost:{}\n
-                External: \t\thttp://{}:{}\n
-                Doc: \t\thttp://{}:{}/doc.html\n
-                Swagger-UI: \t\thttp://{}:{}/swagger-ui/index.html\n
-                Actuator: \t\thttp://{}:{}{}\n
+                Application '{}' is running! Access URLs:
+                Local:        http://localhost:{}
+                External:     http://{}:{}
+                Doc:          http://{}:{}/doc.html
+                Swagger-UI:   http://{}:{}/swagger-ui/index.html
+                Actuator:     http://{}:{}{}
                 """,
             environment.getProperty("spring.application.name"),
-            environment.getProperty("server.port"),
+            serverPort,
             IpUtils.getLocalIP(),
-            environment.getProperty("server.port"),
+            serverPort,
             IpUtils.getLocalIP(),
-            environment.getProperty("server.port"),
+            serverPort,
             IpUtils.getLocalIP(),
-            environment.getProperty("server.port"),
+            serverPort,
             IpUtils.getLocalIP(),
-            environment.getProperty("server.port"),
+            serverPort,
             environment.getProperty("management.endpoint.web.base-path"));
     }
 }

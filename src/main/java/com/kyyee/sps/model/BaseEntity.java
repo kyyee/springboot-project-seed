@@ -16,9 +16,9 @@ public class BaseEntity {
     /**
      * 时间字符串：yyyy-MM-dd HH:mm:ss
      */
-    private LocalDateTime createTime;
+    private LocalDateTime createAt;
 
-    private LocalDateTime updateTime;
+    private LocalDateTime updateAt;
 
     private String createBy;
 
@@ -36,7 +36,7 @@ public class BaseEntity {
 
     public void prePersist() {
         this.createBy = UserHandler.userCode();
-        this.createTime = LocalDateTime.now();
+        this.createAt = LocalDateTime.now();
         this.version = 0;
         this.deleted = DeletedStatus.EXIST.value();
     }
@@ -44,9 +44,9 @@ public class BaseEntity {
     public void preUpdate(BaseEntity entity) {
         this.id = entity.getId();
         this.updateBy = UserHandler.userCode();
-        this.updateTime = LocalDateTime.now();
+        this.updateAt = LocalDateTime.now();
         this.createBy = entity.getCreateBy();
-        this.createTime = entity.getCreateTime();
+        this.createAt = entity.getCreateAt();
         this.version = entity.getVersion() + 1;
     }
 

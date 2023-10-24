@@ -8,8 +8,8 @@
     <result column="age" jdbcType="INTEGER" property="age"/>
     <result column="org_ids" jdbcType="OTHER" property="orgIds"
             javaType="java.util.ArrayList" typeHandler="com.kyyee.sps.mapper.primary.handler.ListLongHandler"/>
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt"/>
+    <result column="update_at" jdbcType="TIMESTAMP" property="updateAt"/>
     <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
     <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
     <result column="deleted" jdbcType="SMALLINT" property="deleted"/>
@@ -21,8 +21,8 @@
     name,
     age,
     org_ids,
-    create_time,
-    update_time,
+    create_at,
+    update_at,
     create_by,
     update_by,
     deleted,
@@ -42,11 +42,11 @@
       </if>
       <if test="beginTime != null and endTime != null">
         and (
-        (create_time between #{beginTime} and #{endTime})
+        (create_at between #{beginTime} and #{endTime})
         or
-        (update_time between #{beginTime} and #{endTime})
+        (update_at between #{beginTime} and #{endTime})
         or
-        (create_time &lt;= #{beginTime} and update_time &gt;= #{endTime})
+        (create_at &lt;= #{beginTime} and update_at &gt;= #{endTime})
         )
       </if>
       and deleted=0

@@ -94,7 +94,7 @@ public class GlobalExceptionHandler implements ThrowsAdvice {
     @ResponseBody
     public ResponseEntity<Object> methodNotSupportHandle(HttpRequestMethodNotSupportedException e) {
         log.error("HttpRequestMethodNotSupportedException exception={}", e.getMessage(), e);
-        final Res<Object> res = Res.error(BaseErrorCode.HTTP_REQUEST_METHOD_NOT_SUPPORTED_ERROR.getCode(), e.getMessage());
+        final Res<Object> res = Res.error(BaseErrorCode.TYPE_NOT_SUPPORTED.getCode(), e.getMessage());
         return new ResponseEntity<>(res, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
@@ -112,8 +112,8 @@ public class GlobalExceptionHandler implements ThrowsAdvice {
     public ResponseEntity<Object> maxUploadSizeExceededException(MaxUploadSizeExceededException e) {
         if (e.getCause().getCause() instanceof SizeLimitExceededException slee) {
             final String message = BaseErrorCode.FILE_SIZE_ERROR.getMsg() + "限制大小："
-                + slee.getPermittedSize() / 1024 / 1024 + "MB，" + "实际大小：" + slee.getActualSize() / 1024 / 1024
-                + "MB";
+                    + slee.getPermittedSize() / 1024 / 1024 + "MB，" + "实际大小：" + slee.getActualSize() / 1024 / 1024
+                    + "MB";
             Res<Object> result = Res.error(BaseErrorCode.FILE_SIZE_ERROR.getCode(), message);
             log.error("file size exceeded exception={}", e.getMessage(), e);
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);

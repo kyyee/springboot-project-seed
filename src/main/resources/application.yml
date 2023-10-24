@@ -143,7 +143,7 @@ knife4j:
     language: zh_cn
 
 kyyee:
-  error-code-prefix: 201
+  error-code-prefix: 00201
   log:
     enableLog: true
     url: http://bss-log:80

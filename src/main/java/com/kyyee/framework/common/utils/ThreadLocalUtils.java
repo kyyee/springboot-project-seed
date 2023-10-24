@@ -46,7 +46,7 @@ public class ThreadLocalUtils {
 
     @Nullable
     public static <T> T getIfAbsent(String key, Supplier<T> supplierOnNull) {
-        return (T) LOCAL.get().computeIfAbsent(key, (k) -> supplierOnNull.get());
+        return (T) LOCAL.get().computeIfAbsent(key, k -> supplierOnNull.get());
     }
 
     public static <T> T getAndRemove(String key) {
