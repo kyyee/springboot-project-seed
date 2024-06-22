@@ -16,9 +16,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -39,8 +37,6 @@ public abstract class TaskManager<T extends BaseTaskEntity> implements Applicati
     private static final Map<String, TaskProcessor<?>> taskProcessorMap = new HashMap<>();
     // 执行异步任务的线程池
     private ThreadPoolExecutor threadPool;
-    // 守护线程
-    private Thread daemon;
     // 异步任务保存在该队列中等待执行
     private DelayQueue<DelayTask<T>> queue;
 
@@ -151,57 +147,70 @@ public abstract class TaskManager<T extends BaseTaskEntity> implements Applicati
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("init daemon starting...");
         reQueueUnfinish();
-        this.daemon = new Thread(this::execute);
-        this.daemon.setName("DelayTaskMonitor");
-        this.daemon.start();
+        log.info("init worker starting...");
+        this.execute();
+        log.info("init worker complete...");
+
+        log.info("init daemon starting...");
+        this.monitor();
         log.info("init daemon complete...");
     }
 
     private void execute() {
-        while (true) {
-            log.info("current alive thread size:{}", Thread.getAllStackTraces().size());
-            log.info("current alive delay queue size:{}", queue.size());
+        for (int i = 0; i < workerNum; i++) {
             threadPool.execute(() -> {
-                DelayTask<T> delayTask = null;
-                try {
-                    delayTask = queue.take();
-                    if (!ObjectUtils.isEmpty(delayTask)) {
-                        T taskData = delayTask.getTaskData();
-                        if (!ObjectUtils.isEmpty(taskData)) {
-                            Thread thread = Thread.currentThread();
-                            thread.setName("%s-%s-%s".formatted(taskData.getType(), taskData.getGrId(), taskData.getReqId()));
-                            TaskProcessor<T> taskProcessor = getTaskProcessor(taskData.getType());
-                            if (ObjectUtils.isEmpty(taskProcessor)) {
-                                log.warn("task:{}, grId:{}, type:{} processor is not exist...", taskData.getId(), taskData.getGrId(), taskData.getType());
-                                requeue(delayTask);
-                                return;
-                            }
-                            // 设置上下文
-                            buildContext(taskData);
-                            log.info("task:{}, grId:{}, type:{} process...", taskData.getId(), taskData.getGrId(), taskData.getType());
-                            taskProcessor.process(delayTask);
-                            if (!delayTask.finish()) {
-                                requeue(delayTask);
-                                log.warn("task:{}, grId:{}, type:{} process failed, repush in queue, delay time:{}...", taskData.getId(), taskData.getGrId(), taskData.getType(), delayTask.getDelayTime());
-                                return;
-                            }
-                            if (queue.remove(delayTask)) {
-                                log.info("task:{}, grId:{}, type:{} process complete...", taskData.getId(), taskData.getGrId(), taskData.getType());
+                while (true) {
+                    DelayTask<T> delayTask = null;
+                    try {
+                        delayTask = queue.take();
+                        if (!ObjectUtils.isEmpty(delayTask)) {
+                            T taskData = delayTask.getTaskData();
+                            if (!ObjectUtils.isEmpty(taskData)) {
+                                Thread thread = Thread.currentThread();
+                                thread.setName("%s-%s-%s".formatted(taskData.getType(), taskData.getGrId(), taskData.getReqId()));
+                                TaskProcessor<T> taskProcessor = getTaskProcessor(taskData.getType());
+                                if (ObjectUtils.isEmpty(taskProcessor)) {
+                                    log.warn("task:{}, grId:{}, type:{} processor is not exist...", taskData.getId(), taskData.getGrId(), taskData.getType());
+                                    requeue(delayTask);
+                                    return;
+                                }
+                                // 设置上下文
+                                buildContext(taskData);
+                                log.info("task:{}, grId:{}, type:{} process...", taskData.getId(), taskData.getGrId(), taskData.getType());
+                                taskProcessor.process(delayTask);
+                                if (!delayTask.finish()) {
+                                    requeue(delayTask);
+                                    log.warn("task:{}, grId:{}, type:{} process failed, repush in queue, delay time:{}...", taskData.getId(), taskData.getGrId(), taskData.getType(), delayTask.getDelayTime());
+                                    return;
+                                }
+                                if (queue.remove(delayTask)) {
+                                    log.info("task:{}, grId:{}, type:{} process complete...", taskData.getId(), taskData.getGrId(), taskData.getType());
+                                }
                             }
                         }
-                    }
-                } catch (Exception e) {
-                    log.info("init worker failed...");
-                    if (!ObjectUtils.isEmpty(delayTask)) {
-                        requeue(delayTask);
+                    } catch (Exception e) {
+                        log.info("init worker failed...");
+                        if (!ObjectUtils.isEmpty(delayTask)) {
+                            requeue(delayTask);
+                        }
                     }
                 }
             });
         }
     }
 
+    private void monitor() {
+        // 守护线程
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Thread thread = Thread.currentThread();
+                thread.setName("DelayTaskMonitor");
+                log.debug("workerNum:{}, current alive delay queue size:{}", workerNum, queue.size());
+            }
+        }, 0, TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS));
+    }
     public abstract void buildContext(T taskData);
 
     public static void addProcessor(TaskProcessor<?> processor) {
