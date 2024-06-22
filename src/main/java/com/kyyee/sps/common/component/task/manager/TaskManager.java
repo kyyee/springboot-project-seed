@@ -147,8 +147,8 @@ public abstract class TaskManager<T extends BaseTaskEntity> implements Applicati
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        reQueueUnfinish();
         log.info("init worker starting...");
+        reQueueUnfinish();
         this.execute();
         log.info("init worker complete...");
 
@@ -158,7 +158,7 @@ public abstract class TaskManager<T extends BaseTaskEntity> implements Applicati
     }
 
     private void execute() {
-        for (int i = 0; i < workerNum; i++) {
+        for (int i = 0; i < this.workerNum; i++) {
             threadPool.execute(() -> {
                 while (true) {
                     DelayTask<T> delayTask = null;
@@ -173,7 +173,7 @@ public abstract class TaskManager<T extends BaseTaskEntity> implements Applicati
                                 if (ObjectUtils.isEmpty(taskProcessor)) {
                                     log.warn("task:{}, grId:{}, type:{} processor is not exist...", taskData.getId(), taskData.getGrId(), taskData.getType());
                                     requeue(delayTask);
-                                    return;
+                                    continue;
                                 }
                                 // 设置上下文
                                 buildContext(taskData);
@@ -182,7 +182,7 @@ public abstract class TaskManager<T extends BaseTaskEntity> implements Applicati
                                 if (!delayTask.finish()) {
                                     requeue(delayTask);
                                     log.warn("task:{}, grId:{}, type:{} process failed, repush in queue, delay time:{}...", taskData.getId(), taskData.getGrId(), taskData.getType(), delayTask.getDelayTime());
-                                    return;
+                                    continue;
                                 }
                                 if (queue.remove(delayTask)) {
                                     log.info("task:{}, grId:{}, type:{} process complete...", taskData.getId(), taskData.getGrId(), taskData.getType());
