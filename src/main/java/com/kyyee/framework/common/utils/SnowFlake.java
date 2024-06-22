@@ -1,5 +1,7 @@
 package com.kyyee.framework.common.utils;
 
+import com.kyyee.framework.common.exception.BaseErrorCode;
+import com.kyyee.sps.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;
@@ -109,12 +111,10 @@ public final class SnowFlake {
      */
     private SnowFlake(long workerId, long dataCenterId) {
         if (workerId > MAX_WORKER_ID || workerId < 0) {
-            throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0",
-                MAX_WORKER_ID));
+            throw new IllegalArgumentException("worker Id can't be greater than %d or less than 0".formatted(MAX_WORKER_ID));
         }
         if (dataCenterId > MAX_DATA_CENTER_ID || dataCenterId < 0) {
-            throw new IllegalArgumentException(String.format("dataCenter Id can't be greater than %d or less than 0",
-                MAX_DATA_CENTER_ID));
+            throw new IllegalArgumentException("dataCenter Id can't be greater than %d or less than 0".formatted(MAX_DATA_CENTER_ID));
         }
         log.debug("worker starting. timestamp left shift {}, datacenter id bits {}, worker id bits {}, sequence bits {}, workerid {}",
             TIMESTAMP_LEFT_SHIFT, DATA_CENTER_ID_BITS, WORKER_ID_BITS, SEQUENCE_BITS, workerId);
@@ -144,8 +144,7 @@ public final class SnowFlake {
 
         //如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
         if (timestamp < lastTimestamp) {
-            throw new RuntimeException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds",
-                lastTimestamp - timestamp));
+            throw ServiceException.of(BaseErrorCode.SYS_INTERNAL_ERROR, "Clock moved backwards.  Refusing to generate id for %d milliseconds".formatted(lastTimestamp - timestamp));
         }
 
         //如果是同一时间生成的，则进行毫秒内序列

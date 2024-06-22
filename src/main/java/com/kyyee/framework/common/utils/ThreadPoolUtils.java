@@ -60,8 +60,8 @@ public class ThreadPoolUtils {
         int move = 8;
         if (ConcurrentSpeed.FAST == speed) {
             mod = 16;
-//        } else if (ConcurrentSpeed.SLOW == speed) {
-//            move = 4;
+        } else if (ConcurrentSpeed.SLOW == speed) {
+            move = 4;
         }
 
         if (count++ % mod == 0) {
@@ -95,7 +95,8 @@ public class ThreadPoolUtils {
     }
 
     public enum ConcurrentSpeed {
-        //        SLOW,
-        NORMAL, FAST
+        SLOW,
+        NORMAL,
+        FAST
     }
 }

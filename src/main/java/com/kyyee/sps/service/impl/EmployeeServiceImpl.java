@@ -89,10 +89,10 @@ public class EmployeeServiceImpl implements EmployeeService {
                 dispositionInfo.setDeleted(DeletedStatus.DELETED.value());
                 int i = employeeMapper.updateByPrimaryKeySelective(dispositionInfo);
                 if (i <= 0) {
-                    failedMessage = String.format("雇员%s删除失败", id);
+                    failedMessage = "雇员%s删除失败".formatted(id);
                 }
             } catch (Exception e) {
-                failedMessage = String.format("雇员%s删除失败，失败原因：%s", id, e.getMessage());
+                failedMessage = "雇员%s删除失败，失败原因：%s".formatted(id, e.getMessage());
             }
             if (!StringUtils.isEmpty(failedMessage)) {
                 failIds.add(new FailDetail(id, failedMessage));

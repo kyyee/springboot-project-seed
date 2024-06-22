@@ -173,4 +173,12 @@ public enum BaseErrorCode {
         return error.getMsg();
     }
 
+    public static BaseErrorCode of(String code) {
+        for (BaseErrorCode value : values()) {
+            if (value.getCode().equals(code)) {
+                return value;
+            }
+        }
+        throw BaseException.of(BaseErrorCode.INVALID_INPUT_PARAMETER);
+    }
 }

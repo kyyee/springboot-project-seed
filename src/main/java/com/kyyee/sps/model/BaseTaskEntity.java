@@ -10,21 +10,52 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class BaseEntity implements Serializable {
+public class BaseTaskEntity implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -8567948486409266953L;
+    private static final long serialVersionUID = 2682499693097064899L;
 
-    protected BaseEntity() {
+    protected BaseTaskEntity() {
         prePersist();
     }
 
     @Entity.Column(id = true)
     private Long id;
 
+    /**
+     * 流程号
+     */
+    private String flowChainId;
+
     private String grId;
 
-    private Integer azone;
+    private String type;
+
+    private String state;
+
+    private String message;
+
+    private String finish;
+
+    /**
+     * 超时时间
+     */
+    private Long timeout;
+
+    /**
+     * 副本名称
+     */
+    private String hostname;
+
+    /**
+     * 请求id
+     */
+    private String reqId;
+
+    /**
+     * 请求上下文
+     */
+    private String context;
 
     /**
      * 时间字符串：yyyy-MM-dd HH:mm:ss
@@ -54,7 +85,7 @@ public class BaseEntity implements Serializable {
         this.deleted = DeletedStatus.EXIST.value();
     }
 
-    public void preUpdate(BaseEntity entity) {
+    public void preUpdate(BaseTaskEntity entity) {
         this.id = entity.getId();
         this.updateBy = UserHandler.userCode();
         this.updateAt = LocalDateTime.now();
