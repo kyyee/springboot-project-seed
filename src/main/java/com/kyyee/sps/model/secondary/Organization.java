@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+
 /**
  * @author kyyee
  */
@@ -20,6 +22,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity.Table(value = "organization", autoResultMap = true)
 public class Organization extends BaseEntity {
+    @Serial
+    private static final long serialVersionUID = -6206199979846770905L;
     private String name;
 
     private Short type;

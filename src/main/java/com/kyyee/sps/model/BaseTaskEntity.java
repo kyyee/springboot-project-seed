@@ -2,6 +2,7 @@ package com.kyyee.sps.model;
 
 import com.kyyee.framework.common.enums.DeletedStatus;
 import com.kyyee.framework.common.interceptor.user.UserHandler;
+import com.kyyee.sps.common.enums.TaskFinishEnum;
 import io.mybatis.provider.Entity;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class BaseTaskEntity implements Serializable {
+public abstract class BaseTaskEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 2682499693097064899L;
@@ -35,7 +36,7 @@ public class BaseTaskEntity implements Serializable {
 
     private String message;
 
-    private String finish;
+    private TaskFinishEnum finish;
 
     /**
      * 超时时间

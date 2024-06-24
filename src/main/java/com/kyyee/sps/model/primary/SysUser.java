@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity.Table(value = "sys_user", autoResultMap = true)
 public class SysUser extends BaseEntity {
+    @Serial
+    private static final long serialVersionUID = -7953771994662274168L;
     private String name;
     private String code;
     private String password;

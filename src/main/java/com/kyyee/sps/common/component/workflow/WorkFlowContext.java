@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WorkFlowContext implements Serializable {
+    public static final String REQUEST = "request";
+    public static final String TASK_DATA = "taskData";
+    public static final String RESOURCE = "resource";
     @Serial
     private static final long serialVersionUID = 4275200596455798644L;
 

@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.JdbcType;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ import java.util.List;
 @AllArgsConstructor
 @Entity.Table(value = "employee", autoResultMap = true)
 public class Employee extends BaseEntity {
+    @Serial
+    private static final long serialVersionUID = -1313795548371925808L;
     private String name;
 
     private Integer age;
