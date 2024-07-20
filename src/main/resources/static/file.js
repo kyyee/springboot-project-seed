@@ -11,12 +11,9 @@ class FileSlice {
         if (configs) {
             Object.assign(this.configs, configs);
         }
-    };
-
-    init() {
         // 检测 DOMContentLoaded 是否已完成
         document.readyState !== 'loading' ? this._doStart(this.configs) : document.addEventListener('DOMContentLoaded', () => this._doStart(this.configs));
-    }
+    };
 
     _doStart(configs) {
         // 获取slice方法，做兼容处理
@@ -236,4 +233,4 @@ class FileSlice {
      }
 }
 
-new FileSlice({}).init();
+new FileSlice({});

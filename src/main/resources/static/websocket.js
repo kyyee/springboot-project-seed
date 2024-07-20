@@ -10,12 +10,9 @@ class Websocket {
         if (configs) {
             Object.assign(this.configs, configs);
         }
-    };
-
-    init() {
         // 检测 DOMContentLoaded 是否已完成
         document.readyState !== 'loading' ? this._doStart(this.configs) : document.addEventListener('DOMContentLoaded', () => this._doStart(this.configs));
-    }
+    };
 
     _doStart(configs) {
         const socket = new SockJS("/api/kyyee/v2/sps/websocket/endpoint-wisely", null, {
@@ -50,4 +47,4 @@ class Websocket {
     }
 }
 
-new Websocket({ debug: true }).init();
+new Websocket({ debug: true });
