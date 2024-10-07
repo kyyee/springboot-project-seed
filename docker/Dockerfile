@@ -1,9 +1,9 @@
-FROM openjdk:8-jdk-alpine AS base
+FROM bellsoft/liberica-openjre-alpine:21 AS base
 COPY . /opt/app/
 COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
 RUN echo > /etc/apk/repositories \
-    && sed -i '1i https://mirrors.aliyun.com/alpine/v3.5/community' /etc/apk/repositories \
-    && sed -i '1i https://mirrors.aliyun.com/alpine/v3.5/main' /etc/apk/repositories \
+    && sed -i '1i https://mirrors.aliyun.com/alpine/v3.20/community' /etc/apk/repositories \
+    && sed -i '1i https://mirrors.aliyun.com/alpine/v3.20/main' /etc/apk/repositories \
     && apk update --no-cache \
     && apk add --no-cache tini curl jq ttf-dejavu \
     && rm -rf /var/lib/apk/*

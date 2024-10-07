@@ -45,7 +45,7 @@ public class Application {
             IpUtils.getLocalIP(),
             serverPort,
             IpUtils.getLocalIP(),
-            serverPort,
-            environment.getProperty("management.endpoint.web.base-path"));
+            environment.getProperty("management.server.port"),
+            environment.getProperty("management.endpoints.web.base-path"));
     }
 }
