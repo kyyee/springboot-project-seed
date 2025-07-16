@@ -91,7 +91,7 @@
     <dependency>
       <groupId>com.github.pagehelper</groupId>
       <artifactId>pagehelper-spring-boot-starter</artifactId>
-      <version>1.4.6</version>
+      <version>1.4.7</version>
     </dependency>
     <dependency>
       <groupId>io.mybatis</groupId>
@@ -100,7 +100,7 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.11.0</version>
+      <version>2.14.0</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -127,7 +127,7 @@
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>easyexcel</artifactId>
-      <version>3.2.0</version>
+      <version>4.0.1</version>
     </dependency>
     <dependency>
       <groupId>net.lingala.zip4j</groupId>
@@ -174,7 +174,7 @@
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${spring-cloud.version}</version>
+        <version>3.0.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
